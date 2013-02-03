@@ -9,11 +9,10 @@
 <script type="text/javascript" src="<?php echo $this->getJsUrl('illapps/shipmentdate/tools.js'); ?>"></script>
 
 <form action="" id="instore-selector-form">
-	<div class="form-list">
-	    <div id="checkout-shipmentoptions-load">
-	    </div>
-	</div>
+    <div id="checkout-shipmentoptions-load">
+    </div>
     <div class="buttons-set" id="instore-buttons-container">
+        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
         <p class="back-link"><a href="#" onclick="checkout.back(); return false;"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
         <button type="button" class="button" title="<?php echo $this->__('Continue') ?>" onclick="instore.save();"><span><span><?php echo $this->__('Continue') ?></span></span></button>
         <span id="instore-please-wait" class="please-wait" style="display:none;">
