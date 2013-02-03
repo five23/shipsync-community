@@ -1,5 +1,5 @@
 @app        ShipSync
-@version    v3.2
+@version    v3.2.1
 @category   IllApps
 @package    IllApps_Shipsync
 @copyright  Copyright (c) 2011 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
