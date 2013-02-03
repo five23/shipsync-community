@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <IllApps_InstorePickup>
+            <version>0.1.0</version>
+        </IllApps_InstorePickup>
+    </modules>
+    <global>
+        <models>
+            <instorepickup>
+                <class>IllApps_InstorePickup_Model</class>
+            </instorepickup>
+        </models>
+        <resources>
+            <instorepickup_setup>
+                <setup>
+                    <module>IllApps_InstorePickup</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </instorepickup_setup>
+        </resources>
+    </global>
+    <default>
+        <carriers>
+            <instorepickup>
+                <active>1</active>
+                <model>instorepickup/carrier_instore</model>
+                <title>Local Pickup</title>
+                <method_title>Local Pickup --Pickup %s After 1pm until 8pm</method_title>
+                <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
+            </instorepickup>
+        </carriers>
+    </default>
+</config>

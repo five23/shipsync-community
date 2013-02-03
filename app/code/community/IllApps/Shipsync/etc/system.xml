@@ -1732,14 +1732,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
 			    <comment>Enter the Windows (or CUPS) printer name. Printer name may not contain spaces</comment>
-                        </printer_name>
-                        <specificerrmsg translate="label">
-                            <label>Displayed Error Message</label>
-                            <sort_order>520</sort_order>
-			    <show_in_default>0</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </specificerrmsg>
+                        </printer_name>                        
 			<address_validation translate="label">
                             <label><![CDATA[<strong>Address Validation</strong>]]> Enable</label>
                             <frontend_type>select</frontend_type>
@@ -1807,6 +1800,13 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </debug>
+                        <specificerrmsg translate="label">
+                            <label>Displayed Error Message</label>
+                            <sort_order>610</sort_order>
+			    <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </specificerrmsg>
                     </fields>
                 </fedex>
             </groups>

@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<!--
+
+/**
+ * ShipSync
+ *
+ * @category   IllApps
+ * @package    IllApps_ShipmentDate
+ * @author     Jonathan Cantrell (j@kernelhack.com)
+ * @copyright  Copyright (c) 2011 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+ -->
+
+<config>
+    <modules>
+        <IllApps_ShipmentDate>
+            <version>0.1.2</version>
+        </IllApps_ShipmentDate>
+    </modules>
+    <global>
+        <blocks>
+            <shipmentdate>
+                <class>IllApps_ShipmentDate_Block</class>
+            </shipmentdate>
+            <checkout>
+                <rewrite>
+                    <onepage>IllApps_ShipmentDate_Block_Onepage</onepage>
+                    <onepage_shipping_method_available>IllApps_ShipmentDate_Block_Onepage_Shipping_Method_Available</onepage_shipping_method_available>
+                </rewrite>
+            </checkout>
+            <adminhtml>
+                <rewrite>
+                    <sales_order_grid>IllApps_ShipmentDate_Block_Adminhtml_Sales_Order_Grid</sales_order_grid>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        <models>
+            <shipmentdate>
+                <class>IllApps_ShipmentDate_Model</class>
+                <resourceModel>shipmentdate_resource</resourceModel>
+            </shipmentdate>
+            <shipmentdate_resource>
+                <class>IllApps_ShipmentDate_Model_Resource</class>
+                <entities>
+                    <exemption>
+                        <table>shipmentdate_exemption</table>
+                    </exemption>
+                </entities>
+            </shipmentdate_resource>
+        </models>
+        <helpers>
+            <shipmentdate>
+                <class>IllApps_ShipmentDate_Helper</class>
+            </shipmentdate>
+        </helpers>
+        <resources>
+            <shipmentdate_setup>
+                <setup>
+                    <module>IllApps_ShipmentDate</module>
+                    <class>IllApps_ShipmentDate_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </shipmentdate_setup>
+            <shipmentdate_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </shipmentdate_write>
+            <shipmentdate_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </shipmentdate_read>
+        </resources>
+        <fieldsets>
+            <sales_convert_quote_item>
+                <shipping_shipment_date>
+                    <to_order_item>*</to_order_item>
+                </shipping_shipment_date>
+            </sales_convert_quote_item>
+        </fieldsets>
+    </global>
+    <adminhtml>
+        <menu>
+            <sales>
+                <children>
+                    <shipmentdate module="shipmentdate">
+                        <title>Shipment Date</title>
+                        <sort_order>333</sort_order>
+                        <action>shipmentdate/adminhtml_exemption</action>
+                    </shipmentdate>
+                </children>
+            </sales>
+        </menu>
+        <layout>
+            <updates>
+                <shipmentdate>
+                    <file>shipmentdate.xml</file>
+                </shipmentdate>
+            </updates>
+        </layout>
+    </adminhtml>
+    <frontend>
+        <events>
+            <checkout_controller_onepage_save_shipping_method>
+                <observers>
+                    <shipmentdate_observer>
+                        <type>singleton</type>
+                        <class>shipmentdate/observer</class>
+                        <method>checkout_controller_onepage_save_shipping_method</method>
+                    </shipmentdate_observer>
+                </observers>
+            </checkout_controller_onepage_save_shipping_method>
+            <sales_convert_quote_to_order>
+                <observers>
+                    <shipmentdate_observer>
+                        <type>singleton</type>
+                        <class>shipmentdate/observer</class>
+                        <method>attachToOrderSaveEvent</method>
+                    </shipmentdate_observer>
+                </observers>
+            </sales_convert_quote_to_order>
+        </events>
+        <layout>
+            <updates>
+                <shipmentdate>
+                    <file>shipmentdate.xml</file>
+                </shipmentdate>
+            </updates>
+        </layout>
+        <routers>
+            <checkout>
+                <args>
+                    <modules>
+                        <IllApps_ShipmentDate before="Mage_Checkout">IllApps_ShipmentDate</IllApps_ShipmentDate>
+                    </modules>
+                </args>
+            </checkout>
+        </routers>
+    </frontend>
+    <admin>
+        <routers>
+            <shipmentdate>
+                <use>admin</use>
+                <args>
+                    <module>IllApps_ShipmentDate</module>
+                    <frontName>shipmentdate</frontName>
+                </args>
+            </shipmentdate>
+        </routers>
+    </admin>
+    <default>
+        <shipmentdate>
+            <instore>
+                <title>Pickup (San Francisco)</title>
+            </instore>
+            <delivery>
+                <title>Overnight Shipping</title>
+            </delivery>
+        </shipmentdate>
+    </default>
+</config>

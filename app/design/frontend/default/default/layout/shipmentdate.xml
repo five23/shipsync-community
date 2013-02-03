@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<layout>
+    <checkout_onepage_index>
+        <reference name="head">
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-ilbs.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+        </reference>
+
+        <reference name="checkout.onepage">
+            <block type="shipmentdate/onepage_shipmentoptions_load" name="checkout.onepage.shipmentoptions.load" as="shipmentoptions" after="checkout.onepage.billing" template="shipmentdate/onepage/load.phtml">
+                <!--<block type="shipmentdate/onepage_shipmentoptions" name="checkout.onepage.shipmentoptions" as="shipmentoptions" template="shipmentdate/onepage/instore.phtml"/>
+                <block type="shipmentdate/html_calendar" name="head.calendar" as="calendar" template="shipmentdate/js/calendar.phtml"/>-->
+            </block>
+	</reference>w
+
+        <reference name="checkout.onepage.shipping_method">
+            <block type="core/template" name="checkout.onepage.shipping_method.shipmentdate" as="shipmentdate" template="shipmentdate/onepage/shipmentdate.phtml"/>
+    	</reference>
+    </checkout_onepage_index>
+
+    <checkout_onepage_shipmentoptions>
+        <block type="shipmentdate/onepage_shipmentoptions_container" name="root" output="toHtml" template="shipmentdate/onepage/container.phtml">
+            <block type="shipmentdate/onepage_shipmentoptions" name="checkout.onepage.shipmentoptions" as="instore" template="shipmentdate/onepage/instore.phtml"/>
+            <block type="shipmentdate/html_calendar" name="head.calendar" as="calendar" template="shipmentdate/js/calendar.phtml"/>
+        </block>
+    </checkout_onepage_shipmentoptions>
+</layout>

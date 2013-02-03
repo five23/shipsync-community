@@ -241,7 +241,7 @@ class IllApps_Shipsync_Model_Shipping_Package
             }
         }
         
-	if (isset($_packages) && isset($_packages['items']))
+	if (isset($_packages))
 	{
 	    $this->optimizePackages($defaultPackages, $_packages);
 	}

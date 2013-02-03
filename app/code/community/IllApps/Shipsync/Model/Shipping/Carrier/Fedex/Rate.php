@@ -89,7 +89,16 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
             $this->_rateResultCollection[] = $this->_rateResult;
         }
         
-        return $origins->collectMultipleResponses($this->_rateResultCollection);
+        //return $origins->collectMultipleResponses($this->_rateResultCollection);
+        
+        $multipleResponses = $origins->collectMultipleResponses($this->_rateResultCollection);
+        
+        if ($multipleResponses->getError())
+        {
+            return false;
+        }
+        
+        return $multipleResponses;
     }
 
     /*
@@ -260,7 +269,8 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
 
         $rateRequest->setPackageWeight(Mage::getModel('shipsync/shipping_package')->getPackageWeight($rateRequest->getItems()));
 
-        $rateRequest->setFreeMethodWeight($request->getFreeMethodWeight());
+        $rateRequest->setFreeMethodWeight($rateRequest->getPackageWeight() -
+            Mage::getModel('shipsync/shipping_package')->getFreeMethodWeight($rateRequest->getItems()));
 
 	if (Mage::getStoreConfig('carriers/fedex/address_validation')
 		&& $rateRequest->getDestCountry() == 'US'
@@ -644,10 +654,11 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
 
                 if (Mage::getStoreConfig('carriers/fedex/show_timestamp'))
 		{
-		    if (isset($rateReply->DeliveryTimestamp))
+		    if (isset($rateReply->DeliveryTimestamp)) 
 		    {
 			$rateResultMethod->setMethodTitle($rateResultMethod->getMethodTitle() . ' (' .
 				date("m/d g:ia", strtotime($rateReply->DeliveryTimestamp)) . ')');
+                        $rateResultMethod->setDeliveryTimestamp($rateReply->DeliveryTimestamp);
 		    }
 		    elseif (isset($rateReply->CommitDetails->TransitTime))
 		    {

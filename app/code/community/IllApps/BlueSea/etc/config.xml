@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!--
+
+/**
+ * BlueSea
+ *
+ * @category   IllApps
+ * @package    IllApps_BlueSea
+ * @author     David Kirby (d@kernelhack.com) / Jonathan Cantrell (j@kernelhack.com)
+ * @copyright  Copyright (c) 2011 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+ -->
+<config>
+    <modules>
+        <IllApps_BlueSea>
+            <version>1.0.0</version>
+        </IllApps_BlueSea>
+    </modules>
+    <global>
+        <blocks>
+            <bluesea>
+                <class>IllApps_BlueSea_Block</class>
+            </bluesea>
+            <!--<adminhtml>
+                <rewrite>
+                    <sales_order_view>IllApps_BlueSea_Block_Sales_Order_View</sales_order_view>
+                </rewrite>
+            </adminhtml>-->
+        </blocks>
+        <models>
+            <bluesea>
+                <class>IllApps_BlueSea_Model</class>
+            </bluesea>
+            <paygate>
+                <rewrite>
+                    <authorizenet>IllApps_BlueSea_Model_Authorizenet</authorizenet>
+                </rewrite>
+            </paygate>
+            <sales>
+                <rewrite>
+                    <order_item>IllApps_BlueSea_Model_Sales_Order_Item</order_item>
+                    <order>IllApps_BlueSea_Model_Sales_Order</order>
+                </rewrite>
+            </sales>
+            <!--<payment>
+                <rewrite>
+                    <method_cc>IllApps_BlueSea_Model_Method_Cc</method_cc>
+                </rewrite>
+            </payment>-->
+        </models>
+    </global>
+    <!--<adminhtml>
+        <layout>
+            <updates>
+                <packages>
+                    <file>bluesea.xml</file>
+                </packages>
+            </updates>
+        </layout>
+    </adminhtml>-->
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <IllApps_BlueSea before="Mage_Adminhtml">IllApps_BlueSea</IllApps_BlueSea>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>
