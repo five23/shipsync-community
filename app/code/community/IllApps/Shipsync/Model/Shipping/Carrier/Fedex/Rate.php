@@ -260,8 +260,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
 
         $rateRequest->setPackageWeight(Mage::getModel('shipsync/shipping_package')->getPackageWeight($rateRequest->getItems()));
 
-        $rateRequest->setFreeMethodWeight($rateRequest->getPackageWeight() -
-            Mage::getModel('shipsync/shipping_package')->getFreeMethodWeight($rateRequest->getItems()));
+        $rateRequest->setFreeMethodWeight($request->getFreeMethodWeight());
 
 	if (Mage::getStoreConfig('carriers/fedex/address_validation')
 		&& $rateRequest->getDestCountry() == 'US'
