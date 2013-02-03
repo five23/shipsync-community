@@ -457,7 +457,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
 	    }
             
 	    if (isset($packages) && is_array($packages))
-	    {
+	    {		
 		if (Mage::getStoreConfig('carriers/fedex/debug_firebug')) {
 		    Mage::Helper('shipsync')->log($packages);
 		}
@@ -491,7 +491,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                     if ($rateRequest->getOrigCountry() != $rateRequest->getDestCountry())
                     {
                         $itemsById = $this->getItemsById($package['items']);
-                        
+
                         foreach ($itemsById as $qty => $item)
                         {
                             $itemValue = isset($package['package_value']) && $package['package_value'] < $item['value'] ? $package['package_value'] : $item['value'];
@@ -555,6 +555,8 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
 	{
             Mage::Helper('shipsync')->mageLog($request, 'rate');
 	    $response = $rateServiceClient->getRates($request);
+            Mage::Helper('shipsync')->mageLog($rateServiceClient->__getLastRequest(), 'soap_rate');
+            Mage::Helper('shipsync')->mageLog($rateServiceClient->__getLastResponse(), 'soap_rate');
             Mage::Helper('shipsync')->mageLog($response, 'rate');
 	}
         catch (SoapFault $ex) { $this->_rateResultError = $ex->getMessage(); return $rateResult; }
@@ -579,11 +581,11 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
             $item['qty_to_ship'] = 1 + $count;
             $itemsById[$id] = $item;
         }
-
+    
         return $itemsById;
     }
 
-    
+
     /**
      * _parseWsdlResponse
      * 
@@ -643,7 +645,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
 
                 if (Mage::getStoreConfig('carriers/fedex/show_timestamp'))
 		{
-		    if (isset($rateReply->DeliveryTimestamp))
+		    if (isset($rateReply->DeliveryTimestamp)) 
 		    {
 			$rateResultMethod->setMethodTitle($rateResultMethod->getMethodTitle() . ' (' .
 				date("m/d g:ia", strtotime($rateReply->DeliveryTimestamp)) . ')');
@@ -656,6 +658,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                             $transitTimeInt = (isset($transitTimeInt)) ? $transitTimeInt + 1 : 2;
                             $transitTime = $transitTimeInt . '-8 Days';
                             $rateResultMethod->setMethodTitle($rateResultMethod->getMethodTitle() . ' (' . $transitTime . ')');
+                            $rateResultMethod->setTransitTime($transitTimeInt);
                         }
                         else
                         {
@@ -664,6 +667,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                             $transitTimeInt = Mage::helper('shipsync')->getNumberAsInt($tmp[0]);
                             $transitTime = $transitTimeInt.' '.ucwords($tmp[1]);
                             $rateResultMethod->setMethodTitle($rateResultMethod->getMethodTitle() . ' (' . $transitTime . ')');
+                            $rateResultMethod->setTransitTime($transitTimeInt);
                         }
 		    }
 		}

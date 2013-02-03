@@ -26,8 +26,8 @@ Event.observe(window, 'load', function(event)
 
     while($('product_row_' + i) != undefined && $('product_row_' + j) != undefined)
     {
-	if($F('items_' + i + '_orderItemId') != $F('items_' + j + '_orderItemId')) { $('product_row_' + i).show(); }
-        //$('product_row_' + i).show();
+	if($F('items_' + i + '_product_id') != $F('items_' + j + '_product_id')) { $('product_row_' + i).show(); }
+
 	i++; j++;
     }
     

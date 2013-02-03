@@ -31,6 +31,14 @@ class IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_View extends Mage_Ad
         // Get all packages
 	$packages = $shipmentPackage->getCollection();
 
+        if($packages)
+        {
+            $this->_addButton('view_shipment_packages', array(
+                'label'     => Mage::helper('sales')->__('View Shipment Packages'),
+                'onclick'   => 'setLocation(\'' . $this->getUrl('shipsync/index/packages', array('shipment_id' => $this->getShipment()->getId())) . '\')',
+            ));
+        }
+
 	// Loop through available packages
         foreach ($packages->getData() as $package)
         {

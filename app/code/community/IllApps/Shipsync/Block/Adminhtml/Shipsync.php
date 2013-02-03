@@ -54,5 +54,6 @@ class IllApps_Shipsync_Block_Adminhtml_Shipsync extends Mage_Adminhtml_Block_Wid
 	if ($this->getOrder()->getEmailSent())									    // Check if order email is sent
 	     { $this->setEmailSentMsg(Mage::helper('sales')->__('the order confirmation email was sent')); }	    // Set 'sent' message
 	else { $this->setEmailSentMsg(Mage::helper('sales')->__('the order confirmation email is not sent')); }	    // Set 'not sent' message
-    }    
+    }
+    
 }

@@ -57,5 +57,36 @@ class IllApps_Shipsync_Model_Sales_Quote_Address extends Mage_Sales_Model_Quote_
 
 	// Return true for all other addresses
 	return true;
-    }    
+    }   
+	
+   /**
+     * Collecting shipping rates by address
+     *
+     * @return Mage_Sales_Model_Quote_Address
+     */
+    public function collectShippingRates()
+    {
+        //always get new rates
+        /*if (!$this->getCollectShippingRates()) {
+            return $this;
+        }*/
+ 
+        $this->setCollectShippingRates(false);
+
+        $this->removeAllShippingRates();
+
+        if (!$this->getCountryId()) {
+            return $this;
+        }
+
+        $found = $this->requestShippingRates();
+        if (!$found) {
+            $this->setShippingAmount(0)
+                ->setBaseShippingAmount(0)
+                ->setShippingMethod('')
+                ->setShippingDescription('');
+        }
+
+        return $this;
+    }
 }

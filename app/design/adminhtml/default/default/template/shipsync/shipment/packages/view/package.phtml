@@ -1,0 +1,54 @@
+<?php
+/* 
+ * Shipsync
+ *
+ *
+ */
+?>
+<?php $package = $this->getActivePackage(); ?>
+
+<div class="grid np">
+  <div class="hor-scroll">
+    <table cellspacing="0" class="data order-tables">
+        <col />
+        <col />
+        <col />
+        <col />
+        <col />
+        <col />
+        <col />
+        <col width="1" />
+        <col width="1" />
+        <thead>
+            <tr class="headings">
+                <th><?php echo $this->helper('shipsync')->__('Package Type') ?></th>
+                <th><?php echo $this->helper('shipsync')->__('Weight') ?></th>
+                <th><?php echo $this->helper('shipsync')->__('Length') ?></th>
+                <th><?php echo $this->helper('shipsync')->__('Width') ?></th>
+                <th><?php echo $this->helper('shipsync')->__('Height') ?></th>
+                <th><?php echo $this->helper('shipsync')->__('Shipping Method') ?></th>
+                <th><?php echo $this->helper('shipsync')->__('Tracking Number') ?></th>
+                <th><?php echo $this->helper('shipsync')->__('Print Shipping Label') ?></th>
+                <th><?php echo $this->helper('shipsync')->__('Print COD Label') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                
+                <?php $dimUnit = $package->getDimensionUnits() ?>
+                <td><?php echo $package->getPackageType() ?></td>
+                <td><?php echo $package->getWeight() . ' ' .  $package->getWeightUnits() ?></td>
+                <td><?php echo $package->getLength() . ' ' .  $dimUnit ?></td>
+                <td><?php echo $package->getWidth() . ' ' .  $dimUnit ?></td>
+                <td><?php echo $package->getHeight() . ' ' .  $dimUnit ?></td>
+                <td><?php echo $package->getShippingMethod() ?></td>
+                <td><?php echo $package->getTrackingNumber() ?></td>
+                <td><a href="<?php echo $this->getShippingLabelUrl($package->getPackageId()); ?>">View</a></td>
+                <td><a href="<?php echo $this->getCodLabelUrl($package->getPackageId()); ?>" <?php echo $package->getCodLabelImage() == '' ? 'style="color: #666; cursor: default;" onclick="return false;"' : '' ?>>View</a></td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+</div>
+<br />
+

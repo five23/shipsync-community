@@ -100,7 +100,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
 		'height'        => 13.19,
 		'baseline'      => 3.5625,
                 'max_weight'    => 55
-	    ),
+	    )/*,
 	    'YOUR_PACKAGING' => array
 	    (
 		'label'         => Mage::helper('usa')->__('Your Packaging'),		
@@ -109,7 +109,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
 		'height'        => Mage::getStoreConfig('usa/shipping_carriers_fedex/max_package_girth'),                
 		'baseline'      => 0,
                 'max_weight'    => Mage::getStoreConfig('usa/shipping_carriers_fedex/max_package_weight')
-	    )
+	    )*/
 	);
 
         if ($this->getDimensionUnits() == 'CM')

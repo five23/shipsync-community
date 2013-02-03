@@ -16,11 +16,21 @@
     <shipsync_index_index>
         <reference name="content">
             <block type="adminhtml/shipsync" name="shipsync_index" template="shipsync/index.phtml">
-                    <block type="adminhtml/shipsync_option" name="shipsync_option" template="shipsync/option.phtml"></block>
+                <block type="adminhtml/shipsync_option" name="shipsync_option" template="shipsync/option.phtml"></block>
             </block>
         </reference>
     </shipsync_index_index>
     <shipsync_index_option>
-            <block type="adminhtml/shipsync_option" name="shipsync_option" output="toHtml" template="shipsync/option.phtml"></block>
+        <block type="adminhtml/shipsync_option" name="shipsync_option" output="toHtml" template="shipsync/option.phtml"></block>
     </shipsync_index_option>
+    <shipsync_index_packages>
+        <reference name="content">
+            <block type="shipsync/adminhtml_sales_order_shipment_packages_view" name="shipsync_packages">
+                <block type="shipsync/adminhtml_sales_order_shipment_packages_view_form" name="form" template="shipsync/shipment/packages/view/form.phtml">
+                    <block type="shipsync/adminhtml_sales_order_shipment_packages_view_package" name="shipsync_shipping_package" template="shipsync/shipment/packages/view/package.phtml"></block>
+                    <block type="shipsync/adminhtml_sales_order_shipment_packages_view_items" name="shipsync_shipping_items" template="shipsync/shipment/packages/view/items.phtml"></block>
+                </block>
+            </block>
+        </reference>
+    </shipsync_index_packages>
 </layout>

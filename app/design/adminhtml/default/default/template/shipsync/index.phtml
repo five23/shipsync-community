@@ -18,23 +18,23 @@
 <script type="text/javascript" src="<?php echo $this->getJsUrl('illapps/shipsync/tools.js'); ?>"></script>
 
 <!-- Inline js -->
-<script type="text/javascript">    
+<script type="text/javascript">
     var attributeurl = '<?php echo $this->getUrl('*/*/attributes'); ?>';    // Attributes URL
     var optionurl    = '<?php echo $this->getUrl('*/*/option'); ?>';        // Option URL
 </script>
 
 <!-- Header -->
-<div style="visibility: visible;" class="content-header">    
+<div style="visibility: visible;" class="content-header">
     <!-- Order increment ID -->
     <h3 class="icon-head head-sales-order-shipment">New Shipment for Order #<?php echo $_order->getIncrementId(); ?></h3>
 </div>
 
 <!-- Edit form -->
 <form id="edit_form" name="edit_form" method="post" action="<?php echo $this->getUrl('*/*/post'); ?>">
-    
-    <input id="form_key" name="form_key" type="hidden" value="<?php echo $this->getFormKey(); ?>" type="hidden" /><!-- Set form key -->    
-    <input id="order_id" name="order_id" value="<?php echo $_order->getIncrementId(); ?>" type="hidden" />    <!-- Set order id -->    
-    <input id="weight_units" name="weight_units" value="<?php echo $this->getWeightUnits(); ?>" type="hidden" /><!-- Set weight units -->    
+
+    <input id="form_key" name="form_key" type="hidden" value="<?php echo $this->getFormKey(); ?>" type="hidden" /><!-- Set form key -->
+    <input id="order_id" name="order_id" value="<?php echo $_order->getIncrementId(); ?>" type="hidden" />    <!-- Set order id -->
+    <input id="weight_units" name="weight_units" value="<?php echo $this->getWeightUnits(); ?>" type="hidden" /><!-- Set weight units -->
     <input id="dimension_units" name="dimension_units" value="<?php echo $this->getDimensionUnits(); ?>" type="hidden" /><!-- Set dimension units -->
 
     <!-- Top left box -->
@@ -63,7 +63,7 @@
 			<tr>
 			    <td class="label"><label><?php echo Mage::helper('sales')->__('Order Date (%s)', $this->getOrderTimezone()); ?></label></td>
 			    <td><strong><?php echo $this->getOrderStoreDate(); ?></strong></td>
-			</tr>			
+			</tr>
 		    <?php }; ?>
 
 		    <!-- Order status -->
@@ -334,7 +334,9 @@
 		    <th><?php echo $this->helper('sales')->__('Dangerous Goods'); ?></th>
 		    <th><?php echo $this->helper('sales')->__('Item Status'); ?></th>
 		</tr>
-	    </thead>	   
+	    </thead>
+            
+            <?php Mage::log($this->getItems()); ?>
 
 	    <!-- Set quantity_count -->
 	    <?php foreach ($this->getItems() as $_item) {; ?>
@@ -345,7 +347,10 @@
 	    <?php $i=0; foreach ($this->getItems() as $item) { ?>
 
 		<!-- Set item id -->
-		<input type="hidden" id="items[<?php echo $i; ?>][item_id]" name="items[<?php echo $i; ?>][item_id]" value="<?php echo $item['id']; ?>" />	
+		<input type="hidden" id="items[<?php echo $i; ?>][item_id]" name="items[<?php echo $i; ?>][item_id]" value="<?php echo $item['id']; ?>" />
+
+                <!-- Set is decimal qty -->
+                <input type="hidden" id="items[<?php echo $i; ?>][is_decimal_qty]" name="items[<?php echo $i; ?>][is_decimal_qty]" value="<?php echo $item['is_decimal_qty']; ?>" />
 
 		<!-- Table striping -->
 		<tbody class="<?php echo $i %2 ? 'even' : 'odd'; ?>">
@@ -472,7 +477,7 @@
     <div class="entry-edit-head">
 	<h4 class="fieldset-legend">Estimated Packages</h4>
     </div>
-    
+
     <div class="grid np">
       <div class="hor-scroll">
 	<table cellspacing="0" class="data order-tables">
@@ -490,7 +495,7 @@
 		    <th><?php echo $this->helper('sales')->__('Percentage Packed'); ?></th>
 		</tr>
 	    </thead>
-	    
+
 	    <!-- Set package counters -->
 	    <?php $i=1; ?>
 	    <?php $z=0; ?>
@@ -508,10 +513,10 @@
 
 			<!-- Package items (as range) -->
 			<td><?php echo Mage::getModel('shipsync/shipping_package')->asRange($package['items'], 'item_number'); ?></td>
-			
+
 			<!-- Package weight -->
 			<td><?php echo $package['weight']; ?></td>
-			
+
 			<!-- Package length -->
 			<td><?php echo $package['length']; ?></td>
 
@@ -536,7 +541,7 @@
 
 		    </tr>
 		</tbody>
-	    <?php }; ?>		
+	    <?php }; ?>
 	</table>
       </div>
     </div>
@@ -552,7 +557,7 @@
     <div class="grid np">
 	<div class="hor-scroll">
 	    <table cellspacing="0" class="data order-tables" id="package_table">
-		
+
 		<thead>
 		    <tr class="headings">
 			<th><?php echo $this->helper('sales')->__('Package ID'); ?></th>
@@ -568,8 +573,8 @@
 
 		<tbody class="<?php echo $i % 2 ? 'even' : 'odd'; ?>" id="package_table_rows">
 
-		    <!-- Set counters and option data -->    
-		    <?php $i=0; $z=0; ?>		    
+		    <!-- Set counters and option data -->
+		    <?php $i=0; $z=0; ?>
 		    <?php $this->getChild('shipsync_option')->setData('i', $i); ?>
 		    <?php $this->getChild('shipsync_option')->setData('z', $z); ?>
 
@@ -581,7 +586,7 @@
 
 		    <!-- Set number of packages -->
 		    <input type="hidden" id="number_of_packages" value="<?php echo count($this->getPackages()); ?>" />
-		    
+
 		</tbody>
 	    </table>
 	</div>
@@ -620,5 +625,5 @@
     <script type="text/javascript">
 	var editForm = new varienForm('edit_form');
     </script>
-    
+
 </form>

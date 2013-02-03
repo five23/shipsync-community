@@ -277,11 +277,9 @@ class IllApps_Shipsync_Model_Shipping_Package
             $free_volumes[] = $defaultPackage['max_volume'];
             $longest_side[] = $sort->getPackageLongestSide($defaultPackage);
         }
-
+        
         foreach ($packages as $key => &$package)
         {
-            if(!isset($package['items'])) { continue; }
-            
             $i = 0;
 
             $package['max_dim'] = $sort->getItemLongestSide($package['items']);
@@ -332,7 +330,7 @@ class IllApps_Shipsync_Model_Shipping_Package
     public function initPackage(&$defaultPackages, &$packages, $item, $i, $init = false)
     {
         $packageFit = false;
-        
+
         foreach ($defaultPackages as $key => &$defaultPackage)
         {
 	    if ($init)
@@ -352,14 +350,14 @@ class IllApps_Shipsync_Model_Shipping_Package
             }
         }
         if (!$packageFit)
-        {
-            $this->_packageError = 'There are no configured packages large enough to ship this item.
-                Please contact the store administrator.';
+	    {
+		$this->_packageError = 'There are no configured packages large enough to ship this item.
+		    Please contact the store administrator.';
+	    }
         }
-    }
 
 
-   
+
     /**
      * setSpecial
      *
@@ -385,6 +383,13 @@ class IllApps_Shipsync_Model_Shipping_Package
             $specialPackages[$s]['width']  = $item['width'];     // Set package width
             $specialPackages[$s]['height'] = $item['height'];    // Set package height
             $specialPackages[$s]['volume'] = $item['volume'];    // Set package volume
+        }
+        else
+        {
+            $specialPackages[$s]['length'] = null;
+            $specialPackages[$s]['width']  = null;
+            $specialPackages[$s]['height'] = null;
+            $specialPackages[$s]['volume'] = null;
         }
 
 	 //Increment special package counter
@@ -435,7 +440,7 @@ class IllApps_Shipsync_Model_Shipping_Package
      * @return String
      */
     public function asRange($items, $field)
-    {        
+    {
         $previous = $items[0][$field];
 
         $ret = '';

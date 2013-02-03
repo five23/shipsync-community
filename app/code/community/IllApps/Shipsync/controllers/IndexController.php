@@ -57,6 +57,21 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
         echo $block->toHtml();
     }
 
+    /**
+     * optionAction
+     */
+    public function packagesAction()
+    {
+        $id = $this->getRequest()->getParam('shipment_id');
+
+        Mage::register('current_shipment', Mage::getModel('sales/order_shipment')->load($id));
+
+        $this->loadLayout();
+
+        Mage::getSingleton('shipsync/sales_order_shipment_package')->setShipmentId($id);
+
+        $this->renderLayout();
+    }
     
     
     /**
@@ -298,7 +313,7 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
             $itemsToPack = explode(',', $package['items']);
 
             $e_origin = false;
-            
+
             foreach ($itemsToPack as $key => $itemToPack)
             {
                 $_items[] = $_itemsById[$post['items'][$itemToPack - 1]['item_id']];

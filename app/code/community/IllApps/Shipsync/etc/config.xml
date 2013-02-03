@@ -15,7 +15,7 @@
 <config>
     <modules>
         <IllApps_Shipsync>
-            <version>0.2.5</version>
+            <version>0.2.7</version>
             <depends>
                 <Mage_Usa />
                 <Mage_Sales />
@@ -126,6 +126,7 @@
 		    <shipsync_option>IllApps_Shipsync_Block_Adminhtml_Shipsync_Option</shipsync_option>
                     <sales_order_view>IllApps_Shipsync_Block_Adminhtml_Sales_Order_View</sales_order_view>
                     <sales_order_shipment_view>IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_View</sales_order_shipment_view>
+                    <sales_order_shipment_packages_view_form>IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_Packages_View_Form</sales_order_shipment_packages_view_form>
                 </rewrite>
             </adminhtml>
             <shipsync>
