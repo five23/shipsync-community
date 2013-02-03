@@ -1,0 +1,74 @@
+<?php
+/**
+ * BlueSea
+ *
+ * @category   IllApps
+ * @package    IllApps_BlueSea
+ * @author     Jonathan Cantrell (j@kernelhack.com)
+ * @copyright  Copyright (c) 2011 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+
+<!-- Load shipsync js -->
+<script type="text/javascript" src="<?php echo $this->getJsUrl('illapps/bluesea/qtyedit.js'); ?>"></script>
+
+<?php $_order = $this->getOrder() ?>
+
+<form id="edit_order_qty_form" name="edit_order_qty_form" method="post" action="<?php echo $this->getUrl('*/*/qtyedit'); ?>">
+
+<input id="order_id" name="order_id" value="<?php echo $_order->getEntityId(); ?>" type="hidden" />
+
+<div class="grid np">
+    <div class="hor-scroll">
+        <table cellspacing="0" class="data order-tables">
+        <col />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <thead>
+            <tr class="headings">
+                <th><?php echo $this->helper('sales')->__('Product') ?></th>
+                <th><?php echo $this->helper('sales')->__('Price') ?></th>
+                <th class="a-center"><?php echo $this->helper('sales')->__('Qty') ?></th>
+                <th class="a-center"><?php echo $this->helper('sales')->__('Update Order Qty') ?></th>
+                <th><?php echo $this->helper('sales')->__('Subtotal') ?></th>
+                <th class="last"><span class="nobr"><?php echo $this->helper('sales')->__('Row Total') ?></span></th>
+            </tr>
+        </thead>
+        <?php $_items = $this->getItemsCollection() ?>
+        <tbody>
+            <?php $i=0;foreach ($_items as $_item):?>
+                <?php if ($_item->getParentItem()) continue; else $i++;?>
+            
+                <tr class="<?php echo $i%2?'even':'odd' ?>">
+                    <td><?php echo $this->helper('sales')->__($_item->getName()) ?></td>
+                    <td><?php echo $this->helper('sales')->__($_item->getPrice()) ?></td>
+                    <td><?php echo $this->helper('sales')->__($_item->getQtyOrdered()) ?></td>
+                    <td><input class="input-text" id="item_<?php echo $_item->getProductId() ?>_qty" name="item[<?php echo $_item->getProductId() ?>][qty]" onchange="$(this).setValue(this.value)"></td>
+                    <td><?php echo $this->helper('sales')->__($_item->getBaseRowTotal()) ?></td>
+                    <td><?php echo $this->helper('sales')->__($_item->getRowTotal()) ?></td>
+                </tr>
+
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <div align="right">
+
+	<!-- Submit shipment button -->
+	<button onclick="Element.show('loading-mask'); updateQty($('edit_order_qty_form'), '<?php echo $this->getUrl('*/*/qtyedit', array('order_id' => $_order->getEntityId()))?>');" class="scalable save" type="button">
+	    <span>Update Quantities</span>
+	</button>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+	var editOrderQtyForm = new varienForm('edit_order_qty_form');
+</script>
+
+</form>
