@@ -1,17 +1,15 @@
 <?xml version="1.0"?>
 <!--
-
 /**
  * ShipSync
  *
  * @category   IllApps
  * @package    IllApps_Shipsync
- * @author     David Kirby (d@kernelhack.com) / Jonathan Cantrell (j@kernelhack.com)
+ * @author     David Kirby (d@kernelhack.com)
  * @copyright  Copyright (c) 2011 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
- -->
+-->
 <config>
     <modules>
         <IllApps_Shipsync>
@@ -53,31 +51,21 @@
             </sales>
             <shipsync>
                 <class>IllApps_Shipsync_Model</class>
-		<rewrite>
-		    <shipping_package>IllApps_Shipsync_Model_Shipping_Package</shipping_package>
-		    <shipping_package_item>IllApps_Shipsync_Model_Shipping_Package_Item</shipping_package_item>
-		    <shipping_package_sort>IllApps_Shipsync_Model_Shipping_Package_Sort</shipping_package_sort>
-                    <shipping_package_origins>IllApps_Shipsync_Model_Shipping_Package_Origins</shipping_package_origins>
-		</rewrite>
             </shipsync>
             <usa>
                 <rewrite>
                     <shipping_carrier_fedex>IllApps_Shipsync_Model_Shipping_Carrier_Fedex</shipping_carrier_fedex>
-		    <shipping_carrier_fedex_rate>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate</shipping_carrier_fedex_rate>
-		    <shipping_carrier_fedex_track>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Track</shipping_carrier_fedex_track>
-		    <shipping_carrier_fedex_ship>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship</shipping_carrier_fedex_ship>
-		    <shipping_carrier_fedex_address>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Address</shipping_carrier_fedex_address>
-		    <shipping_carrier_fedex_package>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package</shipping_carrier_fedex_package>
-		    <shipping_carrier_fedex_source_package>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Package</shipping_carrier_fedex_source_package>
-		    <shipping_carrier_fedex_source_unit>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unit</shipping_carrier_fedex_source_unit>
-		    <shipping_carrier_fedex_source_origin>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Origin</shipping_carrier_fedex_source_origin>
-                    <shipping_carrier_fedex_source_rate>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Rate</shipping_carrier_fedex_source_rate>
-                    <shipping_carrier_fedex_source_label_image>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Image</shipping_carrier_fedex_source_label_image>
-                    <shipping_carrier_fedex_source_label_stock>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Stock</shipping_carrier_fedex_source_label_stock>
-                    <shipping_carrier_fedex_source_label_orientation>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Orientation</shipping_carrier_fedex_source_label_orientation>		    
-                    <shipping_carrier_fedex_source_smartpost_endorsement>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Endorsement</shipping_carrier_fedex_source_smartpost_endorsement>
-                    <shipping_carrier_fedex_source_smartpost_indicia>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Indicia</shipping_carrier_fedex_source_smartpost_indicia>
-		</rewrite>
+                    <shipping_carrier_fedex_source_unitofdimension>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unitofdimension</shipping_carrier_fedex_source_unitofdimension>
+                    <shipping_carrier_fedex_source_ratetype>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Ratetype</shipping_carrier_fedex_source_ratetype>
+                    <shipping_carrier_fedex_source_labelimagetype>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Labelimagetype</shipping_carrier_fedex_source_labelimagetype>
+                    <shipping_carrier_fedex_source_labelstocktype>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Labelstocktype</shipping_carrier_fedex_source_labelstocktype>
+                    <shipping_carrier_fedex_source_labelorientation>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Labelorientation</shipping_carrier_fedex_source_labelorientation>
+                    <shipping_carrier_fedex_source_weightunit>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Weightunit</shipping_carrier_fedex_source_weightunit>
+                    <shipping_carrier_fedex_source_packingstyle>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Packingstyle</shipping_carrier_fedex_source_packingstyle>
+                    <shipping_carrier_fedex_source_smartpostancillaryendorsement>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpostancillaryendorsement</shipping_carrier_fedex_source_smartpostancillaryendorsement>
+                    <shipping_carrier_fedex_source_smartpostindiciatype>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpostindiciatype</shipping_carrier_fedex_source_smartpostindiciatype>                    
+                    <shipping_carrier_fedex_source_fedexstandardpackages>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Fedexstandardpackages</shipping_carrier_fedex_source_fedexstandardpackages>
+                </rewrite>
             </usa>
             <shipping>
                 <rewrite>
@@ -123,7 +111,7 @@
             <adminhtml>
                 <rewrite>
                     <shipsync>IllApps_Shipsync_Block_Adminhtml_Shipsync</shipsync>
-		    <shipsync_option>IllApps_Shipsync_Block_Adminhtml_Shipsync_Option</shipsync_option>
+		    <shipsync_options>IllApps_Shipsync_Block_Adminhtml_Options</shipsync_options>
                     <sales_order_view>IllApps_Shipsync_Block_Adminhtml_Sales_Order_View</sales_order_view>
                     <sales_order_shipment_view>IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_View</sales_order_shipment_view>
                 </rewrite>
@@ -155,6 +143,7 @@
     <default>
 	<shipping>
 	    <packages>
+                <enablefedexpkg>0</enablefedexpkg>
 		<pkg1title>Small Cubic Container</pkg1title>
 		<pkg1enabled>1</pkg1enabled>
 		<pkg1weight>8</pkg1weight>
@@ -216,20 +205,19 @@
                 <smartpost_indicia_type>PARCEL_SELECT</smartpost_indicia_type>
                 <smartpost_ancillary_endorsement>CARRIER_LEAVE_IF_NO_RESPONSE</smartpost_ancillary_endorsement>
                 <debug_firebug>0</debug_firebug>
-                <mage_log>0</mage_log>
                 <address_validation>0</address_validation>
                 <filter_po_boxes>0</filter_po_boxes>
-                <label_stock>PAPER_7X4.75</label_stock>
-                <label_image>PDF</label_image>
+                <label_stock_type>PAPER_7X4.75</label_stock_type>
+                <label_image_type>PDF</label_image_type>
                 <label_orientation>BOTTOM_EDGE_OF_TEXT_FIRST</label_orientation>
                 <free_shipping_enable>0</free_shipping_enable>
                 <residence_delivery>1</residence_delivery>
                 <enable_dimensions>1</enable_dimensions>
-                <units_of_measurement>LB_IN</units_of_measurement>
-                <rate_type>ACCOUNT</rate_type>
+                <rate_type>LIST</rate_type>
+                <weight_units>LB</weight_units>
+                <dimension_units>IN</dimension_units>
                 <test_mode>1</test_mode>
                 <account_country>US</account_country>
-                <disable_rating>0</disable_rating>
             </fedex>
         </carriers>
     </default>

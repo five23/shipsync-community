@@ -1,0 +1,7 @@
+@app        ShipSync
+@version    v3.2b6
+@category   IllApps
+@package    IllApps_Shipsync
+@copyright  Copyright (c) 2011 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
+@license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+@docs       http://wiki.illapps.com

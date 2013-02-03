@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * ShipSync
+ *
+ * @category   IllApps
+ * @package    IllApps_Shipsync
+ * @author     David Kirby (d@kernelhack.com), Jonathan Cantrell (j@kernelhack.com)
+ * @copyright  Copyright (c) 2011 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+?>
+<?php if (!$this->packages) { ?>
+<?php $i = $this->i+1; ?>
+    <tr>
+	<td><?php echo $i; ?></td>
+	<td class="input-ele">
+	    <select class="input-select required-entry" id="packages_<?php echo $i; ?>_type" name="packages[<?php echo $i; ?>][type]" onChange="setSelectValue($(this), this.value, attributeurl)">
+		<?php foreach ($this->getDefaultPackages() as $defaultPackage) { ?>
+		    <option value="<?php echo $defaultPackage['title']; ?>"><?php echo htmlspecialchars(Mage::helper('shipsync/packages')->getPackageName($defaultPackage['title'])); ?></option>
+		<?php } ?>
+	    </select>
+	    <td class="input-ele"><input class="input-text required-entry" id="packages_<?php echo $i; ?>_items" name="packages[<?php echo $i; ?>][items]" onChange="$(this).setValue(this.value)"/></td>
+	    <td class="input-ele"><input class="input-text required-entry" id="packages_<?php echo $i; ?>_weight" name="packages[<?php echo $i; ?>][weight]" onChange="$(this).setValue(this.value)"/></td>	    
+	    <td class="input-ele"><input class="input-text required-entry" id="packages_<?php echo $i; ?>_length" name="packages[<?php echo $i; ?>][length]" onChange="$(this).setValue(this.value)"/></td>
+	    <td class="input-ele"><input class="input-text required-entry" id="packages_<?php echo $i; ?>_width" name="packages[<?php echo $i; ?>][width]" onChange="$(this).setValue(this.value)"/></td>
+	    <td class="input-ele"><input class="input-text required-entry" id="packages_<?php echo $i; ?>_height" name="packages[<?php echo $i; ?>][height]" onChange="$(this).setValue(this.value)"/></td>
+	    <td class="input-ele"><input class="input-text required-entry" id="packages_<?php echo $i; ?>_defaultweight" name="packages[<?php echo $i; ?>][defaultweight]" onChange="$(this).setValue(this.value)"/></td>
+    </tr>
+<?php } else { ?>
+    <?php foreach($this->packages as $package) { ?>
+	<tr>
+	    <td><?php echo $this->i+1; ?></td>
+	    <td class="input-ele">
+		<select class="input-select required-entry" id="packages_<?php echo $this->i; ?>_type" name="packages[<?php echo $this->i; ?>][type]" onChange="setSelectValue($(this), this.value, attributeurl)">
+		    <option selected="selected"/>
+		    <?php foreach ($this->getDefaultPackages() as $defaultPackage) { ?>
+			<option value="<?php echo htmlspecialchars($defaultPackage['title'])?>" <?php if($defaultPackage['title']==$package['type']) { echo 'selected="selected"'; } ?>><?php echo htmlspecialchars(Mage::helper('shipsync/packages')->getPackageName($defaultPackage['title']))?></option>
+		    <?php } ?>
+		</select>
+	    </td>
+	    <td class="input-ele"><input class="input-text required-entry" id="packages_<?php echo $this->i; ?>_items" name="packages[<?php echo $this->i; ?>][items]" value="<?php $var = ''; foreach ($package['items'] as $items) {$var = $var.$items['item_number'].','; } echo preg_replace('/[\,]$/', '', $var); ?>" onChange="$(this).setValue(this.value)"/></td>
+	    <td class="input-ele"><input class="input-text required-entry" id="packages_<?php echo $this->i; ?>_weight" name="packages[<?php echo $this->i; ?>][weight]" value="<?php echo $package['weight']; ?>" onChange="$(this).setValue(this.value)"/></td>
+	    <td class="input-ele"><input class="input-text required-entry" id="packages_<?php echo $this->i; ?>_length" name="packages[<?php echo $this->i; ?>][length]" value="<?php echo $package['length']; ?>" onChange="$(this).setValue(this.value)"/></td>
+	    <td class="input-ele"><input class="input-text required-entry" id="packages_<?php echo $this->i; ?>_width" name="packages[<?php echo $this->i; ?>][width]" value="<?php echo $package['width']; ?>" onChange="$(this).setValue(this.value)"/></td>
+	    <td class="input-ele"><input class="input-text required-entry" id="packages_<?php echo $this->i; ?>_height" name="packages[<?php echo $this->i; ?>][height]" value="<?php echo $package['height']; ?>" onChange="$(this).setValue(this.value)"/></td>
+	    <td class="input-ele"><input class="input-text required-entry" id="packages_<?php echo $this->i; ?>_defaultweight" name="packages[<?php echo $this->i; ?>][defaultweight]" value="<?php echo (isset($package['max_weight']) ? $package['max_weight'] : '-') ?>" onChange="$(this).setValue(this.value)"/></td>
+	</tr>
+	<?php $this->i++; ?>
+    <?php } ?>
+<?php } ?>

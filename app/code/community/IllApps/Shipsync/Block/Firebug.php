@@ -12,13 +12,12 @@
 
 
 /**
- * IllApps_Shipsync_Block_Firebug
+ * Firebug adminhtml block
  *
  * @license    Code adapted from Netresearch_Debug (http://www.opensource.org/licenses/osl-3.0.php (OSL 3.0))
  */
 class IllApps_Shipsync_Block_Firebug extends Mage_Core_Block_Abstract
 {
-
 
     /**
      * toHtml
@@ -43,7 +42,6 @@ class IllApps_Shipsync_Block_Firebug extends Mage_Core_Block_Abstract
     }
 
 
-    
     /**
      * Get last logged html
      *
@@ -61,7 +59,6 @@ class IllApps_Shipsync_Block_Firebug extends Mage_Core_Block_Abstract
     }
 
 
-    
     /**
      * __group
      *

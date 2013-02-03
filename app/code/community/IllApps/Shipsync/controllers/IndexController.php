@@ -5,51 +5,47 @@
  *
  * @category   IllApps
  * @package    IllApps_Shipsync
- * @author     David Kirby (d@kernelhack.com) / Jonathan Cantrell (j@kernelhack.com)
+ * @author     David Kirby (d@kernelhack.com)
  * @copyright  Copyright (c) 2011 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * IllApps_Shipsync_IndexController
+ * Index controller
  */
 class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
 {
 
-    
     /**
      * Index action
      */
     public function indexAction()
     {
+        /** Load layout */
 	$this->loadLayout();
 
+        /** Set active menu */
 	$this->_setActiveMenu('sales');
 
+        /** Add breadcrumbs */
 	$this->_addBreadcrumb($this->__('Sales'), $this->__('Sales'));
         $this->_addBreadcrumb($this->__('Orders'), $this->__('Orders'));
         $this->_addBreadcrumb($this->__('ShipSync'), $this->__('ShipSync'));
 
+	/** Render layout */
         $this->renderLayout();
     }
 
-
-    /**
-     * optionAction
-     */
-    public function optionAction()
+    public function optionsAction()
     {
-        // Get post request
         $post = $this->getRequest()->getPost();
 
-        // Load layout
         $this->loadLayout();
 
-        $layout = $this->getLayout();
-        
-        // Get shipsync option block
-        $block = $layout->getBlock('shipsync_option');
+	$layout = $this->getLayout();
+	
+	$block = $layout->getBlock('shipsync_options');
 	
 	$block->setData('i', $post['i']);
 	$block->setData('z', $post['i']);
@@ -57,7 +53,6 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
         echo $block->toHtml();
     }
 
-    
     
     /**
      * Attributes Action
@@ -69,33 +64,31 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
      */
     public function attributesAction()
     {
-        // Get post request
         $post = $this->getRequest()->getPost();
 
-        // Get default packages
-        $defaultPackages = Mage::getModel('shipsync/shipping_package')->getDefaultPackages(array('fedex'));
+        $defaultPackages = Mage::getModel('usa/shipping_carrier_fedex')->getDefaultPackages();
         
-        foreach($post['packages'] as $num => $package)
-        {
-            foreach($defaultPackages as $defaultPackage)
-            {
-                if ($package['value'] == $defaultPackage['value'])
-                {                                    
-                    foreach($defaultPackage as $key => $element)
-                    {
-                        $key = 'packages_' . $num . '_' . $key;
+        foreach($post['packages'] as $num => $package) { $type = $package['type']; }
 
-                        $returnArray[$key] = $element;
-                    }
+        foreach($defaultPackages as $defaultPackage)
+        {
+            if($type == $defaultPackage['title'])
+            {
                 
-                    echo json_encode($returnArray);
+                foreach($defaultPackage as $key => $element)
+                {
+                    $key = 'packages_'.$num.'_'.$key;
+                    $returnArray[$key] = $element;
                 }
+                $returnArray['packages_'.$num.'_defaultweight'] = $returnArray['packages_'.$num.'_weight'];
+                unset($returnArray['packages_'.$num.'_weight']);
+                
+                echo json_encode($returnArray);
             }
         }
     }
     
 
-    
     /**
      * Rate Action
      *
@@ -105,135 +98,71 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
      */
     public function rateAction()
     {
-	// Get post data
-        $post = $this->getRequest()->getPost();
-        
-        // Get fedex model
+	$post = $this->getRequest()->getPost();
+
         $fedex = Mage::getModel('usa/shipping_carrier_fedex');
 
-        // Get rate request model
-	$rateRequest = Mage::getModel('shipping/rate_request');
+	$request = Mage::getModel('shipping/rate_request');
 
-        // Get order model
-	$order   = Mage::getModel('sales/order')->loadByIncrementId($post['order_id']);
+	$order = Mage::getModel('sales/order')->loadByIncrementId($post['order_id']);
 
-        // Set order model
-        $rateRequest->setOrder($order);
-
-        // Set request data
-        $rateRequest->setAllItems($order->getAllItems());
-
-        // Streets
 	$streets[] = $post['recipient_street1'];
 
 	if ($post['recipient_street2'] != '') { $streets[] = $post['recipient_street2']; }
-	if ($post['recipient_street3'] != '') { $streets[] = $post['recipient_street3']; }        
-        
-        // Set destination data
-        $rateRequest->setDestStreet($streets);
-	$rateRequest->setDestCity($post['recipient_city']);
-	$rateRequest->setDestPostcode($post['recipient_postcode']);
-	$rateRequest->setDestRegionCode($post['recipient_region']);
-	$rateRequest->setDestCountryId($post['recipient_country']);
+	if ($post['recipient_street3'] != '') { $streets[] = $post['recipient_street3']; }
 
-        // Set insure shipment
-        if($post['insure_shipment'] == 'on')
-        {
-            $rateRequest->setInsureShipment(true)
-                ->setInsureAmount($post['insure_amount']);
-        } else {
-            $rateRequest->setInsureShipment(false);
-        }
+        $request->setAllItems($order->getAllItems());
+	$request->setOrigCountry('US');
+	$request->setDestStreet($streets);
+	$request->setDestCity($post['recipient_city']);
+	$request->setDestPostcode($post['recipient_postcode']);
+	$request->setDestRegionCode($post['recipient_region']);
+	$request->setDestCountryId($post['recipient_country']);
 
-        // Get all items to ship
-        $items = Mage::getModel('shipsync/shipping_package')->getParsedItems($rateRequest->getAllItems(), true);
+	$packageWeight = 0;
 
-        // Sort items by sku, removing duplicates
-        foreach ($items as $item)
-        {
-            $_itemsBySku[$item['sku']] = $item;
-        }
-
-        // Iterate packages for rating, and loads items details from getParsedItems based on sku
+	/** Iterate through packages */
         foreach ($post['packages'] as $package)
         {
-            $error = false;
-            
-            unset($_items);
-
-            $itemsToPack = explode(',', $package['items']);
-
-            foreach ($itemsToPack as $key => $itemToPack)
+	    /** If package items are not empty */
+            if (isset($package['items']))
             {
-                $_items[] = $_itemsBySku[$post['items'][$itemToPack - 1]['sku']];
-                if ($_items[$key]['alt_origin'] != $package['altOrigin']) {$error = true;}
-            }
-            
-            if ($error)
-            {
-                unset($post); $post['error'] = 'Some items do not match package origin';
+		$packageWeight += $package['weight'];
+	    }
+	}
 
-                $encoded = json_encode($post);
-
-                $this->getResponse()->setBody($encoded);
-
-                return false;
-            }
-            
-            $_packages[] = array
-                (
-                    'volume'    => $package['width'] * $package['height'] * $package['length'],
-                    'value'     => $package['value'],
-                    'label'     => $package['value'],
-                    'items'     => $_items,
-                    'weight'    => $package['weight'],
-                    'length'    => $package['length'],
-                    'width'     => $package['width'],
-                    'height'    => $package['height'],
-                    'alt_origin'=> $package['altOrigin']
-
-                );
-        }
-
-        $rateRequest->setPackages($_packages);
+	$request->setPackageWeight($packageWeight);
+	$request->setPackages($post['packages']);	
         
-        $rateResult = Mage::getModel('shipsync/shipping_carrier_fedex_rate')->collectRates($rateRequest);
+        $result = $fedex->collectRates($request);
 
-        $possibleMethods = $rateResult->asArray();
+        $possibleMethods = $result->asArray();
 
         $methods = $possibleMethods['fedex']['methods'];
 
-        if($rateResult->getError())
-        {            
+        if($result->getError())
+        {
             unset($post);
-            
-            $post['error'] = $rateResult->getRateById(0)->getErrorMessage();
+            $post['error'] = $result->getRateById(0)->getErrorMessage();
         }
         else
         {
             if(isset($post['method']))
             {
-                $arrResult = $rateResult->asArray();
-
-                if(isset($arrResult['fedex']['methods'][$post['method']]['price_formatted']))
-                {
-                    $post['shipping_amount'] = $arrResult['fedex']['methods'][$post['method']]['price_formatted'];
-                }
-                else
-                {
-                    $post['shipping_amount'] = null;
-                    $post['shipping_allowed_methods'] = $arrResult;
-                }
+                $arrResult = $result->asArray();
+                $post['shipping_amount'] = $arrResult['fedex']['methods'][$post['method']]['price_formatted'];
             }
             else
             {
-                unset($post); $post['error'] = 'Invalid Request';
+                unset($post);
+                $post['error'] = 'Invalid Request';
             }
-        }
+ 
         $encoded = json_encode($post);
 
-        $this->getResponse()->setBody($encoded);
-    }   
+        echo $encoded;
+        }
+    }
 
 
     /**
@@ -280,48 +209,13 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
 
 	$i=0;
 
-
-        // Get all items to ship
-        $items = Mage::getModel('shipsync/shipping_package')->getParsedItems($order->getAllItems(), true);
-
-        // Sort items by sku, removing duplicates
-        foreach ($items as $item)
-        {
-            $_itemsById[$item['id']] = $item;
-        }
-
 	/** Iterate through packages */
         foreach ($post['packages'] as $package)
-        {            
-            unset($_items);
-
-            $itemsToPack = explode(',', $package['items']);
-
-            $e_origin = false;
-            
-            foreach ($itemsToPack as $key => $itemToPack)
-            {
-                $_items[] = $_itemsById[$post['items'][$itemToPack - 1]['item_id']];
-                if ($_items[$key]['alt_origin'] != $package['altOrigin']) {$e_origin = true;}
-            }
-
-            if ($e_origin)
-            {
-                /** Set error message */
-                Mage::getSingleton('adminhtml/session')->addError("Some items do not match package origin");
-
-                /** Redirect */
-                $this->_redirectReferer();
-
-                return $this;
-            }
-
+        {
             $package['dangerous']    = false;
             $package['cod']	     = false;
 	    $package['cod_amount']   = null;
             $package['confirmation'] = false;
-            $package['saturday']     = false;
-
 
 	    if (isset($post['cod']) && ($post['cod'] == 'on'))
             {
@@ -334,21 +228,25 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
                 $package['confirmation'] = true;
             }
 
-            if (isset($post['saturday']) && $post['saturday'] == 'on')
-            {
-                $package['saturday'] = true;
-            }
+	    /***  Get package items */
+	    $package_items = explode(",", $package['items']); unset($package['items']);
 
-            $itemIds = $package['items'];
-            $package['items'] = $_items;
-
-            foreach ($package['items'] as $items)
+	    /** Iterate through package items */
+            foreach ($package_items as $key=>$value)
             {
-                if (isset($item['dangerous']) && $item['dangerous'])
-                {
-                    $package['dangerous'] = true;
-                }
-            }
+		foreach ($post['items'] as $item)
+		{
+		    if ($item['id'] == $value)
+		    {
+			$package['items'][] = $item;
+
+                        if (isset($item['dangerous']) && $item['dangerous'])
+                        {
+                            $package['dangerous'] = true;
+                        }
+		    }
+		}
+	    }
 
 	    /** If package items are not empty */
             if (isset($package['items']))
@@ -360,20 +258,16 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
                     ->setCod($package['cod'])
 		    ->setCodAmount($package['cod_amount'])
                     ->setConfirmation($package['confirmation'])
-                    ->setSaturdayDelivery($package['saturday'])
                     ->setDangerous($package['dangerous'])
                     ->setWeight($package['weight'])
                     ->setDescription('Package ' . $i+1 . ' for order id ' . $post['order_id'])
-                    ->setContainerCode(Mage::getModel('usa/shipping_carrier_fedex_package')->isFedexPackage($package['value']) ? $package['value'] : 'YOUR_PACKAGING')
+                    ->setContainerCode(Mage::helper('shipsync/packages')->isFedexPackage($package['type']) ? $package['type'] : 'YOUR_PACKAGING')
                     ->setContainerDescription('')
                     ->setWeightUnitCode($post['weight_units'])
                     ->setDimensionUnitCode($post['dimension_units'])
                     ->setHeight($package['height'])
                     ->setWidth($package['width'])
-                    ->setLength($package['length'])
-                    ->setOrigin($package['altOrigin'])
-                    ->setIsChild($package['isChild'])
-                    ->setPackageItemIds($itemIds);;
+                    ->setLength($package['length']);
 
 		    /** Add package object to packages array */
                     $packages[] = $_package;		    
@@ -411,7 +305,7 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
 	$recipientAddress->setStreet($streets);
 	$recipientAddress->setCity($post['recipient_city']);		
 	$recipientAddress->setRegionCode($post['recipient_region']);	
-	$recipientAddress->setPostcode($post['recipient_postcode']);
+	$recipientAddress->setPostcode($post['recipient_postcode']);	
 	$recipientAddress->setCountryId($post['recipient_country']);	
 	$recipientAddress->setTelephone($post['recipient_telephone']);
 
@@ -435,9 +329,7 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
 		->setPackages($packages)
 		->setInsureShipment($insureShipment)
 		->setInsureAmount($insureAmount)
-		->setRequireSignature($requireSignature)
-                ->setSaturdayDelivery($package['saturday'])
-                ->setCod($package['cod']);
+		->setRequireSignature($requireSignature);
 
         try
         {
@@ -514,18 +406,29 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
      * Show label
      */
     public function labelAction()
-    {	
-        if ($packageId = $this->getRequest()->getParam('id'))
-        {                                    
-            $package     = Mage::getModel('shipping/shipment_package')->load($packageId);         
-            
-            $carrier     = strtoupper($package->getCarrier());
-            
-            $labelFormat = strtolower($package->getLabelFormat());
-            $labelImage  = $package->getLabelImage();
+    {
+	/** Get package id */
+        $pkgid = $this->getRequest()->getParam('id');
 
-            $this->labelPrint($labelImage, $labelFormat, $carrier, $package);
+	/** If package id is empty */
+        if (empty($pkgid))
+        {
+	    /** Echo message and exit TODO: add more stylish method of dealing with this */
+            echo "Invalid package id";
+            exit();
         }
+
+        /** Get package */
+        $pkg = Mage::getModel('shipping/shipment_package')->load($pkgid);	
+
+	/** Get image label format */
+	$imgtype = strtolower($pkg->getLabelFormat());
+
+	/** Get label image */
+	$img = $pkg->getLabelImage();
+
+        $this->labelPrint($imgtype, $img, $pkg);
+
     }
 
     
@@ -534,103 +437,153 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
      */
     public function codlabelAction()
     {
-        if ($packageId = $this->getRequest()->getParam('id'))
-        {                                    
-            $package     = Mage::getModel('shipping/shipment_package')->load($packageId);         
-            $carrier     = strtoupper($package->getCarrier());
-            
-            $labelFormat = strtolower($package->getLabelFormat());
-            $labelImage  = $package->getCodLabelImage();
-            
-            $this->labelPrint($labelImage, $labelFormat, $carrier . '_COD_', $package);
-        }
-    }
+        /** Get package id */
+        $pkgid = $this->getRequest()->getParam('id');
 
-    
-    
-    public function labelPrint($labelImage, $labelFormat, $carrier, $package)
-    {                               	
-        switch ($labelFormat)
+	/** If package id is empty */
+        if (empty($pkgid))
+        {
+	    /** Echo message and exit TODO: add more stylish method of dealing with this */
+            echo "Invalid package id";
+            exit();
+        }
+
+        /** Get package */
+        $pkg = Mage::getModel('shipping/shipment_package')->load($pkgid);
+
+	/** Get image label format */
+	$imgtype = strtolower($pkg->getLabelFormat());
+
+        $img = $pkg->getCodLabelImage();
+        
+        if ($pkg->getCodLabelImage())
         {            
-            case 'pdf' :
-
-                $labelImage = mb_convert_encoding($labelImage, 'UTF-8', 'BASE64');
-                $labelPath   = $carrier . $package->getTrackingNumber() .'.'. substr($labelFormat, 0, 3);
-
-                $this->getResponse()
-                    ->setHeader('Content-type', 'application/pdf', true)
-                    ->setHeader('Content-Disposition', 'inline' . '; filename="' . $labelPath . '"')
-                    ->setBody($labelImage);
-                
-                break;
-            
-            case 'png' :
-
-                $labelImage = mb_convert_encoding($labelImage, 'UTF-8', 'BASE64');
-                $labelPath   = $carrier .'_COD_'. $package->getTrackingNumber() .'.'. substr($labelFormat, 0, 3);
-                $this->getResponse()
-                    ->setHeader('Content-type', 'application/octet-stream', true)
-                    ->setHeader('Content-Disposition', 'inline' . '; filename="' . $labelPath . '"')
-                    ->setBody($labelImage);
-                
-                break;
-            
-            
-            default : $this->thermalPrint($labelImage, $labelFormat); break;
+            $this->labelPrint($imgtype, $img, $pkg, 'cod_label');
         }
-    }        
-
-    
-    public function thermalPrint($labelImage, $labelFormat)
-    {
-        $javaUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'java/jZebra/jzebra.jar';
-        
-        $printerName = Mage::getStoreConfig('carriers/fedex/printer_name');
-            
-        $htmlBody =
-        '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-            <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-            <head>
-                <script>
-                  function print() {
-                     var applet = document.jZebra;
-                     if (applet != null) {
-                        applet.append64("'. $labelImage . '");
-                        applet.print();
-                        while (!applet.isDonePrinting()) {
-                            // Wait
-                        }
-                        var e = applet.getException();
-                        alert(e == null ? "Printed Successfully" : "Printing Failed");
-                     }
-                     else {
-                        alert("Applet not loaded!");
-                     }
-                  }
-                  function chr(i) {
-                     return String.fromCharCode(i);
-                  }
-                </script>
-            </head>
-            <body style="background-color: #ccc; padding: 20px;"><form>
-                <p><strong>ShipSync Thermal Printing</strong></p>
-                    <div style="border: 1px #000 solid; padding: 10px; background-color: #fff; margin: 20px; ">
-                        <applet name="jZebra" code="jzebra.RawPrintApplet.class" archive="' . $javaUrl . '" width="0" height="0">
-                            <param name="sleep" value="200">
-                            <param name="printer" value="'. $printerName .'">
-                        </applet>
-                        <input type="button" onClick="print()" value="Print">
-                    </div>
-                </form>
-            </body>
-        </html>';
-        
-        $this->getResponse()->setBody($htmlBody);
-        
     }
 
     
-    
+    public function labelPrint($imgtype, $img, $pkg, $type = 'label')
+    {
+        $filename = 'FEDEX_';
+
+	if ($type == 'cod_label')
+	{
+	    $filename = 'FEDEX_COD_';
+	}
+
+	/** If imgtype or img is empty */
+        if (empty($imgtype) || empty($img))
+        {
+        /** Echo message and exit */
+            echo "Invalid package id";
+            exit();
+        }
+
+	/** If image type is thermal */
+	if ($imgtype == 'epl2' || $imgtype == 'dpl' || $imgtype == 'zplii')
+	{
+	    /** Set jzebra code */
+	    $jzebra_code =
+		'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+		    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+		    <head>
+			<script>
+			  function print() {
+			     var applet = document.jZebra;
+			     if (applet != null) {
+				applet.append64("'. $img . '");
+				applet.print();
+				while (!applet.isDonePrinting()) {
+				    // Wait
+				}
+				var e = applet.getException();
+				alert(e == null ? "Printed Successfully" : "Printing Failed");
+			     }
+			     else {
+				alert("Applet not loaded!");
+			     }
+			  }
+			  function chr(i) {
+			     return String.fromCharCode(i);
+			  }
+			</script>
+		    </head>
+		    <body style="background-color: #ccc; padding: 20px;"><form>
+			<p><strong>ShipSync Thermal Printing</strong></p>
+			    <div style="border: 1px #000 solid; padding: 10px; background-color: #fff; margin: 20px; ">
+				<applet name="jZebra" code="jzebra.RawPrintApplet.class" archive="' . Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) .'java/jZebra/jzebra.jar" width="0" height="0">
+				    <param name="sleep" value="200">
+				    <param name="printer" value="'. Mage::getStoreConfig('carriers/fedex/printer_name') .'">
+				</applet>
+				<input type="button" onClick="print()" value="Print">
+			    </div>
+			</form>
+		    </body>
+		</html>';
+	}
+
+        switch($imgtype)
+        {
+	    /** PNG image */
+            case "png" :
+		header('Content-type: application/octet-stream');
+                header('Content-Disposition: attachment; filename="' . $filename . $pkg->getTrackingNumber() . '.png"');
+                echo base64_decode($img);
+                break;
+
+	    /** PDF document */
+            case "pdf" :
+                header('Content-type: application/pdf');
+		header('Content-Disposition: attachment; filename="' . $filename . $pkg->getTrackingNumber() . '.pdf"');
+                echo base64_decode($img);
+                break;
+
+	    /** EPL2 thermal */
+            case "epl2" :
+
+		/** If java printing is enabled */
+                if (Mage::getStoreConfig('carriers/fedex/enable_java_printing'))
+                {
+		    /** Echo jZebra code */
+                    echo $jzebra_code;
+                    break;
+                }
+                else
+                {
+                    header('Content-type: application/octet-stream');
+                    header('Content-Disposition: attachment; filename="' . $filename . $pkg->getTrackingNumber() . '.epl"');
+                    echo base64_decode($img);
+                    break;
+                }
+
+	    /** DPL thermal */
+            case "dpl" :
+                header('Content-type: application/octet-stream');
+                header('Content-Disposition: attachment; filename="' . $filename . $pkg->getTrackingNumber() . '.dpl"');
+                echo base64_decode($img);
+                break;
+
+	    /** ZPLII thermal */
+            case "zplii" :
+
+		/** If java printing is enabled */
+                if (Mage::getStoreConfig('carriers/fedex/enable_java_printing'))
+                {
+		    /** Echo jZebra code */
+                    echo $jzebra_code;
+                    break;
+                }
+                else
+                {
+                    header('Content-type: application/octet-stream');
+                    header('Content-Disposition: attachment; filename="' . $filename . $pkg->getTrackingNumber() . '.zpl"');
+                    echo base64_decode($img);
+                    break;
+                }
+            }
+    }
+
     
     /**
      * _isAllowed

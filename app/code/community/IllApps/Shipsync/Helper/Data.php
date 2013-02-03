@@ -5,20 +5,19 @@
  *
  * @category   IllApps
  * @package    IllApps_Shipsync
- * @author     David Kirby (d@kernelhack.com) / Jonathan Cantrell (j@kernelhack.com)
+ * @author     David Kirby (d@kernelhack.com)
  * @copyright  Copyright (c) 2011 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * IllApps_Shipsync_Helper_Data
+ * Helper data
  *
  * @license    Code adapted from Netresearch_Debug (http://www.opensource.org/licenses/osl-3.0.php (OSL 3.0))
  */
 class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
 {
-
 
     /**
      * storage for log messages
@@ -27,7 +26,6 @@ class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
      * @var array
      */
     static private $__log = array();
-
 
 
     /**
@@ -46,7 +44,6 @@ class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
     static private $__shiftupStackLevel = 1;
 
 
-
     /**
      * translation of the log error names
      *
@@ -63,7 +60,6 @@ class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
         6 => '[Log]',
         7 => '[Debug]',
     );
-
 
 
     /**
@@ -92,7 +88,6 @@ class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
 
-
     /**
      * returns all currently logged messages
      *
@@ -103,7 +98,6 @@ class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return self::$__log;
     }
-
 
 
     /**
@@ -128,7 +122,6 @@ class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
 
-    
     /**
      * generates logging structure for given variable
      *
@@ -157,28 +150,5 @@ class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         if(count($lines)>0) return $lines[0];
-    }
-
-    public static function getNumberAsInt($str)
-    {
-        switch($str)
-        {
-            case 'zero' : return 0;
-            case 'one'  : return 1;
-            case 'two'  : return 2;
-            case 'three': return 3;
-            case 'four' : return 4;
-            case 'five' : return 5;
-            case 'six'  : return 6;
-            case 'seven': return 7;
-            case 'eight': return 8;
-        }
-    }
-
-    public static function mageLog($var, $name)
-    {
-        if (Mage::getStoreConfig('carriers/fedex/mage_log')) {
-            Mage::log($var, null, 'shipsync_'.$name.'.log');
-        }
     }
 }
