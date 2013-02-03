@@ -46,21 +46,21 @@ class IllApps_ZoneRates_Model_Rate_Result_Method extends Mage_Shipping_Model_Rat
                 {
                     $this->setZoneRatesPrice(5.00)
                         ->setMethodTitle('Ground Overnight')
-                        ->setArrival('<i>Arrives ' . $this->getDate() . ' by ' . $this->getTime() . '</i>')
+                        ->setArrival('Arrives ' . $this->getDate() . ' by ' . $this->getTime() )
                         ->setShippable(true);
                 }
                 elseif($this->getMethod() == 'STANDARDOVERNIGHT')
                 {
                     $this->setZoneRatesPrice(10.00)
                         ->setMethodTitle('Standard Overnight')
-                        ->setArrival('<i>Arrives ' . $this->getDate() . ' by ' . $this->getTime() . '</i>')
+                        ->setArrival('Arrives ' . $this->getDate() . ' by ' . $this->getTime() )
                         ->setShippable(true);
                 }
                 elseif($this->getMethod() == 'PRIORITYOVERNIGHT')
                 {
                     $this->setZoneRatesPrice(15.00)
                         ->setMethodTitle('Priority Overnight')
-                        ->setArrival('<i>Arrives ' . $this->getDate() . ' by ' . $this->getTime() . '</i>')
+                        ->setArrival('Arrives ' . $this->getDate() . ' by ' . $this->getTime() )
                         ->setShippable(true);
                 }
                 break;
@@ -69,14 +69,14 @@ class IllApps_ZoneRates_Model_Rate_Result_Method extends Mage_Shipping_Model_Rat
                 {
                     $this->setZoneRatesPrice(15.00)
                         ->setMethodTitle('Standard Overnight')
-                        ->setArrival('<i>Arrives ' . $this->getDate() . ' by ' . $this->getTime() . '</i>')
+                        ->setArrival('Arrives ' . $this->getDate() . ' by ' . $this->getTime() )
                         ->setShippable(true);
                 }
                 elseif($this->getMethod() == 'PRIORITYOVERNIGHT')
                 {
                     $this->setZoneRatesPrice(20.00)
                         ->setMethodTitle('Priority Overnight')
-                        ->setArrival('<i>Arrives ' . $this->getDate() . ' by ' . $this->getTime() . '</i>')
+                        ->setArrival('Arrives ' . $this->getDate() . ' by ' . $this->getTime() )
                         ->setShippable(true);
                 }
                 break;
@@ -85,14 +85,14 @@ class IllApps_ZoneRates_Model_Rate_Result_Method extends Mage_Shipping_Model_Rat
                 {
                     $this->setZoneRatesPrice(20.00)
                         ->setMethodTitle('Standard Overnight')
-                        ->setArrival('<i>Arrives ' . $this->getDate() . ' by ' . $this->getTime() . '</i>')
+                        ->setArrival('Arrives ' . $this->getDate() . ' by ' . $this->getTime() )
                         ->setShippable(true);
                 }
                 elseif($this->getMethod() == 'PRIORITYOVERNIGHT')
                 {
                     $this->setZoneRatesPrice(25.00)
                         ->setMethodTitle('Priority Overnight')
-                        ->setArrival('<i>Arrives ' . $this->getDate() . ' by ' . $this->getTime() . '</i>')
+                        ->setArrival('Arrives ' . $this->getDate() . ' by ' . $this->getTime() )
                         ->setShippable(true);
                 }
                 break;
@@ -122,7 +122,7 @@ class IllApps_ZoneRates_Model_Rate_Result_Method extends Mage_Shipping_Model_Rat
      */
     public function getTime()
     {
-        return $this->getDeliveryTimestamp() ? date("ga", strtotime($this->getDeliveryTimestamp())) : '8:00pm';
+        return $this->getDeliveryTimestamp() ? date("g:ia", strtotime($this->getDeliveryTimestamp())) : '8:00pm';
     }
 
     /*public function setShippable($bool)

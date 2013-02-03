@@ -1,0 +1,4 @@
+"Zone","FreeShippingMinimum","FreeShippingMethod","FreeShippingModifier"
+"A","50","FEDEXGROUND","5"
+"B","150","STANDARDOVERNIGHT","15"
+"C","200","STANDARDOVERNIGHT","20"

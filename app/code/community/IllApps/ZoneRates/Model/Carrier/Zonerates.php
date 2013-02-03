@@ -40,7 +40,7 @@
             $method->modifyForZone();
 
             //Just for right now
-            $method->setMethodTitle($method->getMethodTitle() . '<br />' . $method->getArrival());
+            $method->setMethodTitle($method->getMethodTitle() . ' - ' . $method->getArrival());
             
             if($method->getShippable()) { $result->append($method); }
         }
