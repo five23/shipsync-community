@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * ShipSync
+ *
+ * @category   IllApps
+ * @package    IllApps_Shipsync
+ * @author     David Kirby (d@kernelhack.com) / Jonathan Cantrell (j@kernelhack.com)
+ * @copyright  Copyright (c) 2011 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+?>
+<?php $defaultPackages = $this->getDefaultPackages();?>
+
+<!-- If packages is not set -->
+<?php if (!$this->packages) { ?>
+
+<?php $this->packages = array(end($defaultPackages)); ?>
+
+<?php } ?>
+
+    <?php foreach($this->packages as $package) { ?>
+	<tr>
+	    <td><?php echo $this->i+1; ?></td>
+	    <td class="input-ele">
+		<select class="input-select required-entry" id="packages_<?php echo $this->i; ?>_value" name="packages[<?php echo $this->i; ?>][value]" onChange="setSelectValue($(this), this.value, attributeurl)">
+		    <?php foreach ($defaultPackages as $defaultPackage) { ?>
+			<option value="<?php echo $this->htmlEscape($defaultPackage['value']); ?>" <?php if ($defaultPackage['value'] == $package['value']) { echo 'selected="selected"'; } ?>><?php echo $this->htmlEscape($defaultPackage['label']); ?></option>
+		    <?php } ?>
+		</select>
+	    </td>
+            <td style="display:none;"><input id="packages_<?php echo $this->i; ?>_altOrigin" name="packages[<?php echo $this->i; ?>][altOrigin]" type="hidden" value=0 type="hidden" /></td>
+            <td style="display:none;"><input id="packages_<?php echo $this->i; ?>_isChild" name="packages[<?php echo $this->i; ?>][isChild]" type="hidden" value="<?php echo isset($package['is_child']) ? $package['is_child'] : false; ?>" type="hidden" /></td>
+            
+	    <td class="input-ele"><input class="input-text required-entry" id="packages_<?php echo $this->i; ?>_items" name="packages[<?php echo $this->i; ?>][items]" value="<?php if (isset($package['items'])) { ?><?php $var = ''; ?><?php foreach ($package['items'] as $items) { ?><?php $var = $var.$items['item_number'] . ','; ?><?php } ?><?php echo preg_replace('/[\,]$/', '', $var); ?><?php } ?>" onChange="$(this).setValue(this.value)"/></td>
+	    <td class="input-ele"><input class="input-text required-entry" id="packages_<?php echo $this->i; ?>_weight" name="packages[<?php echo $this->i; ?>][weight]" value="<?php echo (isset($package['weight'])) ? $package['weight'] : 0; ?>" onChange="$(this).setValue(this.value)"/></td>
+	    <td class="input-ele"><input class="input-text <?php echo Mage::getStoreConfig('carriers/fedex/shipping_dimensions_disable') ? '' : 'required-entry'?>" id="packages_<?php echo $this->i; ?>_length" name="packages[<?php echo $this->i; ?>][length]" value="<?php echo $package['length']; ?>" onChange="$(this).setValue(this.value)"/></td>
+	    <td class="input-ele"><input class="input-text <?php echo Mage::getStoreConfig('carriers/fedex/shipping_dimensions_disable') ? '' : 'required-entry'?>" id="packages_<?php echo $this->i; ?>_width" name="packages[<?php echo $this->i; ?>][width]" value="<?php echo $package['width']; ?>" onChange="$(this).setValue(this.value)"/></td>
+	    <td class="input-ele"><input class="input-text <?php echo Mage::getStoreConfig('carriers/fedex/shipping_dimensions_disable') ? '' : 'required-entry'?>" id="packages_<?php echo $this->i; ?>_height" name="packages[<?php echo $this->i; ?>][height]" value="<?php echo $package['height']; ?>" onChange="$(this).setValue(this.value)"/></td>
+	    <td class="input-ele"><input class="input-text required-entry" id="packages_<?php echo $this->i; ?>_max_weight" name="packages[<?php echo $this->i; ?>][max_weight]" value="<?php echo (isset($package['max_weight']) ? $package['max_weight'] : '-') ?>" onChange="$(this).setValue(this.value)"/></td>
+	</tr>
+    <?php $this->i++; ?>
+        
+<?php } ?>

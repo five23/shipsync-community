@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+<!--
+
+/**
+ * ShipSync
+ *
+ * @category   IllApps
+ * @package    IllApps_Shipsync
+ * @author     David Kirby (d@kernelhack.com) / Jonathan Cantrell (j@kernelhack.com)
+ * @copyright  Copyright (c) 2011 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+ -->
+<config>
+    <modules>
+        <IllApps_Shipsync>
+            <version>0.2.5</version>
+            <depends>
+                <Mage_Usa />
+                <Mage_Sales />
+                <Mage_Shipping />
+            </depends>
+        </IllApps_Shipsync>
+    </modules>
+
+    <admin>
+        <secure_url>
+            <shipsync>/shipsync</shipsync>
+        </secure_url>
+        <routers>
+            <shipsync>
+                <use>admin</use>
+                <args>
+                    <module>IllApps_Shipsync</module>
+                    <frontName>shipsync</frontName>
+                </args>
+            </shipsync>
+        </routers>
+    </admin>
+
+    <global>
+         <helpers>
+            <shipsync>
+                <class>IllApps_Shipsync_Helper</class>
+            </shipsync>
+        </helpers>
+        <models>
+	    <sales>
+                <rewrite>
+                    <quote_address>IllApps_Shipsync_Model_Sales_Quote_Address</quote_address>
+                </rewrite>
+            </sales>
+            <shipsync>
+                <class>IllApps_Shipsync_Model</class>
+		<rewrite>
+		    <shipping_package>IllApps_Shipsync_Model_Shipping_Package</shipping_package>
+		    <shipping_package_item>IllApps_Shipsync_Model_Shipping_Package_Item</shipping_package_item>
+		    <shipping_package_sort>IllApps_Shipsync_Model_Shipping_Package_Sort</shipping_package_sort>
+                    <shipping_package_origins>IllApps_Shipsync_Model_Shipping_Package_Origins</shipping_package_origins>
+		</rewrite>
+            </shipsync>
+            <usa>
+                <rewrite>
+                    <shipping_carrier_fedex>IllApps_Shipsync_Model_Shipping_Carrier_Fedex</shipping_carrier_fedex>
+		    <shipping_carrier_fedex_rate>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate</shipping_carrier_fedex_rate>
+		    <shipping_carrier_fedex_track>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Track</shipping_carrier_fedex_track>
+		    <shipping_carrier_fedex_ship>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship</shipping_carrier_fedex_ship>
+		    <shipping_carrier_fedex_address>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Address</shipping_carrier_fedex_address>
+		    <shipping_carrier_fedex_package>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package</shipping_carrier_fedex_package>
+		    <shipping_carrier_fedex_source_package>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Package</shipping_carrier_fedex_source_package>
+		    <shipping_carrier_fedex_source_unit>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unit</shipping_carrier_fedex_source_unit>
+		    <shipping_carrier_fedex_source_origin>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Origin</shipping_carrier_fedex_source_origin>
+                    <shipping_carrier_fedex_source_rate>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Rate</shipping_carrier_fedex_source_rate>
+                    <shipping_carrier_fedex_source_label_image>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Image</shipping_carrier_fedex_source_label_image>
+                    <shipping_carrier_fedex_source_label_stock>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Stock</shipping_carrier_fedex_source_label_stock>
+                    <shipping_carrier_fedex_source_label_orientation>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Orientation</shipping_carrier_fedex_source_label_orientation>		    
+                    <shipping_carrier_fedex_source_smartpost_endorsement>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Endorsement</shipping_carrier_fedex_source_smartpost_endorsement>
+                    <shipping_carrier_fedex_source_smartpost_indicia>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Indicia</shipping_carrier_fedex_source_smartpost_indicia>
+		</rewrite>
+            </usa>
+            <shipping>
+                <rewrite>
+                    <shipment_package>IllApps_Shipsync_Model_Shipment_Package</shipment_package>
+                </rewrite>
+            </shipping>
+            <shipping_mysql4>
+                <entities>
+                    <shipment_package>
+                        <table>shipping_shipment_package</table>
+                    </shipment_package>
+                </entities>
+                <rewrite>
+                    <shipment_package>IllApps_Shipsync_Model_Mysql4_Shipment_Package</shipment_package>
+		    <shipment_package_collection>IllApps_Shipsync_Model_Mysql4_Shipment_Package_Collection</shipment_package_collection>
+                </rewrite>
+            </shipping_mysql4>
+        </models>
+
+        <resources>
+            <shipsync_setup>
+                <setup>
+                    <module>IllApps_Shipsync</module>
+                    <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </shipsync_setup>
+            <shipsync_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </shipsync_write>
+            <shipsync_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </shipsync_read>
+        </resources>
+
+        <blocks>
+            <adminhtml>
+                <rewrite>
+                    <shipsync>IllApps_Shipsync_Block_Adminhtml_Shipsync</shipsync>
+		    <shipsync_option>IllApps_Shipsync_Block_Adminhtml_Shipsync_Option</shipsync_option>
+                    <sales_order_view>IllApps_Shipsync_Block_Adminhtml_Sales_Order_View</sales_order_view>
+                    <sales_order_shipment_view>IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_View</sales_order_shipment_view>
+                </rewrite>
+            </adminhtml>
+            <shipsync>
+                <class>IllApps_Shipsync_Block</class>
+            </shipsync>	    
+        </blocks>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <shipsync>
+                    <file>firebug.xml</file>
+                </shipsync>
+            </updates>
+        </layout>
+    </frontend>
+    <adminhtml>
+        <layout>
+            <updates>
+                <shipsync>
+                    <file>firebug.xml</file>
+                    <file>shipsync.xml</file>
+                </shipsync>
+            </updates>
+        </layout>
+    </adminhtml>
+    <default>
+	<shipping>
+	    <packages>
+		<pkg1title>Small Cubic Container</pkg1title>
+		<pkg1enabled>1</pkg1enabled>
+		<pkg1weight>8</pkg1weight>
+		<pkg1length>6</pkg1length>
+		<pkg1width>6</pkg1width>
+		<pkg1height>1</pkg1height>
+		<pkg1base>0</pkg1base>		
+		<pkg2title>Rectangular Container</pkg2title>
+		<pkg2enabled>1</pkg2enabled>
+		<pkg2weight>16</pkg2weight>
+		<pkg2length>9</pkg2length>
+		<pkg2width>6</pkg2width>
+		<pkg2height>6</pkg2height>
+		<pkg2base>0</pkg2base>
+		<pkg3title>Medium Rectangular Container</pkg3title>
+		<pkg3enabled>1</pkg3enabled>
+		<pkg3weight>22</pkg3weight>
+		<pkg3length>14</pkg3length>
+		<pkg3width>12</pkg3width>
+		<pkg3height>12</pkg3height>
+		<pkg3base>0</pkg3base>
+		<pkg4title>Large 'Book Box'</pkg4title>
+		<pkg4enabled>1</pkg4enabled>
+		<pkg4weight>32</pkg4weight>
+		<pkg4length>18</pkg4length>
+		<pkg4width>12</pkg4width>
+		<pkg4height>12</pkg4height>
+		<pkg4base>0</pkg4base>
+		<pkg5title>Large Cubic Container</pkg5title>
+		<pkg5enabled>1</pkg5enabled>
+		<pkg5weight>48</pkg5weight>
+		<pkg5length>18</pkg5length>
+		<pkg5width>18</pkg5width>
+		<pkg5height>18</pkg5height>
+		<pkg5base>0</pkg5base>
+		<pkg6title>Extra Large Cubic Container</pkg6title>
+		<pkg6enabled>1</pkg6enabled>
+		<pkg6weight>60</pkg6weight>
+		<pkg6length>24</pkg6length>
+		<pkg6width>24</pkg6width>
+		<pkg6height>24</pkg6height>
+		<pkg6base>0</pkg6base>
+	    </packages>
+	</shipping>
+        <carriers>
+            <fedex>
+                <password backend_model="adminhtml/system_config_backend_encrypted"></password>
+                <key backend_model="adminhtml/system_config_backend_encrypted"></key>
+                <meter backend_model="adminhtml/system_config_backend_encrypted"></meter>
+                <third_party_fedex_account backend_model="adminhtml/system_config_backend_encrypted"></third_party_fedex_account>
+                <test_account backend_model="adminhtml/system_config_backend_encrypted"></test_account>
+                <test_password backend_model="adminhtml/system_config_backend_encrypted"></test_password>
+                <test_key backend_model="adminhtml/system_config_backend_encrypted"></test_key>
+                <test_meter backend_model="adminhtml/system_config_backend_encrypted"></test_meter>
+                <smartpost_hub_id backend_model="adminhtml/system_config_backend_encrypted"></smartpost_hub_id>
+                <smartpost_customer_manifest_id backend_model="adminhtml/system_config_backend_encrypted"></smartpost_customer_manifest_id>
+                <enable_soap_cache>1</enable_soap_cache>
+                <enable_smartpost>0</enable_smartpost>
+                <smartpost_indicia_type>PARCEL_SELECT</smartpost_indicia_type>
+                <smartpost_ancillary_endorsement>CARRIER_LEAVE_IF_NO_RESPONSE</smartpost_ancillary_endorsement>
+                <debug_firebug>0</debug_firebug>
+                <mage_log>0</mage_log>
+                <address_validation>0</address_validation>
+                <filter_po_boxes>0</filter_po_boxes>
+                <label_stock>PAPER_7X4.75</label_stock>
+                <label_image>PDF</label_image>
+                <label_orientation>BOTTOM_EDGE_OF_TEXT_FIRST</label_orientation>
+                <free_shipping_enable>0</free_shipping_enable>
+                <residence_delivery>1</residence_delivery>
+                <enable_dimensions>1</enable_dimensions>
+                <units_of_measurement>LB_IN</units_of_measurement>
+                <rate_type>ACCOUNT</rate_type>
+                <test_mode>1</test_mode>
+                <account_country>US</account_country>
+                <disable_rating>0</disable_rating>
+            </fedex>
+        </carriers>
+    </default>
+</config>
