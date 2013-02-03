@@ -32,15 +32,15 @@ class IllApps_Shipsync_Model_Shipping_Package_Item
         $packageSort = Mage::getModel('shipsync/shipping_package_sort');
 
         foreach ($items as $item)
-        {            
+        {
 	    if ($item->getParentItem()  && !$item->isShipSeparately()) { continue; }
 	    if ($item->getHasChildren() &&  $item->isShipSeparately()) { continue; }
 	    if ($item->getIsVirtual())				       { continue; }
 
 	    $product = Mage::getModel('catalog/product')->load($item->getProductId());
 
-            if($item->getIsQtyDecimal()) { $itemQty = 1; }
-	    elseif ($toShip) { $itemQty = $item->getQtyToShip(); }
+	    if ($toShip) { $itemQty = $item->getQtyToShip(); }
+
 	    else	 { $itemQty = $item->getQty() > 0 ? $item->getQty() : 1; }
 
 	    while ($itemQty > 0)
@@ -59,13 +59,12 @@ class IllApps_Shipsync_Model_Shipping_Package_Item
                 $_items[$i]['id']	     = $item->getItemId();
                 $_items[$i]['product_id']    = $item->getProductId();
 		$_items[$i]['name']	     = $item->getName();
-		$_items[$i]['weight']	     = $item->getIsQtyDecimal() ? $item->getQtyOrdered() * $item->getWeight() : $item->getWeight();
+		$_items[$i]['weight']	     = $item->getWeight();
                 $_items[$i]['qty']           = $item->getQtyOrdered();
 		$_items[$i]['value']	     = $product->getPrice();
 		$_items[$i]['special']	     = $product->getSpecialPackaging();
                 $_items[$i]['free_shipping'] = $product->getFreeShipping();
                 $_items[$i]['alt_origin']    = 0; //(int) $product->getProductOrigin();
-                $_items[$i]['is_decimal_qty']= $item->getIsQtyDecimal();
 
 		if (Mage::getStoreConfig('carriers/fedex/enable_dimensions')
 			&& $product->getWidth() && $product->getHeight() && $product->getLength())

@@ -335,8 +335,6 @@
 		    <th><?php echo $this->helper('sales')->__('Item Status'); ?></th>
 		</tr>
 	    </thead>
-            
-            <?php Mage::log($this->getItems()); ?>
 
 	    <!-- Set quantity_count -->
 	    <?php foreach ($this->getItems() as $_item) {; ?>
@@ -348,9 +346,6 @@
 
 		<!-- Set item id -->
 		<input type="hidden" id="items[<?php echo $i; ?>][item_id]" name="items[<?php echo $i; ?>][item_id]" value="<?php echo $item['id']; ?>" />
-
-                <!-- Set is decimal qty -->
-                <input type="hidden" id="items[<?php echo $i; ?>][is_decimal_qty]" name="items[<?php echo $i; ?>][is_decimal_qty]" value="<?php echo $item['is_decimal_qty']; ?>" />
 
 		<!-- Table striping -->
 		<tbody class="<?php echo $i %2 ? 'even' : 'odd'; ?>">

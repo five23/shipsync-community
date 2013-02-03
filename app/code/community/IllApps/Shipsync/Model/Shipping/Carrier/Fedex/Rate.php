@@ -645,11 +645,10 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
 
                 if (Mage::getStoreConfig('carriers/fedex/show_timestamp'))
 		{
-		    if (isset($rateReply->DeliveryTimestamp)) 
+		    if (isset($rateReply->DeliveryTimestamp))
 		    {
 			$rateResultMethod->setMethodTitle($rateResultMethod->getMethodTitle() . ' (' .
 				date("m/d g:ia", strtotime($rateReply->DeliveryTimestamp)) . ')');
-                        $rateResultMethod->setDeliveryTimestamp($rateReply->DeliveryTimestamp);
 		    }
 		    elseif (isset($rateReply->CommitDetails->TransitTime))
 		    {
