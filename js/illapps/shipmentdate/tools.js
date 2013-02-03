@@ -119,10 +119,7 @@ function getExemptionsAjax(thisurl, instore)
                 initDate();
 	    },
             onFailure : function() {
-                reportError('Request failed');
-            },
-            onException : function(req, ex) {
-                reportError('Error: ' + ex);
+                alert('Request failed');
             },
             onComplete : function() {
                 Element.hide('loadingmask');
@@ -133,6 +130,11 @@ function getExemptionsAjax(thisurl, instore)
 
 function updateDeliveryMethod(el)
 {
+	if(el.value == 0){
+		jQuery('#shipping_arrival_date_display_label').html("Select Delivery Date");
+	}else{
+		jQuery('#shipping_arrival_date_display_label').html("Select Pickup Date");
+	}
     $('instore_value').setValue(el.value);
     initDate();
 }

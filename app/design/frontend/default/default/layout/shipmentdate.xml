@@ -3,7 +3,7 @@
 <layout>
     <checkout_onepage_index>
         <reference name="head">
-            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-cold-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-ilbs.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
             <action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
             <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
         </reference>

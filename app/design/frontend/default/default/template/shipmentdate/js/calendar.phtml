@@ -40,15 +40,15 @@
 </script>
 
     <div class="input-box" style="margin-bottom:10px;">
-        <label for="shipping_arrival_date_display" style="font-weight:bold; margin:0 7px 0 0;">Select Pickup / Delivery Date </label>
+        <label for="shipping_arrival_date_display" id="shipping_arrival_date_display_label" style="font-weight:bold; margin:0 7px 0 0;">Select Delivery Date </label>
             <input name="shipping_arrival_date_display" id="shipping_arrival_date_display" value="" title="date" class=" input-text" style="width: 100px;" type="text"> <img src="<?php echo $this->getSkinUrl('images/grid-cal.gif') ?>" alt="" class="v-middle" id="shipping_arrival_date_trig" title="Select Date" style=""> 
             <!--<a href="#" style="margin-left:5px;" onClick="resetArrivalDate(); return false;">Reset Arrival Date</a>-->
         <input name="shipping_arrival_date" id="shipping_arrival_date" value="" onChange="shippingArrivalDateOnChange(this)" title="date"  type="hidden">
-
+		
         <small>&nbsp;</small><br />
         <!--<small><?php //echo $this->getCalendarNotice() ?></small>-->
-
     </div>
+    <div style="clear:both;"></div>
 
 <script type="text/javascript">
 //<![CDATA[
