@@ -450,7 +450,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 
         if (isset($specialServiceTypes))
         {
-            $request['RequestedShipment']['SpecialServicesRequested']['SpecialServiceTypes'] = $specialServiceTypes;
+            $request['RequestedShipment']['RequestedPackageLineItems']['SpecialServicesRequested']['SpecialServiceTypes'] = $specialServiceTypes;
         }
 
         return $request;
