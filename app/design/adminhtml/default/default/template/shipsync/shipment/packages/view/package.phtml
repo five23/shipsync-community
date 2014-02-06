@@ -35,7 +35,7 @@
         <tbody>
             <tr>
                 
-                <?php $dimUnit = $package->getDimensionUnits() ?>
+                <?php $dimUnit = ($package->getDimensionUnits() == Zend_Measure_Length::INCH ? 'IN':'CM') ?>
                 <td><?php echo $package->getPackageType() ?></td>
                 <td><?php echo $package->getWeight() . ' ' .  $package->getWeightUnits() ?></td>
                 <td><?php echo $package->getLength() . ' ' .  $dimUnit ?></td>

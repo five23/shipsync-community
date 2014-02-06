@@ -12,24 +12,24 @@
 
 
 /**
- * IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unit
+ * IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unitofmeasure
  */
-class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unit
+class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unitofmeasure
 {
-
+    
+    
     /**
      * toOptionArray
      *
      * @return array
      */
+    
     public function toOptionArray()
     {
-	return array
-	(
-	    array('value' => 'LB_IN', 'label' => Mage::helper('usa')->__('Pounds / Inches')),
-	    array('value' => 'KG_CM', 'label' => Mage::helper('usa')->__('Kilograms / Centimeters')),
-	    array('value' =>  'G_CM', 'label' => Mage::helper('usa')->__('Grams / Centimeters'))
-	);
+        return array(
+            'LB' => Mage::helper('usa')->__('Pounds'),
+            'KG' => Mage::helper('usa')->__('Kilograms')
+        );
     }
-
+    
 }

@@ -23,7 +23,7 @@ class IllApps_Shipsync_Model_Shipment_Package extends Mage_Core_Model_Abstract
     {
         $this->_init('shipping/shipment_package');
     }
-
+    
     /*
      * Returns parsed item details for ship request
      * 
@@ -31,19 +31,19 @@ class IllApps_Shipsync_Model_Shipment_Package extends Mage_Core_Model_Abstract
      */
     public function returnPackageContents()
     {
-	foreach ($this->getItems() as $_item)
-        {
-	    $item = Mage::getModel('sales/order_item')->load($_item['id']);
-
+        foreach ($this->getItems() as $_item) {
+            $item = Mage::getModel('sales/order_item')->load($_item['id']);
+            
             $contents[] = array(
                 'ItemNumber' => $item['id'],
                 'Description' => $item->getName(),
-                'ReceivedQuantity' => 1);
+                'ReceivedQuantity' => 1
+            );
         }
-
+        
         return $contents;
     }
-
+    
     /*
      * Returns weight converted into KG if applicable
      *
@@ -51,22 +51,18 @@ class IllApps_Shipsync_Model_Shipment_Package extends Mage_Core_Model_Abstract
      */
     public function getFormattedWeight()
     {
-        if($this->getWeightUnit())
-        {}
-	elseif ($this->getWeightUnitCode() == 'G')
-	{
-	    $this->setWeight($this->getWeight() * 0.001);
-
-	    $this->setWeightUnit('KG');
-	}
-	else
-	{
-	    $this->setWeightUnit($this->getWeightUnitCode());
-	}
-
+        if ($this->getWeightUnit()) {
+        } elseif ($this->getWeightUnitCode() == 'G') {
+            $this->setWeight($this->getWeight() * 0.001);
+            
+            $this->setWeightUnit('KG');
+        } else {
+            $this->setWeightUnit($this->getWeightUnitCode());
+        }
+        
         return $this->getRoundedWeight();
     }
-
+    
     /*
      * Round and return
      *
@@ -76,7 +72,7 @@ class IllApps_Shipsync_Model_Shipment_Package extends Mage_Core_Model_Abstract
     {
         return round($this->getWeight(), 1) > 0 ? $this->getWeight() : 0.1;
     }
-
+    
     /*
      * Round and return
      *
@@ -86,7 +82,7 @@ class IllApps_Shipsync_Model_Shipment_Package extends Mage_Core_Model_Abstract
     {
         return round($this->getLength(), 1) > 0 ? $this->getLength() : 0.1;
     }
-
+    
     /*
      * Round and return
      *
@@ -96,7 +92,7 @@ class IllApps_Shipsync_Model_Shipment_Package extends Mage_Core_Model_Abstract
     {
         return round($this->getWidth(), 1) > 0 ? $this->getWidth() : 0.1;
     }
-
+    
     /*
      * If you haven't picked it up by now, there's no hope for you
      *
@@ -106,7 +102,7 @@ class IllApps_Shipsync_Model_Shipment_Package extends Mage_Core_Model_Abstract
     {
         return round($this->getHeight(), 1) > 0 ? $this->getHeight() : 0.1;
     }
-
+    
     /*
      * Sequence number for MPS shipment
      *
@@ -116,7 +112,7 @@ class IllApps_Shipsync_Model_Shipment_Package extends Mage_Core_Model_Abstract
     {
         return Mage::getStoreConfig('carriers/fedex/mps_shipments') ? ($this->getPackageNumber() + 1) : 1;
     }
-
+    
     /*
      *
      */
@@ -124,13 +120,15 @@ class IllApps_Shipsync_Model_Shipment_Package extends Mage_Core_Model_Abstract
     {
         return $this->_packageValue > 0 ? $this->_packageValue : $this->calculateValue();
     }
-
+    
     /*
      *
      */
     public function calculateValue()
     {
-        foreach ($this->getItems as $item) { $this->_packageValue += $item->getPrice(); }
+        foreach ($this->getItems as $item) {
+            $this->_packageValue += $item->getPrice();
+        }
         return $this->_packageValue;
     }
 }
