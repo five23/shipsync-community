@@ -19,7 +19,7 @@
 class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
 {
 
-
+    
     /**
      * storage for log messages
      *

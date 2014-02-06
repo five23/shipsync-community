@@ -30,7 +30,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Rate
         $arr = array();
 
         foreach ($fedex->getCode('rate_type') as $k=>$v)
-	{
+	    {
             $arr[] = array('value'=>$k, 'label'=>$v);
         }
 
