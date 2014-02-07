@@ -680,12 +680,12 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                         foreach ($rateReply->RatedShipmentDetails as $ratedShipmentDetail) {
                             
                             if ($ratedShipmentDetail->ShipmentRateDetail->RateType == 'PREFERRED_ACCOUNT_SHIPMENT') {                            
-                                    $shipmentRateDetail = $ratedShipmentDetail->ShipmentRateDetail;                            
+                                    $shipmentRateDetail = $ratedShipmentDetail->ShipmentRateDetail;                       
                             }
                         }
                     }
                 }
-                else if ($rateType == 'ACCOUNT' || $rateType == 'LIST') {
+                else {
                     if (is_array($rateReply->RatedShipmentDetails))
                     {
                         foreach ($rateReply->RatedShipmentDetails as $ratedShipmentDetail)
