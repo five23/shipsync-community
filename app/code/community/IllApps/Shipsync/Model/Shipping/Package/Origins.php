@@ -29,32 +29,27 @@ class IllApps_Shipsync_Model_Shipping_Package_Origins
      * @return void
      *
      */
-    public function prepareRequest (&$request, &$itemsByOrigin, &$packagesByOrigin)
-    {        
-        if($request->getPackages())
-        {
-            foreach($request->getPackages() as $package)
-            {
-                if(isset($itemsByOrigin[(int) $package['alt_origin']])) {
-                    $itemsToMerge = $itemsByOrigin[(int) $package['alt_origin']];
+    public function prepareRequest(&$request, &$itemsByOrigin, &$packagesByOrigin)
+    {
+        if ($request->getPackages()) {
+            foreach ($request->getPackages() as $package) {
+                if (isset($itemsByOrigin[(int) $package['alt_origin']])) {
+                    $itemsToMerge                                = $itemsByOrigin[(int) $package['alt_origin']];
                     $itemsByOrigin[(int) $package['alt_origin']] = array_merge($itemsToMerge, $package['items']);
-                }
-                else {
+                } else {
                     $itemsByOrigin[(int) $package['alt_origin']] = $package['items'];
                 }
                 $packagesByOrigin[(int) $package['alt_origin']][] = $package;
             }
-
+            
             $request->setPackages(null);
-        }
-        else
-        {
+        } else {
             $_items = Mage::getModel('shipsync/shipping_package')->getParsedItems($request->getAllItems());
-
+            
             $itemsByOrigin = Mage::getModel('shipsync/shipping_package_item')->byOrigin($_items);
         }
     }
-
+    
     /*
      * Prepare Ship Request...see above.
      * 
@@ -66,30 +61,25 @@ class IllApps_Shipsync_Model_Shipping_Package_Origins
      */
     public function prepareShipRequest(&$request, &$itemsByOrigin, &$packagesByOrigin)
     {
-        if($request->getPackages())
-        {
-            foreach($request->getPackages() as $package)
-            {
-                if(isset($itemsByOrigin[(int) $package->getOrigin()])) {
-                    $itemsToMerge = $itemsByOrigin[(int) $package->getOrigin()];
+        if ($request->getPackages()) {
+            foreach ($request->getPackages() as $package) {
+                if (isset($itemsByOrigin[(int) $package->getOrigin()])) {
+                    $itemsToMerge                               = $itemsByOrigin[(int) $package->getOrigin()];
                     $itemsByOrigin[(int) $package->getOrigin()] = array_merge($itemsToMerge, $package->getItems());
-                }
-                else {
+                } else {
                     $itemsByOrigin[(int) $package->getOrigin()] = $package->getItems();
                 }
                 $packagesByOrigin[(int) $package->getOrigin()][] = $package;
             }
-
+            
             $request->setPackages(null);
-        }
-        else
-        {
+        } else {
             $_items = Mage::getModel('shipsync/shipping_package')->getParsedItems($request->getAllItems());
-
+            
             $itemsByOrigin = Mage::getModel('shipsync/shipping_package_item')->byOrigin($_items);
         }
     }
-
+    
     /*
      * Set Origins
      * Sets request object's origins based on key.
@@ -101,8 +91,8 @@ class IllApps_Shipsync_Model_Shipping_Package_Origins
      */
     public function setOrigins(&$request, $int)
     {
-        $origin = Mage::getModel('shipsync/shipping_package_item')->getOrigin($int);//(int) $item['alt_origin']);
-
+        $origin = Mage::getModel('shipsync/shipping_package_item')->getOrigin($int); //(int) $item['alt_origin']);
+        
         $request->setOrigCountryId($origin['country']);
         $request->setOrigRegionId($origin['regionId']);
         $request->setOrigRegionCode($origin['regionCode']);
@@ -110,7 +100,7 @@ class IllApps_Shipsync_Model_Shipping_Package_Origins
         $request->setOrigCity($origin['city']);
         $request->setOrigStreet($origin['street']);
     }
-
+    
     /*
      * Collect Multiple Shipments
      * 
@@ -120,13 +110,12 @@ class IllApps_Shipsync_Model_Shipping_Package_Origins
      */
     public function collectMultipleShipments($shipResultCollection)
     {
-        foreach($shipResultCollection as $shipResult)
-        {
+        foreach ($shipResultCollection as $shipResult) {
             $retval = (isset($retval)) ? array_merge($retval, $shipResult) : $shipResult;
         }
-	return $retval;
+        return $retval;
     }
-
+    
     /*
      * Collect Multiple Responses
      * 
@@ -137,75 +126,76 @@ class IllApps_Shipsync_Model_Shipping_Package_Origins
      * @return Mage_Shipping_Model_Rate_Result $responses
      */
     public function collectMultipleResponses($responseCollection)
-    {        
+    {
         $_responses = new Mage_Shipping_Model_Rate_Result;
         
         $responses = $responseCollection[0];
-
-        if($responses->getError()) {return $responses;}
-
+        
+        if ($responses->getError()) {
+            return $responses;
+        }
+        
         unset($responseCollection[0]);
-
-        foreach ($responseCollection as $cmpResponses)
-        {
+        
+        foreach ($responseCollection as $cmpResponses) {
             $i = count($cmpResponses->getAllRates());
-
-            if(!isset($cmpResponses)) {return $responses;}
-
-            while($i)
-            {
+            
+            if (!isset($cmpResponses)) {
+                return $responses;
+            }
+            
+            while ($i) {
                 $i--;
                 $match = false;
-
-                foreach($cmpResponses->getAllRates() as $key => $cmpMethod)
-                {
-                    if($responses->getRateById($i)->getMethod() == $cmpMethod->getMethod())
-                    {
+                
+                foreach ($cmpResponses->getAllRates() as $key => $cmpMethod) {
+                    if ($responses->getRateById($i)->getMethod() == $cmpMethod->getMethod()) {
                         $responses->getRateById($i)->setCost($responses->getRateById($i)->getCost() + $cmpMethod->getCost());
                         $responses->getRateById($i)->setPrice($responses->getRateById($i)->getPrice() + $cmpMethod->getPrice());
                         $match = true;
                     }
                 }
-                if($match) { $_responses->append($responses->getRateById($i)); }
+                if ($match) {
+                    $_responses->append($responses->getRateById($i));
+                }
             }
             $responses = $_responses;
         }
         return $responses;
     }
-
-    public function collectSaturdayResponses ($responseCollection)
+    
+    public function collectSaturdayResponses($responseCollection)
     {
         $_responses = new Mage_Shipping_Model_Rate_Result;
-
-        if (isset($responseCollection[1])) { $responses = $responseCollection[1]; }
-
-        $err = $responses->asArray();
-
-        if(empty($err) || $responses->getError()) {return $responseCollection[0];}
         
-        foreach ($responseCollection[0]->getAllRates() as $key => $method)
-        {
+        if (isset($responseCollection[1])) {
+            $responses = $responseCollection[1];
+        }
+        
+        $err = $responses->asArray();
+        
+        if (empty($err) || $responses->getError()) {
+            return $responseCollection[0];
+        }
+        
+        foreach ($responseCollection[0]->getAllRates() as $key => $method) {
             $methodKeys[$key] = $method->getMethod();
         }
-
-        foreach ($responses->getAllRates() as $key => $method)
-        {            
-            if (in_array($method->getMethod(), $methodKeys))
-            {
+        
+        foreach ($responses->getAllRates() as $key => $method) {
+            if (in_array($method->getMethod(), $methodKeys)) {
                 unset($methodKeys[array_search($method->getMethod(), $methodKeys)]);
             }
             $_responses->append($method);
         }
-
-        if (isset($methodKeys))
-        {
-            foreach ($methodKeys as $key => $method)
-            {
+        
+        if (isset($methodKeys)) {
+            foreach ($methodKeys as $key => $method) {
                 $_responses->append($responseCollection[0]->getRateById($key));
             }
         }
         
         return $_responses;
-
+        
     }
 }

@@ -1,14 +1,10 @@
-<?php
-/* 
- * ShipSync
- */
-
-?>
+<?php /* * ShipSync */ ?>
 <?php foreach ($this->getShippingPackages() as $key => $package) { ?>
 <div class="entry-edit">
-    <div class="entry-edit-head">
-    <h4 class="icon-head head-products"><?php echo $this->helper('sales')->__('Package ' . ($key + 1)) ?></h4>
-    </div>
+	<div class="entry-edit-head">
+		<h4 class="icon-head head-products">
+			<?php echo $this->helper('sales')->__('Package ' . ($key + 1)) ?></h4>
+	</div>
 </div>
 <?php $this->setActivePackage($package) ?>
 <?php echo $this->getChildHtml('shipsync_shipping_package', false) ?>

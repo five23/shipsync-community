@@ -16,7 +16,7 @@
  */
 class IllApps_Shipsync_Model_Shipping_Package_Sort
 {
-
+    
     protected $_key;
     
     
@@ -30,15 +30,18 @@ class IllApps_Shipsync_Model_Shipping_Package_Sort
     {
         $this->_key = $key;
         
-	uasort($array, array($this, '_sortByKey'));
-
-	return $array;
+        uasort($array, array(
+            $this,
+            '_sortByKey'
+        ));
+        
+        return $array;
     }
     
     
-
     
-
+    
+    
     /**
      * _sortByKey
      *
@@ -49,16 +52,18 @@ class IllApps_Shipsync_Model_Shipping_Package_Sort
     protected function _sortByKey($a, $b)
     {
         $key = $this->_key;
-                
-	$a_key = (is_array($a) && isset($a[$key])) ? $a[$key] : 0;
-	$b_key = (is_array($b) && isset($b[$key])) ? $b[$key] : 0;
-
-	if ($a_key == $b_key) { return 0; }
-
-	return ($a_key > $b_key) ? -1 : 1;
+        
+        $a_key = (is_array($a) && isset($a[$key])) ? $a[$key] : 0;
+        $b_key = (is_array($b) && isset($b[$key])) ? $b[$key] : 0;
+        
+        if ($a_key == $b_key) {
+            return 0;
+        }
+        
+        return ($a_key > $b_key) ? -1 : 1;
     }
     
-
+    
     
     /**
      * Find Best Fit
@@ -72,20 +77,18 @@ class IllApps_Shipsync_Model_Shipping_Package_Sort
      */
     public function findBestFit($packages, $item)
     {
-        foreach ($packages as $key => $package)
-        {
-            if ($this->findFit($package, $item))
-            {
+        foreach ($packages as $key => $package) {
+            if ($this->findFit($package, $item)) {
                 $free_weights[$key] = $package['free_weight'];
                 $free_volumes[$key] = $package['free_volume'];
             }
         }
-
+        
         return (isset($free_weights) && isset($free_volumes) ? $this->minKey($free_weights, $free_volumes) : null);
     }
-
-
-
+    
+    
+    
     /**
      * Min Key
      *
@@ -98,15 +101,17 @@ class IllApps_Shipsync_Model_Shipping_Package_Sort
      */
     public function minKey($array, $cmpArray)
     {
-        foreach ($array as $key => $val)
-        {
-            if ($val == min($array) && $cmpArray[$key] == min($cmpArray)) { return $key; }
-            else { return null; }
+        foreach ($array as $key => $val) {
+            if ($val == min($array) && $cmpArray[$key] == min($cmpArray)) {
+                return $key;
+            } else {
+                return null;
+            }
         }
     }
-
-
-
+    
+    
+    
     /**
      * Find Fit
      *
@@ -119,19 +124,18 @@ class IllApps_Shipsync_Model_Shipping_Package_Sort
      */
     public function findFit($package, $item)
     {
-        if ($item['dimensions'])
-        {
-            if (($this->findFitWeight($package, $item)) && ($this->findFitVolume($package, $item)) && ($this->itemFits($package, $item)))
-	    {
-		return true;
-	    }
+        if ($item['dimensions']) {
+            if (($this->findFitWeight($package, $item)) && ($this->findFitVolume($package, $item)) && ($this->itemFits($package, $item))) {
+                return true;
+            }
             return false;
+        } else {
+            return $this->findFitWeight($package, $item);
         }
-        else { return $this->findFitWeight($package, $item); }
     }
-
-
-
+    
+    
+    
     /**
      * Find Fit Volume
      *
@@ -143,12 +147,15 @@ class IllApps_Shipsync_Model_Shipping_Package_Sort
      */
     public function findFitVolume($package, $item)
     {
-        if ($item['volume'] <= $package['free_volume']) { return true; }
-        else { return false; }
+        if ($item['volume'] <= $package['free_volume']) {
+            return true;
+        } else {
+            return false;
+        }
     }
-
-
-
+    
+    
+    
     /**
      * Find Fit Weight
      *
@@ -160,10 +167,13 @@ class IllApps_Shipsync_Model_Shipping_Package_Sort
      */
     public function findFitWeight($package, $item)
     {
-        if ($item['weight'] <= $package['free_weight']) { return true; }
-        else { return false; }
+        if ($item['weight'] <= $package['free_weight']) {
+            return true;
+        } else {
+            return false;
+        }
     }
-
+    
     /**
      * Item Fits
      * 
@@ -176,40 +186,57 @@ class IllApps_Shipsync_Model_Shipping_Package_Sort
      * 
      */
     public function itemFits($package, $item)
-    {        
-        $arr = array($package['length'], $package['width'], $package['height']);
-        $cmp = array($item['length'], $item ['width'], $item['height']);
-
-        sort($arr); sort($cmp);
+    {
+        $arr = array(
+            $package['length'],
+            $package['width'],
+            $package['height']
+        );
+        $cmp = array(
+            $item['length'],
+            $item['width'],
+            $item['height']
+        );
+        
+        sort($arr);
+        sort($cmp);
         
         return $this->dimensionCheck($arr, $cmp);
     }
-
+    
     public function getPackageLongestSide($package)
     {
-        $arr = array($package['length'], $package['width'], $package['height']);
+        $arr = array(
+            $package['length'],
+            $package['width'],
+            $package['height']
+        );
         sort($arr);
         return $arr;
     }
-
+    
     public function getItemLongestSide($items)
     {
-        foreach ($items as $item)
-        {
+        foreach ($items as $item) {
             $longest_l[] = ($item['dimensions']) ? $item['length'] : 0;
             $longest_w[] = ($item['dimensions']) ? $item['width'] : 0;
             $longest_h[] = ($item['dimensions']) ? $item['height'] : 0;
         }
-        $arr = array(max($longest_l), max($longest_w), max($longest_h));
+        $arr = array(
+            max($longest_l),
+            max($longest_w),
+            max($longest_h)
+        );
         sort($arr);
         return $arr;
     }
-
+    
     public function dimensionCheck($arr, $cmp)
     {
-        foreach($arr as $key => $el)
-        {
-            if($cmp[$key] > $el) { return false; }
+        foreach ($arr as $key => $el) {
+            if ($cmp[$key] > $el) {
+                return false;
+            }
         }
         return true;
     }

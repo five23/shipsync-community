@@ -22,7 +22,7 @@ class IllApps_Shipsync_Model_Mysql4_Shipment_Package_Collection extends Mage_Cor
      */
     protected function _construct()
     {
-	$this->_init('shipping/shipment_package');
+		$this->_init('shipping/shipment_package');
     }
     
 }

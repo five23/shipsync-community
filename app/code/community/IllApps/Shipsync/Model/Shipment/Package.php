@@ -104,7 +104,7 @@ class IllApps_Shipsync_Model_Shipment_Package extends Mage_Core_Model_Abstract
     }
     
     /*
-     * Sequence number for MPS shipment
+     * Sequence number for  shipment
      *
      * @return int
      */

@@ -16,8 +16,8 @@
  */
 class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Image
 {
-
-
+    
+    
     /**
      * toOptionArray
      *
@@ -26,15 +26,17 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Image
     public function toOptionArray()
     {
         $fedex = Mage::getSingleton('usa/shipping_carrier_fedex');
-
+        
         $arr = array();
-
-        foreach ($fedex->getCode('label_image') as $key => $value)
-	{
-            $arr[] = array('value' => $key, 'label' => $value);
+        
+        foreach ($fedex->getCode('label_image') as $key => $value) {
+            $arr[] = array(
+                'value' => $key,
+                'label' => $value
+            );
         }
-
-	return $arr;
+        
+        return $arr;
     }
     
 }

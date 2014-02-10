@@ -22,8 +22,8 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
     protected $_shipResult;
     protected $_shipResultError;
     protected $_shipServiceClient;
-    protected $_shipServiceVersion = '10';
-    protected $_shipServiceWsdlPath = 'ShipService_v10.wsdl';
+    protected $_shipServiceVersion = '13';
+    protected $_shipServiceWsdlPath = 'ShipService_v13.wsdl';
     protected $_activeShipment;
     
     
@@ -68,6 +68,12 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
     {
         $shipRequest = Mage::getModel('shipsync/shipment_request');
         
+        if (Mage::getStoreConfig('carriers/fedex/shipper_company')) {
+            $shipRequest->setShipperCompany($shipRequest->getOrder()->getStoreName(1));
+        } else {
+            $shipRequest->setShipperCompany(Mage::app()->getStore()->getName());
+        }
+		
         $shipRequest->setOrderId($request->getOrderId());
         $shipRequest->setOrder(Mage::getModel('sales/order')->loadByIncrementId($shipRequest->getOrderId()));
         $shipRequest->setShipmentObject($request->getShipmentObject());
@@ -75,21 +81,13 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         $shipRequest->setPackages($request->getPackages());
         $shipRequest->setMethodCode($request->getMethodCode());
         $shipRequest->setServiceType($this->getUnderscoreCodeFromCode($shipRequest->getMethodCode()));
-        $shipRequest->setDropoffType($this->getUnderscoreCodeFromCode(Mage::getStoreConfig('carriers/fedex/dropoff')));
-        
-        if (Mage::getStoreConfig('carriers/fedex/shipper_company')) {
-            $shipRequest->setShipperCompany($shipRequest->getOrder()->getStoreName(1));
-        } else {
-            $shipRequest->setShipperCompany(Mage::app()->getStore()->getName());
-        }
-        
+        $shipRequest->setDropoffType($this->getUnderscoreCodeFromCode(Mage::getStoreConfig('carriers/fedex/dropoff')));                
         $shipRequest->setShipperStreetLines($request->getOrigStreet());
         $shipRequest->setShipperCity($request->getOrigCity());
         $shipRequest->setShipperPostalCode($request->getOrigPostcode());
         $shipRequest->setShipperCountryCode($request->getOrigCountryId());
         $shipRequest->setShipperPhone(Mage::getStoreConfig('shipping/origin/phone'));
-        $shipRequest->setShipperStateOrProvinceCode($request->getOrigRegionCode());
-        
+        $shipRequest->setShipperStateOrProvinceCode($request->getOrigRegionCode());        
         $shipRequest->setRecipientAddress($request->getRecipientAddress());
         $shipRequest->setInsureShipment($request->getInsureShipment());
         
@@ -101,15 +99,14 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         
         if ($request->getRequireSignature()) {
             $shipRequest->setRequireSignature('DIRECT');
-        }
-        
-        else {
+        } else {
             $shipRequest->setRequireSignature('SERVICE_DEFAULT');
         }
         
         if ($request->getSaturdayDelivery()) {
             $shipRequest->setSaturdayDelivery(true);
         }
+		
         if ($request->getCod()) {
             $shipRequest->setCod(true);
         }
@@ -119,6 +116,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         } else {
             $shipRequest->setResidential(Mage::getStoreConfig('carriers/fedex/residence_delivery'));
         }
+		
         $this->_shipRequest = $shipRequest;
         
         return $this;
@@ -135,10 +133,13 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         
         /** Iterate through each package to ship */
         foreach ($shipRequest->getPackages() as $packageToShip) {
-            $shipResponse = $this->_sendShipmentRequest($packageToShip);
-            /** Send shipment request */
-            $shipResult   = $this->_parseShipmentResponse($shipResponse);
-            /** Parse response */
+			
+            
+			/** Send shipment request */
+			$shipResponse = $this->_sendShipmentRequest($packageToShip);
+			
+			/** Parse response */
+            $shipResult   = $this->_parseShipmentResponse($shipResponse);            			
             
             /** Iterate through shipped packages */
             foreach ($shipResult->getPackages() as $packageShipped) {
@@ -159,7 +160,11 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                     $shipment->addItem($item);
                 }
                 
-                $track = Mage::getModel('sales/order_shipment_track')->setTitle($this->getCode('method', $shipRequest->getServiceType(), true))->setCarrierCode('fedex')->setNumber($packageShipped['tracking_number'])->setShipment($shipment);
+                $track = Mage::getModel('sales/order_shipment_track')
+					->setTitle($this->getCode('method', $shipRequest->getServiceType(), true))
+					->setCarrierCode('fedex')
+					->setNumber($packageShipped['tracking_number'])
+					->setShipment($shipment);
                 
                 if ($packageShipped['package_number'] == $shipRequest->getPackageCount()) {
                     $shipment->addTrack($track);
@@ -174,7 +179,31 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                 }
                 
                 #Mage::log($shipment->debug());
-                $pkg = Mage::getModel('shipping/shipment_package')->setOrderIncrementId($shipRequest->getOrder()->getIncrementId())->setOrderShipmentId($shipment->getEntityId())->setPackageItems($this->jsonPackageItems($packageToShip))->setCarrier('fedex')->setShippingMethod($track->getTitle())->setPackageType($this->getCode('packaging', $packageToShip->getContainerCode(), true))->setCarrierShipmentId($shipResult->getShipmentIdentificationNumber())->setWeightUnits($shipResult->getBillingWeightUnits())->setDimensionUnits($packageToShip->getDimensionUnitCode())->setWeight($shipResult->getBillingWeight())->setLength($packageToShip->getLength())->setWidth($packageToShip->getWidth())->setHeight($packageToShip->getHeight())->setTrackingNumber($packageShipped['tracking_number'])->setCurrencyUnits($shipResult->getCurrencyUnits())->setTransportationCharge($shipResult->getTransportationShippingCharges())->setServiceOptionCharge($shipResult->getServiceOptionsShippingCharges())->setShippingTotal($shipResult->getTotalShippingCharges())->setNegotiatedTotal($shipResult->getNegotiatedTotalShippingCharges())->setLabelFormat($packageShipped['label_image_format'])->setLabelImage($packageShipped['label_image'])->setCodLabelImage($packageShipped['cod_label_image'])->setDateShipped(date('Y-m-d H:i:s'))->save();
+                $pkg = Mage::getModel('shipping/shipment_package')
+					->setOrderIncrementId($shipRequest->getOrder()->getIncrementId())
+					->setOrderShipmentId($shipment->getEntityId())
+					->setPackageItems($this->jsonPackageItems($packageToShip))
+					->setCarrier('fedex')
+					->setShippingMethod($track->getTitle())
+					->setPackageType($this->getCode('packaging', $packageToShip->getContainerCode(), true))
+					->setCarrierShipmentId($shipResult->getShipmentIdentificationNumber())
+					->setWeightUnits($shipResult->getBillingWeightUnits())
+					->setDimensionUnits($packageToShip->getDimensionUnitCode())
+					->setWeight($shipResult->getBillingWeight())
+					->setLength($packageToShip->getLength())
+					->setWidth($packageToShip->getWidth())
+					->setHeight($packageToShip->getHeight())
+					->setTrackingNumber($packageShipped['tracking_number'])
+					->setCurrencyUnits($shipResult->getCurrencyUnits())
+					->setTransportationCharge($shipResult->getTransportationShippingCharges())
+					->setServiceOptionCharge($shipResult->getServiceOptionsShippingCharges())
+					->setShippingTotal($shipResult->getTotalShippingCharges())
+					->setNegotiatedTotal($shipResult->getNegotiatedTotalShippingCharges())
+					->setLabelFormat($packageShipped['label_image_format'])
+					->setLabelImage($packageShipped['label_image'])
+					->setCodLabelImage($packageShipped['cod_label_image'])
+					->setDateShipped(date('Y-m-d H:i:s'))
+					->save();
                 
                 $retval[] = $pkg;
             }
@@ -312,6 +341,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         
         // International shipments
         if ($shipRequest->getTransactionType() == 'International') {
+			
             // If tax ID number is present
             if ($this->getConfig('tax_id_number') != '') {
                 $request['TIN'] = $this->getConfig('tax_id_number');
@@ -321,6 +351,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
             
             // Iterate through package items
             foreach ($package->getItems() as $_item) {
+				
                 /** Load item by order item id */
                 $item = Mage::getModel('sales/order_item')->load($_item['id']);
                 
@@ -366,13 +397,17 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         }
         
         try {
-            Mage::Helper('shipsync')->mageLog($request, 'ship');
-            $response = $this->_shipServiceClient->processShipment($request);
-            #Mage::Helper('shipsync')->mageLog($this->_shipServiceClient->__getLastRequest(), 'soap_ship');
-            #Mage::Helper('shipsync')->mageLog($this->_shipServiceClient->__getLastResponse(), 'soap_ship');
-            Mage::Helper('shipsync')->mageLog($response, 'ship');
+            
+			Mage::Helper('shipsync')->mageLog($request, 'ship');
+            
+			$response = $this->_shipServiceClient->processShipment($request);
+            
+			//Mage::Helper('shipsync')->mageLog($this->_shipServiceClient->__getLastRequest(), 'soap_ship');
+            //Mage::Helper('shipsync')->mageLog($this->_shipServiceClient->__getLastResponse(), 'soap_ship');
+            
+			Mage::Helper('shipsync')->mageLog($response, 'ship');
         }
-        catch (SoapFault $ex) {
+		catch (SoapFault $ex) {
             throw Mage::exception('Mage_Shipping', $ex->getMessage());
         }
         

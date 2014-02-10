@@ -18,7 +18,7 @@
  */
 class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
 {
-
+    
     
     /**
      * storage for log messages
@@ -27,9 +27,9 @@ class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
      * @var array
      */
     static private $__log = array();
-
-
-
+    
+    
+    
     /**
      * if you call the log-funtion via Mage::helpers("debug")->log(...) set this to 0
      * if you created a shortcut like
@@ -44,28 +44,19 @@ class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
      * @var int
      */
     static private $__shiftupStackLevel = 1;
-
-
-
+    
+    
+    
     /**
      * translation of the log error names
      *
      * @access private
      * @var array
      */
-    static private $__levelNames = array(
-        0 => '[Error]',
-        1 => '[Error]',
-        2 => '[Error]',
-        3 => '[Error]',
-        4 => '[Warn]',
-        5 => '[Log]',
-        6 => '[Log]',
-        7 => '[Debug]',
-    );
-
-
-
+    static private $__levelNames = array(0 => '[Error]', 1 => '[Error]', 2 => '[Error]', 3 => '[Error]', 4 => '[Warn]', 5 => '[Log]', 6 => '[Log]', 7 => '[Debug]');
+    
+    
+    
     /**
      * logs a debug message
      *
@@ -74,25 +65,25 @@ class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
      * @param int $level log level
      * @return void
      */
-    public static function log($message, $level=7)
+    public static function log($message, $level = 7)
     {
         $backtrace = debug_backtrace();
-        $codeFile = str_replace(Mage::getRoot(),"",$backtrace[self::$__shiftupStackLevel]['file']);
-        $codeLine = $backtrace[self::$__shiftupStackLevel]['line'];
-
+        $codeFile  = str_replace(Mage::getRoot(), "", $backtrace[self::$__shiftupStackLevel]['file']);
+        $codeLine  = $backtrace[self::$__shiftupStackLevel]['line'];
+        
         $log = array(
-            'caption' => self::$__levelNames[$level].": ".$codeFile." in line ".$codeLine,
+            'caption' => self::$__levelNames[$level] . ": " . $codeFile . " in line " . $codeLine,
             'message' => self::__convertToStructure($message),
-            'stack' => self::__generateStack($backtrace),
+            'stack' => self::__generateStack($backtrace)
         );
-
+        
         self::$__log[] = $log;
         
         return Mage::getBlockSingleton('shipsync/firebug')->getLastLoggedAsHtml();
     }
-
-
-
+    
+    
+    
     /**
      * returns all currently logged messages
      *
@@ -103,9 +94,9 @@ class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return self::$__log;
     }
-
-
-
+    
+    
+    
     /**
      * generates logging structure for current stack
      *
@@ -116,18 +107,16 @@ class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
     private static function __generateStack($backtrace)
     {
         $i = self::$__shiftupStackLevel * (-1);
-        foreach($backtrace as $stackLevel) {
-            if(++$i < 2) continue;
-            $message =
-                str_replace(Mage::getRoot(),"", array_key_exists('file', $stackLevel) ? $stackLevel['file'] : "").
-                " in line " . (array_key_exists('line', $stackLevel) ? $stackLevel['line'] : "") .
-                " at function " . $stackLevel['function'];
+        foreach ($backtrace as $stackLevel) {
+            if (++$i < 2)
+                continue;
+            $message          = str_replace(Mage::getRoot(), "", array_key_exists('file', $stackLevel) ? $stackLevel['file'] : "") . " in line " . (array_key_exists('line', $stackLevel) ? $stackLevel['line'] : "") . " at function " . $stackLevel['function'];
             $return[$message] = null;
         }
         return $return;
     }
-
-
+    
+    
     
     /**
      * generates logging structure for given variable
@@ -138,47 +127,55 @@ class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
      */
     private static function __convertToStructure($var)
     {
-        if(is_array($var) or is_object($var)) $var = print_r($var, true);
-
+        if (is_array($var) or is_object($var))
+            $var = print_r($var, true);
+        
         $level = 0;
         $lines = array();
-        foreach(preg_split("/\n/", $var) as $line) {
-            if(preg_match("/^\s*\($/", $line)) {
+        foreach (preg_split("/\n/", $var) as $line) {
+            if (preg_match("/^\s*\($/", $line)) {
                 $level++;
                 $lines[$level] = array();
-            }
-            else if(preg_match("/^\s*\)$/", $line)) {
-                $lines[$level-1][$lastAdded[$level-1]] = $lines[$level];
+            } else if (preg_match("/^\s*\)$/", $line)) {
+                $lines[$level - 1][$lastAdded[$level - 1]] = $lines[$level];
                 $level--;
-            }
-            else if("" != ($line = trim($line))){
-                $lastAdded[$level] = $line;
+            } else if ("" != ($line = trim($line))) {
+                $lastAdded[$level]    = $line;
                 $lines[$level][$line] = null;
             }
         }
-        if(count($lines)>0) return $lines[0];
+        if (count($lines) > 0)
+            return $lines[0];
     }
-
+    
     public static function getNumberAsInt($str)
     {
-        switch($str)
-        {
-            case 'zero' : return 0;
-            case 'one'  : return 1;
-            case 'two'  : return 2;
-            case 'three': return 3;
-            case 'four' : return 4;
-            case 'five' : return 5;
-            case 'six'  : return 6;
-            case 'seven': return 7;
-            case 'eight': return 8;
+        switch ($str) {
+            case 'zero':
+                return 0;
+            case 'one':
+                return 1;
+            case 'two':
+                return 2;
+            case 'three':
+                return 3;
+            case 'four':
+                return 4;
+            case 'five':
+                return 5;
+            case 'six':
+                return 6;
+            case 'seven':
+                return 7;
+            case 'eight':
+                return 8;
         }
     }
-
+    
     public static function mageLog($var, $name)
     {
         if (Mage::getStoreConfig('carriers/fedex/mage_log')) {
-            Mage::log($var, null, 'shipsync_'.$name.'.log');
+            Mage::log($var, null, 'shipsync_' . $name . '.log');
         }
     }
 }

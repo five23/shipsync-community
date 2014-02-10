@@ -24,12 +24,12 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Origins
      */
     public function toOptionArray()
     {
-	return array
-	(
-	    array('value' => 'default', 'label' => Mage::helper('usa')->__('Default')),
-	    array('value' => 'origin_1', 'label' => Mage::helper('usa')->__('Origin 1')),
-	    array('value' => 'origin_2', 'label' => Mage::helper('usa')->__('Origin 1'))
-	);
-    }
+		return array
+		(
+	    	array('value' => 'default', 'label' => Mage::helper('usa')->__('Default')),
+	    	array('value' => 'origin_1', 'label' => Mage::helper('usa')->__('Origin 1')),
+	    	array('value' => 'origin_2', 'label' => Mage::helper('usa')->__('Origin 1'))
+		);
+	}
 
 }
