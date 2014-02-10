@@ -476,6 +476,51 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
         }
     }
     
+	/**
+     * Get origin based amount form response of rate estimation
+     *
+     * @param stdClass $rate
+     * @return null|float
+     */
+    protected function _getRateAmountOriginBased($rate)
+    {
+        $amount = null;
+        $rateTypeAmounts = array();
+
+        if (is_object($rate)) {
+            // The "RATED..." rates are expressed in the currency of the origin country
+            foreach ($rate->RatedShipmentDetails as $ratedShipmentDetail) {
+                $netAmount = (string)$ratedShipmentDetail->ShipmentRateDetail->TotalNetCharge->Amount;
+                $rateType = (string)$ratedShipmentDetail->ShipmentRateDetail->RateType;
+                $rateTypeAmounts[$rateType] = $netAmount;
+            }
+
+            // Order is important
+            $ratesOrder = array(
+                'RATED_ACCOUNT_PACKAGE',
+                'PAYOR_ACCOUNT_PACKAGE',
+                'RATED_ACCOUNT_SHIPMENT',
+                'PAYOR_ACCOUNT_SHIPMENT',
+                'RATED_LIST_PACKAGE',
+                'PAYOR_LIST_PACKAGE',
+                'RATED_LIST_SHIPMENT',
+                'PAYOR_LIST_SHIPMENT'
+            );
+            foreach ($ratesOrder as $rateType) {
+                if (!empty($rateTypeAmounts[$rateType])) {
+                    $amount = $rateTypeAmounts[$rateType];
+                    break;
+                }
+            }
+
+            if (is_null($amount)) {
+                $amount = (string)$rate->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount;
+            }
+        }
+
+        return $amount;
+    }
+	
     protected function _doShipmentRequest(Varien_Object $request)
     {
     }

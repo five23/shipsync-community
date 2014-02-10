@@ -263,6 +263,10 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
     {
         $shipRequest = $this->_shipRequest;
         
+		$dimensionsUnits = $package->getDimensionUnits() == Zend_Measure_Length::INCH ? 'IN' : 'CM';
+		$weightUnits = $package->getWeightUnits() == Zend_Measure_Weight::POUND ? 'LB' : 'KG';
+		$weight = $package->getFormattedWeight();        
+		
         $request = $this->_prepareShipmentHeader();
         
         // Shipment request
@@ -288,15 +292,20 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
             'ShippingChargesPayment' => array(
                 'PaymentType' => $shipRequest->getPayorType(),
                 'Payor' => array(
-                    'AccountNumber' => $shipRequest->getPayorAccount(),
-                    'CountryCode' => $shipRequest->getPayorAccountCountry()
+					'ResponsibleParty' => array(
+                    	'AccountNumber' => $shipRequest->getPayorAccount(),
+						'Contact' => null,
+						'Address' => array(
+                    		'CountryCode' => $shipRequest->getPayorAccountCountry()
+						)
+					)
                 )
-            ),
+            ),			
             'RequestedPackageLineItems' => array(
                 'SequenceNumber' => $package->getSequenceNumber(),
                 'Weight' => array(
-                    'Value' => $package->getFormattedWeight(),
-                    'Units' => $package->getWeightUnit()
+                    'Value' => $weight,
+                    'Units' => $weightUnits
                 ),
                 'CustomerReferences' => array(
                     '0' => array(
@@ -347,8 +356,8 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                 $request['TIN'] = $this->getConfig('tax_id_number');
             }
             
-            $itemdetails = array();
-            
+            $itemdetails = array();            
+				
             // Iterate through package items
             foreach ($package->getItems() as $_item) {
 				
@@ -360,10 +369,10 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                     'Description' => $item->getName(),
                     'CountryOfManufacture' => $shipRequest->getStore()->getConfig('shipping/origin/country_id'),
                     'Weight' => array(
-                        'Value' => $item->getFormattedWeight(),
-                        'Units' => $item->getWeightUnits()
+                        'Value' => $weight,
+                        'Units' => $weightUnits
                     ),
-                    'Quantity' => $item->getQty(),
+                    'Quantity' => $item->getQtyOrdered(),
                     'QuantityUnits' => 'EA',
                     'UnitPrice' => array(
                         'Amount' => sprintf('%01.2f', $item->getPrice()),
@@ -380,8 +389,13 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                 'DutiesPayment' => array(
                     'PaymentType' => 'SENDER',
                     'Payor' => array(
-                        'AccountNumber' => $this->getFedexAccount(),
-                        'CountryCode' => Mage::getStoreConfig('carriers/fedex/account_country')
+						'ResponsibleParty' => array(
+                        	'AccountNumber' => $this->getFedexAccount(),
+							'Contact' => null,
+							'Address' => array(
+                        		'CountryCode' => Mage::getStoreConfig('carriers/fedex/account_country')
+							)
+						)
                     )
                 ),
                 'DocumentContent' => 'NON_DOCUMENTS',
