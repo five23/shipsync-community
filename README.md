@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-ShipSync Community
+ShipSync Community 5
 ==================
 Advanced FedEx Web Services Integration for Magento
 ------------------
@@ -8,8 +7,8 @@ ShipSync is an extension that seeks to improve support for FedEx, providing accu
 
 Magento Requirements
 
-  * Magento Community v1.3+ 
-  * Magento Enterprise v1.6+ 
+  * Magento Community v1.8+
+  * Magento Enterprise v1.6+
 
 Supported Systems
 
