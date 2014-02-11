@@ -260,9 +260,9 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         
 		$dimensionUnits = $package->getDimensionUnits() == Zend_Measure_Length::INCH ? 'IN' : 'CM';
 		$weightUnits = $package->getWeightUnits() == Zend_Measure_Weight::POUND ? 'LB' : 'KG';
-		$weight = $package->getFormattedWeight();
-		
+		$weight = $package->getFormattedWeight();		
         $request = $this->_prepareShipmentHeader();
+		$customsValue = $shipRequest->getInsureAmount();
         
         // Shipment request
         $request['RequestedShipment'] = array(
@@ -357,8 +357,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
             foreach ($package->getItems() as $_item) {
 				
                 /** Load item by order item id */
-                $item = Mage::getModel('sales/order_item')->load($_item['id']);
-                
+                $item = Mage::getModel('sales/order_item')->load($_item['id']);                
 				
                 $itemdetails[] = array(
                     'NumberOfPieces' => 1,
@@ -375,7 +374,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                         'Currency' => $this->getCurrencyCode()
                     ),
                     'CustomsValue' => array(
-                        'Amount' => sprintf('%01.2f', ($item->getPrice() * $item->getQty())),
+                        'Amount' => sprintf('%01.2f', ($item->getPrice() * $item->getQtyOrdered())),
                         'Currency' => $this->getCurrencyCode()
                     )
                 );
@@ -396,7 +395,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                 ),
                 'DocumentContent' => 'NON_DOCUMENTS',
                 'CustomsValue' => array(
-                    'Amount' => sprintf('%01.2f', $item->getPackageValue()),
+                    'Amount' => sprintf('%01.2f', $customsValue),
                     'Currency' => $this->getCurrencyCode()
                 ),
                 'Commodities' => $itemdetails,
@@ -405,7 +404,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                 )
             );
         }
-        
+        		
         try {
             
 			Mage::Helper('shipsync')->mageLog($request, 'ship');
