@@ -237,22 +237,12 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
     public function getItemsById($packageToShip)
     {
         $itemsById = array();
-<<<<<<< HEAD
-        
+
         foreach ($packageToShip->getItems() as $itemToShip) {
             $id                        = $itemToShip['id'];
             $count                     = isset($itemsById[$id]['qty_to_ship']) ? $itemsById[$id]['qty_to_ship'] : 0;
             $itemToShip['qty_to_ship'] = 1 + $count;
-            $itemsById[$id]            = $itemToShip;
-=======
-
-        foreach ($packageToShip->getItems() as $itemToShip)
-        {
-            $id = $itemToShip['id'];
-            $count = isset($itemsById[$id]['qty_to_ship']) ? $itemsById[$id]['qty_to_ship'] : 0;
-            $itemToShip['qty_to_ship'] = ($itemToShip['is_decimal_qty'] ? $itemToShip['qty'] : 1) + $count;
-            $itemsById[$id] = $itemToShip;
->>>>>>> origin/develop
+            $itemsById[$id]            = $itemToShip;        
         }
         
         return $itemsById;
