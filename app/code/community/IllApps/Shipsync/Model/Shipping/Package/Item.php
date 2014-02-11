@@ -44,11 +44,11 @@ class IllApps_Shipsync_Model_Shipping_Package_Item
             
             $product = Mage::getModel('catalog/product')->load($item->getProductId());
             
-            if ($toShip) {
+            if ($item->getIsQtyDecimal()) {
+                $itemQty = 1;
+            } elseif ($toShip) {
                 $itemQty = $item->getQtyToShip();
-            }
-            
-            else {
+            } else {
                 $itemQty = $item->getQty() > 0 ? $item->getQty() : 1;
             }
             
@@ -63,15 +63,16 @@ class IllApps_Shipsync_Model_Shipping_Package_Item
                     $_items[$i]['dangerous'] = $product->getDangerousGoods();
                 }
                 
-                $_items[$i]['id']            = $item->getItemId();
-                $_items[$i]['product_id']    = $item->getProductId();
-                $_items[$i]['name']          = $item->getName();
-                $_items[$i]['weight']        = $item->getWeight();
-                $_items[$i]['qty']           = $item->getQtyOrdered();
-                $_items[$i]['value']         = $product->getPrice();
-                $_items[$i]['special']       = $product->getSpecialPackaging();
-                $_items[$i]['free_shipping'] = $product->getFreeShipping();
-                $_items[$i]['alt_origin']    = 0; //(int) $product->getProductOrigin();
+                $_items[$i]['id']             = $item->getItemId();
+                $_items[$i]['product_id']     = $item->getProductId();
+                $_items[$i]['name']           = $item->getName();
+                $_items[$i]['weight']         = $item->getIsQtyDecimal() ? $item->getQtyOrdered() * $item->getWeight() : $item->getWeight();
+                $_items[$i]['qty']            = $item->getQtyOrdered();
+                $_items[$i]['value']          = $product->getPrice();
+                $_items[$i]['special']        = $product->getSpecialPackaging();
+                $_items[$i]['free_shipping']  = $product->getFreeShipping();
+                $_items[$i]['alt_origin']     = 0; //(int) $product->getProductOrigin();
+                $_items[$i]['is_decimal_qty'] = $item->getIsQtyDecimal();
                 
                 if (Mage::getStoreConfig('carriers/fedex/enable_dimensions') && $product->getWidth() && $product->getHeight() && $product->getLength()) {
                     $_items[$i]['dimensions'] = true;

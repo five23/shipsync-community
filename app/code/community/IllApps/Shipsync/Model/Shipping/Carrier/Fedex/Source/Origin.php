@@ -12,7 +12,7 @@
 
 
 /**
- * IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unit
+ * IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Origins
  */
 class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Origins
 {

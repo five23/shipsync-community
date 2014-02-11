@@ -67,13 +67,8 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
     public function setShipRequest($request)
     {
         $shipRequest = Mage::getModel('shipsync/shipment_request');
-        
-        if (Mage::getStoreConfig('carriers/fedex/shipper_company')) {
-            $shipRequest->setShipperCompany($shipRequest->getOrder()->getStoreName(1));
-        } else {
-            $shipRequest->setShipperCompany(Mage::app()->getStore()->getName());
-        }
-		
+
+        $shipRequest->setShipperCompany(Mage::app()->getStore()->getFrontendName());		
         $shipRequest->setOrderId($request->getOrderId());
         $shipRequest->setOrder(Mage::getModel('sales/order')->loadByIncrementId($shipRequest->getOrderId()));
         $shipRequest->setShipmentObject($request->getShipmentObject());
@@ -263,9 +258,9 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
     {
         $shipRequest = $this->_shipRequest;
         
-		$dimensionsUnits = $package->getDimensionUnits() == Zend_Measure_Length::INCH ? 'IN' : 'CM';
+		$dimensionUnits = $package->getDimensionUnits() == Zend_Measure_Length::INCH ? 'IN' : 'CM';
 		$weightUnits = $package->getWeightUnits() == Zend_Measure_Weight::POUND ? 'LB' : 'KG';
-		$weight = $package->getFormattedWeight();        
+		$weight = $package->getFormattedWeight();
 		
         $request = $this->_prepareShipmentHeader();
         
@@ -276,8 +271,8 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
             'ServiceType' => $shipRequest->getServiceType(),
             'PackagingType' => $this->getFedexBoxType($package->getContainerCode()),
             'TotalWeight' => array(
-                'Value' => $package->getFormattedWeight(),
-                'Units' => $package->getWeightUnit()
+                'Value' => $weight,
+                'Units' => $weightUnits
             ),
             'Shipper' => $shipRequest->getShipperDetails(),
             'Recipient' => $shipRequest->getRecipientDetails(),
@@ -331,7 +326,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                 'Length' => $package->getRoundedLength(),
                 'Width' => $package->getRoundedWidth(),
                 'Height' => $package->getRoundedHeight(),
-                'Units' => $this->getDimensionUnits() == Zend_Measure_Length::INCH ? 'IN' : 'CM'
+                'Units' => $dimensionUnits
             );
         }
         
@@ -364,12 +359,13 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                 /** Load item by order item id */
                 $item = Mage::getModel('sales/order_item')->load($_item['id']);
                 
+				
                 $itemdetails[] = array(
                     'NumberOfPieces' => 1,
                     'Description' => $item->getName(),
                     'CountryOfManufacture' => $shipRequest->getStore()->getConfig('shipping/origin/country_id'),
                     'Weight' => array(
-                        'Value' => $weight,
+                        'Value' => $item->getWeight(),
                         'Units' => $weightUnits
                     ),
                     'Quantity' => $item->getQtyOrdered(),
@@ -384,7 +380,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                     )
                 );
             }
-            
+			
             $request['RequestedShipment']['CustomsClearanceDetail'] = array(
                 'DutiesPayment' => array(
                     'PaymentType' => 'SENDER',

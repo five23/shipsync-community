@@ -49,7 +49,7 @@ class IllApps_Shipsync_Block_Adminhtml_Shipsync extends Mage_Adminhtml_Block_Wid
         $this->setMethodCode($this->getShippingMethod(1)); // Set method code
         $this->setMethod($this->getCarrier()->getCode('method', $this->getMethodCode())); // Set method	
         $this->setAllowedMethods(explode(",", Mage::getStoreConfig('carriers/fedex/allowed_methods'))); // Set allowed methods	
-        $this->setDimensionUnits($this->getCarrier()->getDimensionUnits() == Zend_Measure_Length::INCH ? 'IN' : 'CM'); // Set dimension units
+        $this->setDimensionUnits($this->getCarrier()->getDimensionUnits()); // Set dimension units
         $this->setWeightUnits($this->getCarrier()->getWeightUnits()); // Set weight units	
         $this->setSaturdayDelivery((bool) strpos($this->getOrder()->getShippingDescription(), 'Saturday Delivery')); // Determine if shipment delivers on Saturday
         

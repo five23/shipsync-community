@@ -15,7 +15,7 @@
 <config>
   <modules>
     <IllApps_Shipsync>
-      <version>0.2.7</version>
+      <version>0.5.0</version>
       <depends>
         <Mage_Usa/>
         <Mage_Sales/>
@@ -222,7 +222,7 @@
         <free_shipping_enable>0</free_shipping_enable>
         <residence_delivery>1</residence_delivery>
         <enable_dimensions>1</enable_dimensions>
-        <unit_of_measure>LBS</unit_of_measure>
+        <unit_of_measure>LB</unit_of_measure>
         <rate_type>ACCOUNT</rate_type>
         <test_mode>1</test_mode>
         <disable_rating>0</disable_rating>

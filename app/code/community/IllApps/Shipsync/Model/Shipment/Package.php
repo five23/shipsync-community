@@ -51,15 +51,6 @@ class IllApps_Shipsync_Model_Shipment_Package extends Mage_Core_Model_Abstract
      */
     public function getFormattedWeight()
     {
-        if ($this->getWeightUnit()) {
-        } elseif ($this->getWeightUnitCode() == 'G') {
-            $this->setWeight($this->getWeight() * 0.001);
-            
-            $this->setWeightUnit('KG');
-        } else {
-            $this->setWeightUnit($this->getWeightUnitCode());
-        }
-        
         return $this->getRoundedWeight();
     }
     

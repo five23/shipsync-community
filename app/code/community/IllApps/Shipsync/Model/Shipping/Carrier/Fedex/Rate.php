@@ -373,16 +373,20 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
             $request['RequestedShipment']['ShippingChargesPayment'] = array(
                 'PaymentType' => 'THIRD_PARTY',
                 'Payor' => array(
-                    'AccountNumber' => $rateRequest->getThirdPartyFedexAccount(),
-                    'CountryCode' => $rateRequest->getThirdPartyFedexAccountCountry()
+					'ResponsibleParty' => array(
+                    	'AccountNumber' => $rateRequest->getThirdPartyFedexAccount(),
+                    	'CountryCode' => $rateRequest->getThirdPartyFedexAccountCountry()
+					)
                 )
             );
         } else {
             $request['RequestedShipment']['ShippingChargesPayment'] = array(
                 'PaymentType' => 'SENDER',
                 'Payor' => array(
-                    'AccountNumber' => $this->getFedexAccount(),
-                    'CountryCode' => $this->getFedexAccountCountry()
+					'ResponsibleParty' => array(
+                    	'AccountNumber' => $this->getFedexAccount(),
+                    	'CountryCode' => $this->getFedexAccountCountry()
+					)
                 )
             );
         }
@@ -417,22 +421,73 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
         
         $request['RequestedShipment']['Recipient']['Address']['CountryCode'] = $rateRequest->getDestCountry();
         
+		/*
+		<CustomsClearanceDetail>
+               <DutiesPayment>
+                  <PaymentType>SENDER</PaymentType>
+                  <Payor>
+                     <ResponsibleParty>
+                        <AccountNumber>"Input Your Information"</AccountNumber>
+                        <Tins>
+                           <TinType>BUSINESS_STATE</TinType>
+                           <Number>123456</Number>
+                        </Tins>
+                     </ResponsibleParty>
+                  </Payor>
+               </DutiesPayment>
+               <DocumentContent>DOCUMENTS_ONLY</DocumentContent>
+               <CustomsValue>
+                  <Currency>USD</Currency>
+                  <Amount>100.00</Amount>
+               </CustomsValue>
+               <CommercialInvoice>
+                  <TermsOfSale>FOB_OR_FCA</TermsOfSale>
+               </CommercialInvoice>
+               <Commodities>
+                  <NumberOfPieces>1</NumberOfPieces>
+                  <Description>ABCD</Description>
+                  <CountryOfManufacture>US</CountryOfManufacture>
+                  <Weight>
+                     <Units>LB</Units>
+                     <Value>1.0</Value>
+                  </Weight>
+                  <Quantity>1</Quantity>
+                  <QuantityUnits>cm</QuantityUnits>
+                  <UnitPrice>
+                     <Currency>USD</Currency>
+                     <Amount>1.000000</Amount>
+                  </UnitPrice>
+                  <CustomsValue>
+                     <Currency>USD</Currency>
+                     <Amount>100.000000</Amount>
+                  </CustomsValue>
+               </Commodities>
+               <ExportDetail>
+                  <ExportComplianceStatement>30.37(f)</ExportComplianceStatement>
+               </ExportDetail>
+            </CustomsClearanceDetail>
+			*/
+		
         if ($rateRequest->getOrigCountry() != $rateRequest->getDestCountry()) {
             $request['RequestedShipment']['CustomsClearanceDetail'] = array(
                 'DutiesPayment' => array(
                     'PaymentType' => 'SENDER',
                     'Payor' => array(
-                        'AccountNumber' => $this->getFedexAccount(),
-                        'CountryCode' => $rateRequest->getOrigCountry()
+						'ResponsibleParty' => array(
+                        	'AccountNumber' => $this->getFedexAccount(),
+                        	'CountryCode' => $rateRequest->getOrigCountry()
+						)
                     )
                 ),
+				'DocumentContent' => 'NON_DOCUMENTS',
                 'CustomsValue' => array(
                     'Currency' => $this->getCurrencyCode(),
                     'Amount' => $rateRequest->getValue()
-                )
+                ),
+				/*'CommercialInvoice' => array(
+					'TermsOfSale' => 'FOB_OR_FCA' // 'CFR_OR_CPT', etc...
+				)*/
             );
-            //'DocumentContent' => 'DOCUMENTS_ONLY'
-            //'TermsOfSale'   => 'CFR_OR_CPT'
         }
         if ($rateRequest->getItems()) {
             if ($rateRequest->getPackages()) {
@@ -454,13 +509,8 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                 $i = 0;
                 
                 foreach ($packages as $package) {
-                    #$request['RequestedShipment']['ServiceType'] = 'SMART_POST';
-                    $weightUnit = Mage::getModel('shipsync/shipping_carrier_fedex')->getWeightUnits();
-                    
-                    if ($weightUnit == 'G') {
-                        $package['weight'] = $package['weight'] * 0.001;
-                        $weightUnit        = 'KG';
-                    }
+					
+                    $weightUnit = (Mage::getModel('shipsync/shipping_carrier_fedex')->getWeightUnits()  == Zend_Measure_Weight::POUND ? 'LB' : 'KG');                    
                     
                     $weight = (isset($package['weight']) && round($package['weight'], 1) > 0) ? round($package['weight'], 1) : 0.1;
                     $length = (isset($package['length']) && round($package['length']) > 0) ? round($package['length']) : 1;
@@ -470,13 +520,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                     if ($this->getEnableSmartPost() && ($weight < 1)) {
                         $weight = 1;
                     }
-                    
-                    /*
-                    if (($length < 6)) { $length = 6;}
-                    if (($width < 4)) { $width = 4;}
-                    if (($height < 1)) { $height = 1;}
-                    */
-                    
+					
                     $request['RequestedShipment']['RequestedPackageLineItems'][$i]['SequenceNumber'] = $i + 1;
                     $request['RequestedShipment']['RequestedPackageLineItems'][$i]['GroupPackageCount'] = $i + 1;                    
                     $request['RequestedShipment']['RequestedPackageLineItems'][$i]['Weight'] = array(
@@ -485,15 +529,18 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                     );
                     
                     if ($rateRequest->getOrigCountry() != $rateRequest->getDestCountry()) {
+						
                         $itemsById = $this->getItemsById($package['items']);
                         
                         foreach ($itemsById as $qty => $item) {
+							
                             $itemValue     = isset($package['package_value']) && $package['package_value'] < $item['value'] ? $package['package_value'] : $item['value'];
+							
                             $itemName      = preg_replace('/[^\w\d_ -]/si', '', $item['name']);
+							
                             $commodities[] = array(
-                                'Name' => $itemName,
                                 'NumberOfPieces' => 1,
-                                'Description' => $itemName,
+								'Description' => $itemName,
                                 'CountryOfManufacture' => $rateRequest->getOrigCountry(),
                                 'Weight' => array(
                                     'Units' => $weightUnit,
@@ -512,15 +559,18 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                             );
                         }
                     }
-                    
+					
                     if (isset($commodities)) {
                         $request['RequestedShipment']['CustomsClearanceDetail']['Commodities'] = $commodities;
                     }
                     
                     if ($rateRequest->getInsureShipment()) {
+						
                         $request['RequestedShipment']['RequestedPackageLineItems'][$i]['InsuredValue']['Amount']   = $rateRequest->getInsureAmount();
                         $request['RequestedShipment']['RequestedPackageLineItems'][$i]['InsuredValue']['Currency'] = $this->getCurrencyCode();
+						
                     } else if (Mage::getStoreConfig('carriers/fedex/rating_insured_value')) {
+						
                         if (isset($package['package_value'])) {
                             $package_value = $package['package_value'];
                         } else {
@@ -563,11 +613,9 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
             Mage::Helper('shipsync')->log($request);
         }
         try {
-            Mage::Helper('shipsync')->mageLog($request, 'rate');
-            $response = $rateServiceClient->getRates($request);
-            Mage::Helper('shipsync')->mageLog($rateServiceClient->__getLastRequest(), 'soap_rate');
-            Mage::Helper('shipsync')->mageLog($rateServiceClient->__getLastResponse(), 'soap_rate');
-            Mage::Helper('shipsync')->mageLog($response, 'rate');
+            Mage::Helper('shipsync')->mageLog($request, 'rate');			
+            $response = $rateServiceClient->getRates($request);            
+			Mage::Helper('shipsync')->mageLog($response, 'rate');
         }
         catch (SoapFault $ex) {
             $this->_rateResultError = $ex->getMessage();
@@ -674,7 +722,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                     }
                 }
                 
-                if ($rateType == 'PREFERRED') {
+                if (!Mage::getStoreConfig('carriers/fedex/test_mode') && ($rateType == 'PREFERRED')) {
                     if (is_array($rateReply->RatedShipmentDetails)) {
                         
                         foreach ($rateReply->RatedShipmentDetails as $ratedShipmentDetail) {
@@ -751,11 +799,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                     );
                     
                     $freeMethods = explode(",", $freeMethods[0]);
-                    
-                    /*if ($freeMethods[0] == 'GROUNDHOMEDELIVERY' || $freeMethods[0] == 'FEDEXGROUND')
-                    {
-                    $freeMethods = array('GROUNDHOMEDELIVERY', 'FEDEXGROUND');
-                    }*/
                     
                     if (in_array($rateResultMethod->getMethod(), $freeMethods) && $value > Mage::getStoreConfig('carriers/fedex/free_shipping_subtotal')) {
                         if (Mage::getStoreConfig('carriers/fedex/free_shipping_enable_all')) {
