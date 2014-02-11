@@ -222,7 +222,6 @@ class IllApps_Shipsync_Model_Shipping_Package
             }
         }
         
-<<<<<<< HEAD
         if (isset($_packages)) {
             $this->optimizePackages($defaultPackages, $_packages);
         }
@@ -232,20 +231,7 @@ class IllApps_Shipsync_Model_Shipping_Package
                 $_packages[] = $specialPackage;
             }
         }
-=======
-	if (isset($_packages))
-	{
-	    $this->optimizePackages($defaultPackages, $_packages);
-	}
 
-	if (isset($specialPackages) && is_array($specialPackages))
-	{
-	    foreach ($specialPackages as $specialPackage)
-	    {
-		$_packages[] = $specialPackage;
-	    }
-	}
->>>>>>> origin/develop
         $this->setPackageOrigin($_packages);
         
         return $_packages;
