@@ -1,7 +1,7 @@
 ShipSync Community 5
-==================
+====================
 Advanced FedEx Web Services Integration for Magento
-------------------
+---------------------------------------------------
 
 ShipSync is an extension that seeks to improve support for FedEx, providing accurate rate requests, address validation, shipment creation (from within Magento's admin panel), and label generation in a variety of formats (PDF, PNG, Thermal, etc.). This extension was born out of necessity, saving hours by eliminating the need to copy/paste addresses, tracking codes, and labels. Instead of swiveling between Magento and FedEx’s online site (or shipping manager), you can now perform the entire process from Magento’s admin panel.
 
@@ -185,13 +185,3 @@ Certification for Third-Party Consultants
 
   * Consultants developing on behalf of a corporate customer must ensure that their client provides their account information and a signed End User License Agreement (EULA) to FedEx in order to obtain production credentials.
 
-  
-  
-
-  
-  
-
-=======
-shipsync-community
-==================
->>>>>>> origin/develop
