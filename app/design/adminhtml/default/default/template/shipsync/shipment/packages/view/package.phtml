@@ -1,5 +1,4 @@
-<?php $package=$ this->getActivePackage(); ?>
-
+<?php $package=$this->getActivePackage(); ?>
 <div class="grid np">
 	<div class="hor-scroll">
 		<table cellspacing="0" class="data order-tables">
@@ -27,7 +26,6 @@
 			</thead>
 			<tbody>
 				<tr>
-
 					<?php $dimUnit=( $package->getDimensionUnits() == Zend_Measure_Length::INCH ? 'IN':'CM') ?>
 					<td><?php echo $package->getPackageType() ?></td>
 					<td><?php echo $package->getWeight() . ' ' . $package->getWeightUnits() ?></td>

@@ -482,9 +482,8 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
             );
             $specialServiceTypes[]                                                                 = 'DANGEROUS_GOODS';
         }
-<<<<<<< HEAD
-        
-        if ($this->_shipRequest->getCod()) {
+		
+		if ($this->_shipRequest->getCod()) {
             $request['RequestedShipment']['SpecialServicesRequested'] = array(
                 'CodDetail' => array(
                     'CodCollectionAmount' => array(
@@ -497,14 +496,9 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
             $specialServiceTypes[]                                    = 'COD';
         }
         
-        if (isset($specialServiceTypes)) {
-            $request['RequestedShipment']['SpecialServicesRequested']['SpecialServiceTypes'] = $specialServiceTypes;
-=======
-
         if (isset($specialServiceTypes))
         {
             $request['RequestedShipment']['RequestedPackageLineItems']['SpecialServicesRequested']['SpecialServiceTypes'] = $specialServiceTypes;
->>>>>>> origin/develop
         }
         
         return $request;
