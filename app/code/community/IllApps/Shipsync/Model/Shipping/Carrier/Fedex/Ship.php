@@ -237,12 +237,22 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
     public function getItemsById($packageToShip)
     {
         $itemsById = array();
+<<<<<<< HEAD
         
         foreach ($packageToShip->getItems() as $itemToShip) {
             $id                        = $itemToShip['id'];
             $count                     = isset($itemsById[$id]['qty_to_ship']) ? $itemsById[$id]['qty_to_ship'] : 0;
             $itemToShip['qty_to_ship'] = 1 + $count;
             $itemsById[$id]            = $itemToShip;
+=======
+
+        foreach ($packageToShip->getItems() as $itemToShip)
+        {
+            $id = $itemToShip['id'];
+            $count = isset($itemsById[$id]['qty_to_ship']) ? $itemsById[$id]['qty_to_ship'] : 0;
+            $itemToShip['qty_to_ship'] = ($itemToShip['is_decimal_qty'] ? $itemToShip['qty'] : 1) + $count;
+            $itemsById[$id] = $itemToShip;
+>>>>>>> origin/develop
         }
         
         return $itemsById;
@@ -482,6 +492,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
             );
             $specialServiceTypes[]                                                                 = 'DANGEROUS_GOODS';
         }
+<<<<<<< HEAD
         
         if ($this->_shipRequest->getCod()) {
             $request['RequestedShipment']['SpecialServicesRequested'] = array(
@@ -498,6 +509,12 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         
         if (isset($specialServiceTypes)) {
             $request['RequestedShipment']['SpecialServicesRequested']['SpecialServiceTypes'] = $specialServiceTypes;
+=======
+
+        if (isset($specialServiceTypes))
+        {
+            $request['RequestedShipment']['RequestedPackageLineItems']['SpecialServicesRequested']['SpecialServiceTypes'] = $specialServiceTypes;
+>>>>>>> origin/develop
         }
         
         return $request;

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ShipSync Community
 ==================
 Advanced FedEx Web Services Integration for Magento
@@ -191,3 +192,7 @@ Certification for Third-Party Consultants
   
   
 
+=======
+shipsync-community
+==================
+>>>>>>> origin/develop

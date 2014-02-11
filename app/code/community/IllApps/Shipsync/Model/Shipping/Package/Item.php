@@ -30,6 +30,7 @@ class IllApps_Shipsync_Model_Shipping_Package_Item
         $i = 0;
         
         $packageSort = Mage::getModel('shipsync/shipping_package_sort');
+<<<<<<< HEAD
         
         foreach ($items as $item) {
             if ($item->getParentItem() && !$item->isShipSeparately()) {
@@ -108,6 +109,86 @@ class IllApps_Shipsync_Model_Shipping_Package_Item
                 
                 $i++;
             }
+=======
+
+        foreach ($items as $item)
+        {            
+	    if ($item->getParentItem()  && !$item->isShipSeparately()) { continue; }
+	    if ($item->getHasChildren() &&  $item->isShipSeparately()) { continue; }
+	    if ($item->getIsVirtual())				       { continue; }
+
+	    $product = Mage::getModel('catalog/product')->load($item->getProductId());
+
+            if($item->getIsQtyDecimal()) { $itemQty = 1; }
+	    elseif ($toShip) { $itemQty = $item->getQtyToShip(); }
+	    else	 { $itemQty = $item->getQty() > 0 ? $item->getQty() : 1; }
+
+	    while ($itemQty > 0)
+	    {				
+		if ($toShip)
+		{		    
+
+		    $_items[$i]['status']     = $item->getStatus();
+		    $_items[$i]['sku']	      = $item->getSku();
+
+		    $_items[$i]['weight']     = round($item->getWeight(), 2) > 0 ? round($item->getWeight(), 2) : 0.1;
+
+		    $_items[$i]['dangerous']  = $product->getDangerousGoods();
+		}
+
+                $_items[$i]['id']	     = $item->getItemId();
+                $_items[$i]['product_id']    = $item->getProductId();
+		$_items[$i]['name']	     = $item->getName();
+		$_items[$i]['weight']	     = $item->getIsQtyDecimal() ? $item->getQtyOrdered() * $item->getWeight() : $item->getWeight();
+                $_items[$i]['qty']           = $item->getQtyOrdered();
+		$_items[$i]['value']	     = $product->getPrice();
+		$_items[$i]['special']	     = $product->getSpecialPackaging();
+                $_items[$i]['free_shipping'] = $product->getFreeShipping();
+                $_items[$i]['alt_origin']    = 0; //(int) $product->getProductOrigin();
+                $_items[$i]['is_decimal_qty']= $item->getIsQtyDecimal();
+
+		if (Mage::getStoreConfig('carriers/fedex/enable_dimensions')
+			&& $product->getWidth() && $product->getHeight() && $product->getLength())
+		{
+		    $_items[$i]['dimensions'] = true;
+
+		    if ($toShip)
+		    {
+			$itemLength = round($product->getLength(), 2) > 0 ? round($product->getLength(), 2) : 1;
+			$itemWidth  = round($product->getWidth(),  2) > 0 ? round($product->getWidth(),  2) : 1;
+			$itemHeight = round($product->getHeight(), 2) > 0 ? round($product->getHeight(), 2) : 1;
+
+			$itemVolume = round($itemLength * $itemWidth * $itemHeight);
+		    }
+		    else
+		    {
+			$itemLength = $product->getLength();
+			$itemWidth  = $product->getWidth();
+			$itemHeight = $product->getHeight();
+			
+			$itemVolume = $itemLength * $itemWidth * $itemHeight;
+		    }		    
+
+		    $_items[$i]['length'] = $itemLength;
+		    $_items[$i]['width']  = $itemWidth;
+		    $_items[$i]['height'] = $itemHeight;
+		    $_items[$i]['volume'] = $itemVolume;
+		}
+		else
+		{
+		    $_items[$i]['dimensions'] = false;
+		    
+		    $_items[$i]['length']     = null;
+		    $_items[$i]['width']      = null;
+		    $_items[$i]['height']     = null;
+		    $_items[$i]['volume']     = null;
+		}
+
+		$itemQty--;
+
+		$i++;
+	    }
+>>>>>>> origin/develop
         }
         
         if (!isset($_items) || !is_array($_items)) {
