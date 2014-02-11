@@ -30,9 +30,9 @@ class IllApps_Shipsync_Model_Shipping_Package_Item
         $i = 0;
         
         $packageSort = Mage::getModel('shipsync/shipping_package_sort');
-<<<<<<< HEAD
         
         foreach ($items as $item) {
+			
             if ($item->getParentItem() && !$item->isShipSeparately()) {
                 continue;
             }
@@ -109,8 +109,7 @@ class IllApps_Shipsync_Model_Shipping_Package_Item
                 
                 $i++;
             }
-=======
-
+			/*
         foreach ($items as $item)
         {            
 	    if ($item->getParentItem()  && !$item->isShipSeparately()) { continue; }
@@ -188,7 +187,7 @@ class IllApps_Shipsync_Model_Shipping_Package_Item
 
 		$i++;
 	    }
->>>>>>> origin/develop
+*/
         }
         
         if (!isset($_items) || !is_array($_items)) {

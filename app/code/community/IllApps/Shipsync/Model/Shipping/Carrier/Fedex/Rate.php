@@ -254,7 +254,8 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
         }
         
         $rateRequest->setPackageWeight(Mage::getModel('shipsync/shipping_package')->getPackageWeight($rateRequest->getItems()));
-<<<<<<< HEAD
+
+		/*<<<<<<< HEAD
         
         $rateRequest->setFreeMethodWeight($request->getFreeMethodWeight());
         
@@ -262,33 +263,21 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
             $rateRequest->setResidential($this->getResidential($rateRequest->getDestStreet(), $rateRequest->getDestPostcode()));
         } else {
             $rateRequest->setResidential(Mage::getStoreConfig('carriers/fedex/residence_delivery'));
-=======
+		
+		======*/
 
         $rateRequest->setFreeMethodWeight($rateRequest->getPackageWeight() -
             Mage::getModel('shipsync/shipping_package')->getFreeMethodWeight($rateRequest->getItems()));
 
-	if (Mage::getStoreConfig('carriers/fedex/address_validation')
-		&& $rateRequest->getDestCountry() == 'US'
-		&& $rateRequest->getDestStreet()
-		&& $rateRequest->getDestPostcode())
-	{
-	    $rateRequest->setResidential($this->getResidential($rateRequest->getDestStreet(), $rateRequest->getDestPostcode()));
-	}
-	else { $rateRequest->setResidential(Mage::getStoreConfig('carriers/fedex/residence_delivery')); }
+		if (Mage::getStoreConfig('carriers/fedex/address_validation')
+			&& $rateRequest->getDestCountry() == 'US'
+			&& $rateRequest->getDestStreet()
+			&& $rateRequest->getDestPostcode())
+		{
+	    	$rateRequest->setResidential($this->getResidential($rateRequest->getDestStreet(), $rateRequest->getDestPostcode()));
+		}
+		else { $rateRequest->setResidential(Mage::getStoreConfig('carriers/fedex/residence_delivery')); }
 
-	if ($request->getPackages())
-	{
-	    $rateRequest->setPackages($request->getPackages());
-	}
-
-	$rateRequest->setValue(Mage::getModel('shipsync/shipping_package')->getPackageValue($rateRequest->getItems()));
-
-        if ($request->getPackageValueWithDiscount())
-        {
-            $rateRequest->setValueWithDiscount($request->getPackageValueWithDiscount());
->>>>>>> origin/develop
-        }
-        
         if ($request->getPackages()) {
             $rateRequest->setPackages($request->getPackages());
         }
@@ -736,28 +725,12 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                 if (isset($rateReply->DeliveryDayOfWeek) && $rateReply->DeliveryDayOfWeek == 'SAT') {
                     $rateResultMethod->setMethodTitle($rateResultMethod->getMethodTitle() . ' - Saturday Delivery');
                 }
-<<<<<<< HEAD
                 
                 if (Mage::getStoreConfig('carriers/fedex/show_timestamp')) {
                     if (isset($rateReply->DeliveryTimestamp)) {
                         $rateResultMethod->setMethodTitle($rateResultMethod->getMethodTitle() . ' (' . date("m/d g:ia", strtotime($rateReply->DeliveryTimestamp)) . ')');
                     } elseif (isset($rateReply->CommitDetails->TransitTime)) {
                         if ($rateReply->ServiceType == 'SMART_POST') {
-=======
-
-                if (Mage::getStoreConfig('carriers/fedex/show_timestamp'))
-		{
-		    if (isset($rateReply->DeliveryTimestamp)) 
-		    {
-			$rateResultMethod->setMethodTitle($rateResultMethod->getMethodTitle() . ' (' .
-				date("m/d g:ia", strtotime($rateReply->DeliveryTimestamp)) . ')');
-                        $rateResultMethod->setDeliveryTimestamp($rateReply->DeliveryTimestamp);
-		    }
-		    elseif (isset($rateReply->CommitDetails->TransitTime))
-		    {
-                        if ($rateReply->ServiceType == 'SMART_POST')
-                        {
->>>>>>> origin/develop
                             $transitTimeInt = (isset($transitTimeInt)) ? $transitTimeInt + 1 : 2;
                             $transitTime    = $transitTimeInt . '-8 Days';
                             $rateResultMethod->setMethodTitle($rateResultMethod->getMethodTitle() . ' (' . $transitTime . ')');
