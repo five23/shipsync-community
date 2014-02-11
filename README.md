@@ -1,15 +1,14 @@
-<<<<<<< HEAD
-ShipSync Community
-==================
-Advanced FedEx Web Services Integration for Magento
-------------------
+ShipSync Community 5
+====================
+FedEx Web Services Integration for Magento
+------------------------------------------
 
 ShipSync is an extension that seeks to improve support for FedEx, providing accurate rate requests, address validation, shipment creation (from within Magento's admin panel), and label generation in a variety of formats (PDF, PNG, Thermal, etc.). This extension was born out of necessity, saving hours by eliminating the need to copy/paste addresses, tracking codes, and labels. Instead of swiveling between Magento and FedEx’s online site (or shipping manager), you can now perform the entire process from Magento’s admin panel.
 
 Magento Requirements
 
-  * Magento Community v1.3+ 
-  * Magento Enterprise v1.6+ 
+  * Magento Community v1.8+
+  * Magento Enterprise v1.6+
 
 Supported Systems
 
@@ -93,7 +92,7 @@ Shipping Configuration
 SmartPost
 
   * SmartPost Enable : Enable SmartPost support (must be enabled by your FedEx representative -- allows shipping via USPS with FedEx) 
-  * SmartPost Ancillary Endorsement : Visit USPS's site for details http://www.usps.com/ncsc/addressservices/moveupdate/ace
+  * SmartPost Ancillary Endorsement
   * SmartPost Indicia Type : Select indicia type (Media Mail, Parcel Select, Presorted Bound Printer Matter, Presorted Standard) 
   * SmartPost Hub ID : Enter your SmartPost Hub ID 
   * SmartPost Customer Manifest ID : Enter your Customer Manifest ID (most customers will leave this blank) 
@@ -186,13 +185,3 @@ Certification for Third-Party Consultants
 
   * Consultants developing on behalf of a corporate customer must ensure that their client provides their account information and a signed End User License Agreement (EULA) to FedEx in order to obtain production credentials.
 
-  
-  
-
-  
-  
-
-=======
-shipsync-community
-==================
->>>>>>> origin/develop
