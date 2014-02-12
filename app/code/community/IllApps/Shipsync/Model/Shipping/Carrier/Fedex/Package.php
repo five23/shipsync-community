@@ -32,7 +32,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
                 'label' => Mage::helper('usa')->__('FedEx Envelope'),
                 'length' => 13.5,
                 'width' => 9.875,
-                'height' => 0.1,
+                'height' => 1,
                 'baseline' => 0.1125,
                 'max_weight' => 1.1
             ),
@@ -40,7 +40,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
                 'label' => Mage::helper('usa')->__('FedEx Pak'),
                 'length' => 15.5,
                 'width' => 12,
-                'height' => 0.1,
+                'height' => 1,
                 'baseline' => 0.0625,
                 'max_weight' => 5.5
             ),

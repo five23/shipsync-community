@@ -18,14 +18,15 @@ class IllApps_Shipsync_Model_Shipment_Request extends IllApps_Shipsync_Model_Shi
 {
     protected $_masterTrackingId = false;
     protected $_isMasterPackage = true;
-    
+    	
+	
     /*
      * Returns formatted array for ship request
      * 
      * @return array
      */
     public function getShipperDetails()
-    {
+    {		
         return array(
             'Contact' => array(
                 'CompanyName' => $this->getShipperCompany(),
