@@ -111,36 +111,16 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
 			)
 		);
 
-        if ($this->getDimensionUnits() == 'CM')
-        {
-            foreach($this->_fedexPackages as &$package)
-            {
-                $this->toCM($package['length']);
-                $this->toCM($package['width']);
-                $this->toCM($package['height']);
-            }
-
 	    // Convert to kilograms
 	    if ($this->getWeightUnits() == 'KG')
 	    {
-		foreach($this->_fedexPackages as &$package)
-		{
-		    $this->toKG($package['max_weight']);
-		    $this->toKG($package['baseline']);
-		}
+			foreach($this->_fedexPackages as &$package)
+			{
+				$this->toKG($package['max_weight']);
+				$this->toKG($package['baseline']);
+			}
 	    }
-
-	    // Convert to grams
-	    elseif ($this->getWeightUnits() == 'G')
-	    {
-		foreach($this->_fedexPackages as &$package)
-		{
-		    $this->toG($package['max_weight']);
-		    $this->toG($package['baseline']);
-		}
-	    }
-        }
-
+		
 		// Set volume
         $this->setVolume();
     }
