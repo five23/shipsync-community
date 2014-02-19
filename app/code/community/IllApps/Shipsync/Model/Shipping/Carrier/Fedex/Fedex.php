@@ -243,13 +243,236 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
     
     
     /**
+     * Get configuration data of carrier
+     *
+     * @param string $type
+     * @param string $code
+     * @return array|bool
+     */
+    public function getCode($type, $code='')
+    {
+        $codes = array(
+            'method' => array(
+                'EUROPE_FIRST_INTERNATIONAL_PRIORITY' => Mage::helper('usa')->__('Europe First Priority'),
+                'FEDEX_1_DAY_FREIGHT'                 => Mage::helper('usa')->__('1 Day Freight'),
+                'FEDEX_2_DAY_FREIGHT'                 => Mage::helper('usa')->__('2 Day Freight'),
+                'FEDEX_2_DAY'                         => Mage::helper('usa')->__('2 Day'),
+                'FEDEX_2_DAY_AM'                      => Mage::helper('usa')->__('2 Day AM'),
+                'FEDEX_3_DAY_FREIGHT'                 => Mage::helper('usa')->__('3 Day Freight'),
+                'FEDEX_EXPRESS_SAVER'                 => Mage::helper('usa')->__('Express Saver'),
+                'FEDEX_GROUND'                        => Mage::helper('usa')->__('Ground'),
+                'FIRST_OVERNIGHT'                     => Mage::helper('usa')->__('First Overnight'),
+                'GROUND_HOME_DELIVERY'                => Mage::helper('usa')->__('Home Delivery'),
+                'INTERNATIONAL_ECONOMY'               => Mage::helper('usa')->__('International Economy'),
+                'INTERNATIONAL_ECONOMY_FREIGHT'       => Mage::helper('usa')->__('Intl Economy Freight'),
+                'INTERNATIONAL_FIRST'                 => Mage::helper('usa')->__('International First'),
+                'INTERNATIONAL_GROUND'                => Mage::helper('usa')->__('International Ground'),
+                'INTERNATIONAL_PRIORITY'              => Mage::helper('usa')->__('International Priority'),
+                'INTERNATIONAL_PRIORITY_FREIGHT'      => Mage::helper('usa')->__('Intl Priority Freight'),
+                'PRIORITY_OVERNIGHT'                  => Mage::helper('usa')->__('Priority Overnight'),
+                'SMART_POST'                          => Mage::helper('usa')->__('Smart Post'),
+                'STANDARD_OVERNIGHT'                  => Mage::helper('usa')->__('Standard Overnight'),
+                'FEDEX_FREIGHT'                       => Mage::helper('usa')->__('Freight'),
+                'FEDEX_NATIONAL_FREIGHT'              => Mage::helper('usa')->__('National Freight'),
+            ),
+            'dropoff' => array(
+                'REGULAR_PICKUP'          => Mage::helper('usa')->__('Regular Pickup'),
+                'REQUEST_COURIER'         => Mage::helper('usa')->__('Request Courier'),
+                'DROP_BOX'                => Mage::helper('usa')->__('Drop Box'),
+                'BUSINESS_SERVICE_CENTER' => Mage::helper('usa')->__('Business Service Center'),
+                'STATION'                 => Mage::helper('usa')->__('Station')
+            ),
+            'packaging' => array(
+                'FEDEX_ENVELOPE' => Mage::helper('usa')->__('FedEx Envelope'),
+                'FEDEX_PAK' => Mage::helper('usa')->__('FedEx Pak'),
+                'FEDEX_BOX' => Mage::helper('usa')->__('FedEx Box'),
+                'FEDEX_BOX_SMALL' => Mage::helper('usa')->__('FedEx Box Small'),
+                'FEDEX_BOX_MED' => Mage::helper('usa')->__('FedEx Box Medium'),
+                'FEDEX_BOX_LARGE' => Mage::helper('usa')->__('FedEx Box Large'),
+                'FEDEX_TUBE' => Mage::helper('usa')->__('FedEx Tube'),
+                'FEDEX_10KG_BOX' => Mage::helper('usa')->__('FedEx 10kg Box'),
+                'FEDEX_25KG_BOX' => Mage::helper('usa')->__('FedEx 25kg Box'),
+                'YOUR_PACKAGING' => Mage::helper('usa')->__('Your Packaging')
+            ),
+			'rate_type' => array(
+                'LIST' => Mage::helper('usa')->__('List Rates'),
+                'ACCOUNT' => Mage::helper('usa')->__('Account Rates'),
+                'PREFERRED' => Mage::helper('usa')->__('Preferred Rates')
+            ),
+            'label_image' => array(
+                'PDF' => Mage::helper('usa')->__('Adobe PDF'),
+                'PNG' => Mage::helper('usa')->__('PNG Image'),
+                'EPL2' => Mage::helper('usa')->__('Zebra EPL2'),
+                'ZPLII' => Mage::helper('usa')->__('Zebra ZPLII'),
+                'DPL' => Mage::helper('usa')->__('Datamax DPL')
+            ),
+            'label_stock' => array(
+                'PAPER_7X4.75' => Mage::helper('usa')->__('PAPER_7X4.75'),
+                'PAPER_4X6' => Mage::helper('usa')->__('PAPER_4X6'),
+                'PAPER_4X8' => Mage::helper('usa')->__('PAPER_4X8'),
+                'PAPER_4X9' => Mage::helper('usa')->__('PAPER_4X9'),
+                'PAPER_8.5X11_BOTTOM_HALF_LABEL' => Mage::helper('usa')->__('PAPER_8.5X11_BOTTOM_HALF_LABEL'),
+                'PAPER_8.5X11_TOP_HALF_LABEL' => Mage::helper('usa')->__('PAPER_8.5X11_TOP_HALF_LABEL'),
+                'STOCK_4X6' => Mage::helper('usa')->__('STOCK_4X6'),
+                'STOCK_4X6.75_LEADING_DOC_TAB' => Mage::helper('usa')->__('STOCK_4X6.75_LEADING_DOC_TAB'),
+                'STOCK_4X6.75_TRAILING_DOC_TAB' => Mage::helper('usa')->__('STOCK_4X6.75_TRAILING_DOC_TAB'),
+                'STOCK_4X8' => Mage::helper('usa')->__('STOCK_4X8'),
+                'STOCK_4X9_LEADING_DOC_TAB' => Mage::helper('usa')->__('STOCK_4X9_LEADING_DOC_TAB'),
+                'STOCK_4X9_TRAILING_DOC_TAB' => Mage::helper('usa')->__('STOCK_4X9_TRAILING_DOC_TAB')
+            ),
+            'label_orientation' => array(
+                'BOTTOM_EDGE_OF_TEXT_FIRST' => Mage::helper('usa')->__('Bottom edge of text first'),
+                'TOP_EDGE_OF_TEXT_FIRST' => Mage::helper('usa')->__('Top edge of text first')
+            ),
+            'smartpost_indicia' => array(
+                'MEDIA_MAIL' => Mage::helper('usa')->__('Media Mail'),
+                'PARCEL_SELECT' => Mage::helper('usa')->__('Parcel Select'),
+                'PRESORTED_BOUND_PRINTED_MATTER' => Mage::helper('usa')->__('Presorted Bound Printed Matter'),
+                'PRESORTED_STANDARD' => Mage::helper('usa')->__('Presorted Standard')
+            ),
+            'smartpost_endorsement' => array(
+                'ADDRESS_CORRECTION' => Mage::helper('usa')->__('Address Correction'),
+                'CARRIER_LEAVE_IF_NO_RESPONSE' => Mage::helper('usa')->__('Carrier Leave If No Response'),
+                'CHANGE_SERVICE' => Mage::helper('usa')->__('Change Service'),
+                'FORWARDING_SERVICE' => Mage::helper('usa')->__('Forwarding Service'),
+                'RETURN_SERVICE' => Mage::helper('usa')->__('Return Service')
+            ),			
+            'delivery_confirmation_types' => array(
+                'NO_SIGNATURE_REQUIRED' => Mage::helper('usa')->__('Not Required'),
+                'ADULT'                 => Mage::helper('usa')->__('Adult'),
+                'DIRECT'                => Mage::helper('usa')->__('Direct'),
+                'INDIRECT'              => Mage::helper('usa')->__('Indirect'),
+            ),
+            'containers_filter' => array(
+                array(
+                    'containers' => array('FEDEX_ENVELOPE', 'FEDEX_PAK'),
+                    'filters'    => array(
+                        'within_us' => array(
+                            'method' => array(
+                                'FEDEX_EXPRESS_SAVER',
+                                'FEDEX_2_DAY',
+                                'FEDEX_2_DAY_AM',
+                                'STANDARD_OVERNIGHT',
+                                'PRIORITY_OVERNIGHT',
+                                'FIRST_OVERNIGHT',
+                            )
+                        ),
+                        'from_us' => array(
+                            'method' => array(
+                                'INTERNATIONAL_FIRST',
+                                'INTERNATIONAL_ECONOMY',
+                                'INTERNATIONAL_PRIORITY',
+                            )
+                        )
+                    )
+                ),
+                array(
+                    'containers' => array('FEDEX_BOX', 'FEDEX_TUBE'),
+                    'filters'    => array(
+                        'within_us' => array(
+                            'method' => array(
+                                'FEDEX_2_DAY',
+                                'FEDEX_2_DAY_AM',
+                                'STANDARD_OVERNIGHT',
+                                'PRIORITY_OVERNIGHT',
+                                'FIRST_OVERNIGHT',
+                                'FEDEX_FREIGHT',
+                                'FEDEX_1_DAY_FREIGHT',
+                                'FEDEX_2_DAY_FREIGHT',
+                                'FEDEX_3_DAY_FREIGHT',
+                                'FEDEX_NATIONAL_FREIGHT',
+                            )
+                        ),
+                        'from_us' => array(
+                            'method' => array(
+                                'INTERNATIONAL_FIRST',
+                                'INTERNATIONAL_ECONOMY',
+                                'INTERNATIONAL_PRIORITY',
+                            )
+                        )
+                    )
+                ),
+                array(
+                    'containers' => array('FEDEX_10KG_BOX', 'FEDEX_25KG_BOX'),
+                    'filters'    => array(
+                        'within_us' => array(),
+                        'from_us' => array('method' => array('INTERNATIONAL_PRIORITY'))
+                    )
+                ),
+                array(
+                    'containers' => array('YOUR_PACKAGING'),
+                    'filters'    => array(
+                        'within_us' => array(
+                            'method' =>array(
+                                'FEDEX_GROUND',
+                                'GROUND_HOME_DELIVERY',
+                                'SMART_POST',
+                                'FEDEX_EXPRESS_SAVER',
+                                'FEDEX_2_DAY',
+                                'FEDEX_2_DAY_AM',
+                                'STANDARD_OVERNIGHT',
+                                'PRIORITY_OVERNIGHT',
+                                'FIRST_OVERNIGHT',
+                                'FEDEX_FREIGHT',
+                                'FEDEX_1_DAY_FREIGHT',
+                                'FEDEX_2_DAY_FREIGHT',
+                                'FEDEX_3_DAY_FREIGHT',
+                                'FEDEX_NATIONAL_FREIGHT',
+                            )
+                        ),
+                        'from_us' => array(
+                            'method' =>array(
+                                'INTERNATIONAL_FIRST',
+                                'INTERNATIONAL_ECONOMY',
+                                'INTERNATIONAL_PRIORITY',
+                                'INTERNATIONAL_GROUND',
+                                'FEDEX_FREIGHT',
+                                'FEDEX_1_DAY_FREIGHT',
+                                'FEDEX_2_DAY_FREIGHT',
+                                'FEDEX_3_DAY_FREIGHT',
+                                'FEDEX_NATIONAL_FREIGHT',
+                                'INTERNATIONAL_ECONOMY_FREIGHT',
+                                'INTERNATIONAL_PRIORITY_FREIGHT',
+                            )
+                        )
+                    )
+                )
+            ),
+
+            'delivery_confirmation_types' => array(
+                'NO_SIGNATURE_REQUIRED' => Mage::helper('usa')->__('Not Required'),
+                'ADULT'                 => Mage::helper('usa')->__('Adult'),
+                'DIRECT'                => Mage::helper('usa')->__('Direct'),
+                'INDIRECT'              => Mage::helper('usa')->__('Indirect'),
+            ),
+
+            'unit_of_measure'=>array(
+                'LB'   =>  Mage::helper('usa')->__('Pounds'),
+                'KG'   =>  Mage::helper('usa')->__('Kilograms'),
+            ),
+        );
+
+        if (!isset($codes[$type])) {
+            return false;
+        } elseif ('' === $code) {
+            return $codes[$type];
+        }
+
+        if (!isset($codes[$type][$code])) {
+            return false;
+        } else {
+            return $codes[$type][$code];
+        }
+    }
+	
+    /**
      * Get code
      *
      * @param string $type
      * @param string $code
      * @param bool $underscore
      * @return array
-     */
+     *
     public function getCode($type, $code = '', $underscore = false)
     {
         $codes_underscore = array(
@@ -410,8 +633,9 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
                 return $codes[$type][$code];
             }
         }
-    }
+    }*/
     
+	
     /**
      * Get allowed shipping methods
      *

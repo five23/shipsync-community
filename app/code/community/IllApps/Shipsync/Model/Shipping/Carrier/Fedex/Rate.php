@@ -307,12 +307,9 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
             }
         }
         
-        /*if (Mage::getStoreConfig('carriers/fedex/third_party'))
-        {
-        $rateRequest->setThirdParty(true);
-        $rateRequest->setThirdPartyFedexAccount(Mage::getStoreConfig('carriers/fedex/third_party_fedex_account'));
-        $rateRequest->setThirdPartyFedexAccountCountry(Mage::getStoreConfig('carriers/fedex/third_party_fedex_account_country'));
-        }*/
+		if (Mage::getStoreConfig('carriers/fedex/default_commodity')) {
+			$rateRequest->setDefaultCommodity(Mage::getStoreConfig('carriers/fedex/default_commodity'));
+		}
         
         $this->_rateRequest = $rateRequest;
         
@@ -560,7 +557,11 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
 							
                             $itemValue     = isset($package['package_value']) && $package['package_value'] < $item['value'] ? $package['package_value'] : $item['value'];
 							
-                            $itemName      = preg_replace('/[^\w\d_ -]/si', '', $item['name']);
+							if ($rateRequest->getDefaultCommodity() != "") {
+								$itemName = $rateRequest->getDefaultCommodity();
+							} else {								
+                            	$itemName      = preg_replace('/[^\w\d_ -]/si', '', $item['name']);
+							}
 							
                             $commodities[] = array(
                                 'NumberOfPieces' => 1,
