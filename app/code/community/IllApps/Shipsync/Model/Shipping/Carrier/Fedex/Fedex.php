@@ -283,16 +283,16 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
                 'STATION'                 => Mage::helper('usa')->__('Station')
             ),
             'packaging' => array(
-                'FEDEX_ENVELOPE' => Mage::helper('usa')->__('FedEx Envelope'),
-                'FEDEX_PAK' => Mage::helper('usa')->__('FedEx Pak'),
-                'FEDEX_BOX' => Mage::helper('usa')->__('FedEx Box'),
+                'FEDEX_ENVELOPE'  => Mage::helper('usa')->__('FedEx Envelope'),
+                'FEDEX_PAK' 	  => Mage::helper('usa')->__('FedEx Pak'),
+                'FEDEX_BOX' 	  => Mage::helper('usa')->__('FedEx Box'),
                 'FEDEX_BOX_SMALL' => Mage::helper('usa')->__('FedEx Box Small'),
-                'FEDEX_BOX_MED' => Mage::helper('usa')->__('FedEx Box Medium'),
+                'FEDEX_BOX_MED'   => Mage::helper('usa')->__('FedEx Box Medium'),
                 'FEDEX_BOX_LARGE' => Mage::helper('usa')->__('FedEx Box Large'),
-                'FEDEX_TUBE' => Mage::helper('usa')->__('FedEx Tube'),
-                'FEDEX_10KG_BOX' => Mage::helper('usa')->__('FedEx 10kg Box'),
-                'FEDEX_25KG_BOX' => Mage::helper('usa')->__('FedEx 25kg Box'),
-                'YOUR_PACKAGING' => Mage::helper('usa')->__('Your Packaging')
+                'FEDEX_TUBE' 	  => Mage::helper('usa')->__('FedEx Tube'),
+                'FEDEX_10KG_BOX'  => Mage::helper('usa')->__('FedEx 10kg Box'),
+                'FEDEX_25KG_BOX'  => Mage::helper('usa')->__('FedEx 25kg Box'),
+                'YOUR_PACKAGING'  => Mage::helper('usa')->__('Your Packaging')
             ),
 			'rate_type' => array(
                 'LIST' => Mage::helper('usa')->__('List Rates'),

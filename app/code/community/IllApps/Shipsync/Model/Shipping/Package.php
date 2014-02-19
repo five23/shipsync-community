@@ -35,7 +35,7 @@ class IllApps_Shipsync_Model_Shipping_Package
         $mergedPackages = array_merge($this->getSpecialPackage(), // Special package
             $this->getShipsyncPackages(), // ShipSync packages
             $this->getCarrierPackages($carriers) // Carrier specific packages
-            );
+          );
         
         $sortedPackages = Mage::getModel('shipsync/shipping_package_sort')->sortByKey('max_weight', $mergedPackages);
         
@@ -261,7 +261,7 @@ class IllApps_Shipsync_Model_Shipping_Package
         
         foreach ($packages as $key => &$package) {
             $i = 0;
-            
+			            
             $package['max_dim'] = $sort->getItemLongestSide($package['items']);
             
             while ($i < count($free_weights)) {

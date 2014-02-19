@@ -18,7 +18,12 @@ class IllApps_Shipsync_Model_Shipment_Abstract extends Varien_Object
 {
     public function getFedexAccount()
     {
-        return Mage::getStoreConfig('carriers/fedex/test_account');
+		if (Mage::getStoreConfig('carriers/fedex/test_mode')) {
+        	return Mage::getStoreConfig('carriers/fedex/test_account');
+		} 
+		else {
+			return Mage::getStoreConfig('carriers/fedex/account');
+		}
     }
 
     public function getFedexAccountCountry()

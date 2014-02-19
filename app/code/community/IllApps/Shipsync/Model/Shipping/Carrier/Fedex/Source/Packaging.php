@@ -17,20 +17,23 @@
 class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Packaging
 {
     
-    
-    /**
+/**
      * toOptionArray
      * 
      * @return array
      */
- 	public function toOptionArray()
+    public function toOptionArray()
     {
-        $fedex = Mage::getSingleton('usa/shipping_carrier_fedex');
-        $arr = array();
-        foreach ($fedex->getCode('packaging') as $k => $v) {
-            $arr[] = array('value' => $k, 'label' => $v);
+	$arr = array();
+
+	$fedexPackages = Mage::getModel('usa/shipping_carrier_fedex_package')->getFedexPackages();
+
+	foreach ($fedexPackages as $key => $value)
+	{
+            $arr[] = array('value' => $key, 'label' => $value['label']);
         }
+
         return $arr;
-    }
+    }    
     
 }

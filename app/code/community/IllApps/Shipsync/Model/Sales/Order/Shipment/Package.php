@@ -24,8 +24,9 @@ class IllApps_Shipsync_Model_Sales_Order_Shipment_Package extends Varien_Object
         {
             $_items[] = Mage::getModel('shipsync/sales_order_shipment_package_item')->collectItemAttributes($data);
         }
-        
+        		
         $this->setAllItems($_items);
+		
         return $this;
     }
 }

@@ -310,6 +310,7 @@ abstract class IllApps_Shipsync_Model_Shipping_Carrier_Abstract extends Mage_Usa
     public function requestToShipment(Mage_Shipping_Model_Shipment_Request $request)
     {
         $packages = $request->getPackages();
+		
         if (!is_array($packages) || !$packages) {
             Mage::throwException(Mage::helper('usa')->__('No packages for request'));
         }

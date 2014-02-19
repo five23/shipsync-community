@@ -204,7 +204,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
     protected function _createShipment()
     {
         $shipRequest = $this->_shipRequest;
-        
+		
         /** Iterate through each package to ship */
         foreach ($shipRequest->getPackages() as $packageToShip) {
 			            
@@ -347,7 +347,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
             'ShipTimestamp' => date('c'),
             'DropoffType' => $shipRequest->getDropoffType(),
             'ServiceType' => $shipRequest->getServiceType(),
-            'PackagingType' => $this->getFedexBoxType($package->getContainerCode()),
+            'PackagingType' => $package->getContainerCode(),
             'TotalWeight' => array(
                 'Value' => $weight,
                 'Units' => $weightUnits
@@ -355,9 +355,8 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
             'Shipper' => $shipRequest->getShipperDetails(),
             'Recipient' => $shipRequest->getRecipientDetails(),
             'LabelSpecification' => $shipRequest->getLabelSpecification(),
-            'RateRequestTypes' => array(
-                'ACCOUNT'
-            ),
+            'RateRequestTypes' => Mage::getStoreConfig('carriers/fedex/rate_type'),
+			'PreferredCurrency' => $this->getCurrencyCode(),        
             'PackageDetail' => 'INDIVIDUAL_PACKAGES',
             'SignatureOptionDetail' => array(
                 'OptionType' => $shipRequest->getRequireSignature()
@@ -399,13 +398,15 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         $request = $this->_setSpecialServices($request, $package);
         
         // If Dimensions enabled for Shipment
-        if (!Mage::getStoreConfig('carriers/fedex/shipping_dimensions_disable')) {
+		if (($package->getContainerCode() == "YOUR_PACKAGING" 
+			 || $package->getContainerCode() == "SPECIAL_PAKAGING") 
+			&& !Mage::getStoreConfig('carriers/fedex/shipping_dimensions_disable')) 
+		{
             $request['RequestedShipment']['RequestedPackageLineItems']['Dimensions'] = array(
                 'Length' => $package->getRoundedLength(),
                 'Width' => $package->getRoundedWidth(),
                 'Height' => $package->getRoundedHeight(),
-                'Units' => $dimensionUnits
-            );
+                'Units' => $dimensionUnits);
         }
         
         // Check if shipment needs to be insured and if insurance amount is available
@@ -600,7 +601,8 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         } elseif ($response->isWarning()) {
             throw Mage::exception('Mage_Shipping', $response->incompleteApi());
         } else {
-            if (!Mage::getStoreConfig('carriers/fedex/third_party')) {
+            
+			if (!Mage::getStoreConfig('carriers/fedex/third_party')) {
                 $result->setCurrencyUnits($response->findStructure('Currency'));
                 $result->setTotalShippingCharges($response->findStructure('Amount'));
                 $result->setBillingWeightUnits($response->findStructure('Units'));
@@ -627,17 +629,62 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         }
     }
     
-    public function getFedexBoxType($code)
+	
+	/**
+     * Return container types of carrier
+     *
+     * @param Varien_Object|null $params
+     * @return array|bool
+     */
+    public function getContainerTypes(Varien_Object $params = null)
     {
-        switch ($code) {
-            case 'FEDEX_BOX_SMALL':
-                return 'FEDEX_BOX';
-            case 'FEDEX_BOX_MED':
-                return 'FEDEX_BOX';
-            case 'FEDEX_BOX_LARGE':
-                return 'FEDEX_BOX';
-            default:
-                return $code;
+        if ($params == null) {
+            return $this->_getAllowedContainers($params);
         }
+        $method             = $params->getMethod();
+        $countryShipper     = $params->getCountryShipper();
+        $countryRecipient   = $params->getCountryRecipient();
+
+        if (($countryShipper == self::USA_COUNTRY_ID && $countryRecipient == self::CANADA_COUNTRY_ID
+            || $countryShipper == self::CANADA_COUNTRY_ID && $countryRecipient == self::USA_COUNTRY_ID)
+            && $method == 'FEDEX_GROUND'
+        ) {
+            return array('YOUR_PACKAGING' => Mage::helper('usa')->__('Your Packaging'));
+        } else if ($method == 'INTERNATIONAL_ECONOMY' || $method == 'INTERNATIONAL_FIRST') {
+            $allTypes = $this->getContainerTypesAll();
+            $exclude = array('FEDEX_10KG_BOX' => '', 'FEDEX_25KG_BOX' => '');
+            return array_diff_key($allTypes, $exclude);
+        } else if ($method == 'EUROPE_FIRST_INTERNATIONAL_PRIORITY') {
+            $allTypes = $this->getContainerTypesAll();
+            $exclude = array('FEDEX_BOX' => '', 'FEDEX_TUBE' => '');
+            return array_diff_key($allTypes, $exclude);
+        } else if ($countryShipper == self::CANADA_COUNTRY_ID && $countryRecipient == self::CANADA_COUNTRY_ID) {
+            // hack for Canada domestic. Apply the same filter rules as for US domestic
+            $params->setCountryShipper(self::USA_COUNTRY_ID);
+            $params->setCountryRecipient(self::USA_COUNTRY_ID);
+        }
+
+        return $this->_getAllowedContainers($params);
     }
+
+    /**
+     * Return all container types of carrier
+     *
+     * @return array|bool
+     */
+    public function getContainerTypesAll()
+    {
+        return $this->getCode('packaging');
+    }
+
+    /**
+     * Return structured data of containers witch related with shipping methods
+     *
+     * @return array|bool
+     */
+    public function getContainerTypesFilter()
+    {
+        return $this->getCode('containers_filter');
+    }
+
 }

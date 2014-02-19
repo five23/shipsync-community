@@ -255,17 +255,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
         
         $rateRequest->setPackageWeight(Mage::getModel('shipsync/shipping_package')->getPackageWeight($rateRequest->getItems()));
 
-		/*<<<<<<< HEAD
-        
-        $rateRequest->setFreeMethodWeight($request->getFreeMethodWeight());
-        
-        if (Mage::getStoreConfig('carriers/fedex/address_validation') && $rateRequest->getDestCountry() == 'US' && $rateRequest->getDestStreet() && $rateRequest->getDestPostcode()) {
-            $rateRequest->setResidential($this->getResidential($rateRequest->getDestStreet(), $rateRequest->getDestPostcode()));
-        } else {
-            $rateRequest->setResidential(Mage::getStoreConfig('carriers/fedex/residence_delivery'));
-		
-		======*/
-
         $rateRequest->setFreeMethodWeight($rateRequest->getPackageWeight() -
             Mage::getModel('shipsync/shipping_package')->getFreeMethodWeight($rateRequest->getItems()));
 
@@ -278,9 +267,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
 		}
 		else { $rateRequest->setResidential(Mage::getStoreConfig('carriers/fedex/residence_delivery')); }
 
-        if ($request->getPackages()) {
-            $rateRequest->setPackages($request->getPackages());
-        }
         
         $rateRequest->setValue(Mage::getModel('shipsync/shipping_package')->getPackageValue($rateRequest->getItems()));
         
@@ -511,8 +497,8 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
             );
         }
         if ($rateRequest->getItems()) {
-            if ($rateRequest->getPackages()) {
-                $packages = $rateRequest->getPackages();
+            if ($rateRequest->getPackaging()) {
+                $packages = $rateRequest->getPackaging();
             } else {
                 $packages = $rateRequest->getShippingPackage()->estimatePackages($rateRequest->getItems(), $rateRequest->getDefaultPackages());
             }

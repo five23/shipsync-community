@@ -16,8 +16,7 @@
  */
 class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
 {
-    
-    
+       
     protected $_fedexPackages;
     
     
@@ -31,12 +30,12 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
 		(
 			'FEDEX_ENVELOPE' => array
 			(
-			'label'         => Mage::helper('usa')->__('FedEx Envelope'),		
-			'length'        => 13.5,
-			'width'         => 9.875,
-			'height'        => 0.1,
-			'baseline'      => 0.1125,
-					'max_weight'    => 1.1
+				'label'         => Mage::helper('usa')->__('FedEx Envelope'),		
+				'length'        => 13.5,
+				'width'         => 9.875,
+				'height'        => 0.1,
+				'baseline'      => 0.1125,
+				'max_weight'    => 1.1
 			),
 			'FEDEX_PAK' => array
 			(
@@ -100,7 +99,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
 			'height'        => 13.19,
 			'baseline'      => 3.5625,
 					'max_weight'    => 55
-			)/*,
+			),
 			'YOUR_PACKAGING' => array
 			(
 			'label'         => Mage::helper('usa')->__('Your Packaging'),		
@@ -109,7 +108,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
 			'height'        => Mage::getStoreConfig('usa/shipping_carriers_fedex/max_package_girth'),                
 			'baseline'      => 0,
 					'max_weight'    => Mage::getStoreConfig('usa/shipping_carriers_fedex/max_package_weight')
-			)*/
+			)
 		);
 
         if ($this->getDimensionUnits() == 'CM')
@@ -142,12 +141,11 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
 	    }
         }
 
-	// Set volume
+		// Set volume
         $this->setVolume();
     }
 
-    
-    
+        
     /**
      * getFedexPackages
      *
@@ -157,10 +155,9 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
     {
         return $this->_fedexPackages;
     }
-    
-    
-    
-    /**
+	
+	
+	/**
      * getPackages
      *
      * @return array
@@ -169,7 +166,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
     {
         $packages = array();
         
-        if ($_fedexPackages = explode(',', Mage::getStoreConfig('carriers/fedex/packages'))) {
+        if ($_fedexPackages = explode(',', Mage::getStoreConfig('carriers/fedex/packaging'))) {
             foreach ($this->getFedexPackages() as $key => $value) {
                 foreach ($_fedexPackages as $_fedexPackage) {
                     if ($_fedexPackage == $key) {
@@ -185,8 +182,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
         
         return false;
     }
-    
-    
+           
     
     /**
      * getDimensionUnits
