@@ -29,7 +29,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class IllApps_Shipsync_Model_Shipping_Carrier_Abstract extends Mage_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping_Model_Carrier_Abstract
+abstract class IllApps_Shipsync_Model_Shipping_Carrier_Abstract extends Mage_Usa_Model_Shipping_Carrier_Abstract
 {
    
     const USA_COUNTRY_ID = 'US';

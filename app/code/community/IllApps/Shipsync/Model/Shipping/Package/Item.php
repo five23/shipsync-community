@@ -6,7 +6,7 @@
  * @category   IllApps
  * @package    IllApps_Shipsync
  * @author     David Kirby (d@kernelhack.com) / Jonathan Cantrell (j@kernelhack.com)
- * @copyright  Copyright (c) 2011 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
+ * @copyright  Copyright (c) 2014 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -278,13 +278,13 @@ class IllApps_Shipsync_Model_Shipping_Package_Item
             $origin['city']       = Mage::getStoreConfig('shipping/origin/city');
             
             $shipperStreetLines = array(
-                Mage::getStoreConfig('shipping/origin/address1')
+                Mage::getStoreConfig('shipping/origin/street_line1')
             );
             if (Mage::getStoreConfig('shipping/origin/address2') != '') {
-                $shipperStreetLines[] = Mage::getStoreConfig('shipping/origin/address2');
+                $shipperStreetLines[] = Mage::getStoreConfig('shipping/origin/street_line2');
             }
             if (Mage::getStoreConfig('shipping/origin/address3') != '') {
-                $shipperStreetLines[] = Mage::getStoreConfig('shipping/origin/address3');
+                $shipperStreetLines[] = Mage::getStoreConfig('shipping/origin/street_line3');
             }
             $origin['street'] = $shipperStreetLines;
         }

@@ -12,7 +12,7 @@
 
 
 /**
- * IllApps_Shipsync_Model_Shipment_Package
+ * IllApps_Shipsync_Model_Shipment_Abstract
  */
 class IllApps_Shipsync_Model_Shipment_Abstract extends Varien_Object
 {

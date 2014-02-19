@@ -217,13 +217,13 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
         
         if (!$request->getOrigStreet()) {
             $shipperstreetlines = array(
-                Mage::getStoreConfig('shipping/origin/address1')
+                Mage::getStoreConfig('shipping/origin/street_line1')
             );
             if (Mage::getStoreConfig('shipping/origin/address2') != '') {
-                $shipperstreetlines[] = Mage::getStoreConfig('shipping/origin/address2');
+                $shipperstreetlines[] = Mage::getStoreConfig('shipping/origin/street_line2');
             }
             if (Mage::getStoreConfig('shipping/origin/address3') != '') {
-                $shipperstreetlines[] = Mage::getStoreConfig('shipping/origin/address3');
+                $shipperstreetlines[] = Mage::getStoreConfig('shipping/origin/street_line3');
             }
             
             $rateRequest->setOrigStreet($shipperstreetlines);

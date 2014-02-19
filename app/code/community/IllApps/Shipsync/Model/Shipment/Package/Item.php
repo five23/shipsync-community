@@ -12,7 +12,7 @@
 
 
 /**
- * IllApps_Shipsync_Model_Shipment_Package
+ * IllApps_Shipsync_Model_Shipment_Item
  */
 class IllApps_Shipsync_Model_Shipment_Item extends IllApps_Shipsync_Model_Shipment_Abstract
 {    
