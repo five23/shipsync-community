@@ -6,7 +6,7 @@
  * @category   IllApps
  * @package    IllApps_Shipsync
  * @author     David Kirby (d@kernelhack.com) / Jonathan Cantrell (j@kernelhack.com)
- * @copyright  Copyright (c) 2011 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
+ * @copyright  Copyright (c) 2014 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -30,97 +30,118 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
 		(
 			'FEDEX_ENVELOPE' => array
 			(
-				'label'         => Mage::helper('usa')->__('FedEx Envelope'),		
+				'label'         => Mage::helper('usa')->__('FedEx Envelope'),
 				'length'        => 13.5,
 				'width'         => 9.875,
 				'height'        => 0.1,
-				'baseline'      => 0.1125,
+				'baseline'      => 0.0,
 				'max_weight'    => 1.1
 			),
 			'FEDEX_PAK' => array
 			(
-			'label'         => Mage::helper('usa')->__('FedEx Pak'),		
-			'length'        => 15.5,
-			'width'         => 12,
-			'height'        => 0.1,
-			'baseline'      => 0.0625,
-					'max_weight'    => 5.5
+				'label'         => Mage::helper('usa')->__('FedEx Pak'),		
+				'length'        => 15.5,
+				'width'         => 12,
+				'height'        => 0.1,
+				'baseline'      => 0.0,
+				'max_weight'    => 5.5
 			),
 			'FEDEX_TUBE' => array
 			(
-			'label'         => Mage::helper('usa')->__('FedEx Tube'),		
-			'length'        => 38,
-			'width'         => 3.95,
-			'height'        => 3.95,
-			'baseline'      => 1,
-					'max_weight'    => 20
+				'label'         => Mage::helper('usa')->__('FedEx Tube'),		
+				'length'        => 38,
+				'width'         => 3.95,
+				'height'        => 3.95,
+				'baseline'      => 0.0,
+				'max_weight'    => 20.0
 			),
 			'FEDEX_BOX_SMALL' => array
 			(
-			'label'         => Mage::helper('usa')->__('FedEx Box Small'),		
-			'length'        => 12.25,
-			'width'         => 10.9,
-			'height'        => 1.5,
-			'baseline'      => 0.28125,
-					'max_weight'    => 20
+				'label'         => Mage::helper('usa')->__('FedEx Box Small'),		
+				'length'        => 12.25,
+				'width'         => 10.9,
+				'height'        => 1.5,
+				'baseline'      => 0.0,
+				'max_weight'    => 20.0
 			),
 			'FEDEX_BOX_MED' => array
 			(
-			'label'         => Mage::helper('usa')->__('FedEx Box Medium'),		
-			'length'        => 13.25,
-			'width'         => 11.5,
-			'height'        => 2.38,
-			'baseline'      => 0.40625,
-					'max_weight'    => 20
+				'label'         => Mage::helper('usa')->__('FedEx Box Medium'),		
+				'length'        => 13.25,
+				'width'         => 11.5,
+				'height'        => 2.38,
+				'baseline'      => 0.0,
+				'max_weight'     > 20.0
 			),
 			'FEDEX_BOX_LARGE' => array
 			(
-			'label'         => Mage::helper('usa')->__('FedEx Box Large'),		
-			'length'        => 17.88,
-			'width'         => 12.38,
-			'height'        => 3,
-			'baseline'      => 0.90625,
-					'max_weight'    => 20
+				'label'         => Mage::helper('usa')->__('FedEx Box Large'),		
+				'length'        => 17.88,
+				'width'         => 12.38,
+				'height'        => 3,
+				'baseline'      => 0.0,
+				'max_weight'    => 20.0
 			),
 			'FEDEX_10KG_BOX' => array
 			(
-			'label'         => Mage::helper('usa')->__('FedEx 10kg Box'),		
-			'length'        => 15.81,
-			'width'         => 12.94,
-			'height'        => 10.19,
-			'baseline'      => 1.9375,
-					'max_weight'    => 22
+				'label'         => Mage::helper('usa')->__('FedEx 10kg Box'),		
+				'length'        => 15.81,
+				'width'         => 12.94,
+				'height'        => 10.19,
+				'baseline'      => 0.0,
+				'max_weight'    => 22.0
 			),
 			'FEDEX_25KG_BOX' => array
 			(
-			'label'         => Mage::helper('usa')->__('FedEx 25kg Box'),		
-			'length'        => 21.56,
-			'width'         => 16.56,
-			'height'        => 13.19,
-			'baseline'      => 3.5625,
-					'max_weight'    => 55
+				'label'         => Mage::helper('usa')->__('FedEx 25kg Box'),		
+				'length'        => 21.56,
+				'width'         => 16.56,
+				'height'        => 13.19,
+				'baseline'      => 0.0,
+				'max_weight'    => 55.0
 			),
 			'YOUR_PACKAGING' => array
 			(
-			'label'         => Mage::helper('usa')->__('Your Packaging'),		
-			'length'        => Mage::getStoreConfig('usa/shipping_carriers_fedex/max_package_length'),
-			'width'         => Mage::getStoreConfig('usa/shipping_carriers_fedex/max_package_girth'),
-			'height'        => Mage::getStoreConfig('usa/shipping_carriers_fedex/max_package_girth'),                
-			'baseline'      => 0,
-					'max_weight'    => Mage::getStoreConfig('usa/shipping_carriers_fedex/max_package_weight')
+				'label'         => Mage::helper('usa')->__('Your Packaging'),		
+				'length'        => Mage::getStoreConfig('usa/shipping_carriers_fedex/max_package_length'),
+				'width'         => Mage::getStoreConfig('usa/shipping_carriers_fedex/max_package_girth'),
+				'height'        => Mage::getStoreConfig('usa/shipping_carriers_fedex/max_package_girth'),                
+				'baseline'      => 0.0,
+				'max_weight'    => Mage::getStoreConfig('usa/shipping_carriers_fedex/max_package_weight')
 			)
 		);
+		
+
+        if ($this->getDimensionUnits() == 'CM')
+        {
+            foreach($this->_fedexPackages as &$package)
+            {
+                $this->toCM($package['length']);
+                $this->toCM($package['width']);
+                $this->toCM($package['height']);
+            }
+		}
 
 	    // Convert to kilograms
 	    if ($this->getWeightUnits() == 'KG')
 	    {
 			foreach($this->_fedexPackages as &$package)
 			{
-				$this->toKG($package['max_weight']);
-				$this->toKG($package['baseline']);
+		    	$this->toKG($package['max_weight']);
+		    	$this->toKG($package['baseline']);
 			}
 	    }
-		
+
+	    // Convert to grams
+	    if ($this->getWeightUnits() == 'G')
+	    {
+			foreach($this->_fedexPackages as &$package)
+			{
+		    	$this->toG($package['max_weight']);
+		    	$this->toG($package['baseline']);
+			}
+	    }
+        		
 		// Set volume
         $this->setVolume();
     }

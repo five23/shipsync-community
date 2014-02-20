@@ -144,10 +144,13 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
      */
     public function getDimensionUnits()
     {
-        return Mage::getStoreConfig('carriers/fedex/unit_of_measure');
+		switch (Mage::getStoreConfig('carriers/fedex/unit_of_measure'))
+		{
+			case 'LB' : return 'IN';
+			case 'KG' : return 'CM';
+			case  'G' : return 'CM';
+		}
     }
-    
-    
     
     /**
      * getWeightUnits
@@ -382,6 +385,11 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
                 'ADULT'                 => Mage::helper('usa')->__('Adult'),
                 'DIRECT'                => Mage::helper('usa')->__('Direct'),
                 'INDIRECT'              => Mage::helper('usa')->__('Indirect'),
+            ),
+			  'unit_of_measure'=>array(
+                'LB'   =>  Mage::helper('usa')->__('Pounds'),
+                'KG'   =>  Mage::helper('usa')->__('Kilograms'),
+				'G'    =>  Mage::helper('usa')->__('Grams'),
             )
         );
         
@@ -411,6 +419,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
             }
         }
     }
+	
     
     /**
      * Get allowed shipping methods
@@ -477,4 +486,3 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
     {
     }
 }
-?>

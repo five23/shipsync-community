@@ -6,7 +6,7 @@
  * @category   IllApps
  * @package    IllApps_Shipsync
  * @author     David Kirby (d@kernelhack.com) / Jonathan Cantrell (j@kernelhack.com)
- * @copyright  Copyright (c) 2011 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
+ * @copyright  Copyright (c) 2014 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -83,8 +83,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
             $this->_rateResultCollection[] = $this->_rateResult;
         }
         
-        //return $origins->collectMultipleResponses($this->_rateResultCollection);
-        
         $multipleResponses = $origins->collectMultipleResponses($this->_rateResultCollection);
         
         if ($multipleResponses->getError())
@@ -94,6 +92,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
         
         return $multipleResponses;
     }
+	
     
     /*
      * Prepare Request
@@ -127,6 +126,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
         }
     }
     
+	
     /*
      * Set Origins
      * Sets request object's origins based on key.
@@ -148,6 +148,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
         $request->setOrigStreet($origin['street']);
     }
     
+	
     /**
      * setRateRequest
      *
@@ -252,7 +253,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
         } else {
             $rateRequest->setDestCountry(Mage::getModel('directory/country')->load(self::USA_COUNTRY_ID)->getIso2Code());
         }
-        
+        	
         $rateRequest->setPackageWeight(Mage::getModel('shipsync/shipping_package')->getPackageWeight($rateRequest->getItems()));
 
         $rateRequest->setFreeMethodWeight($rateRequest->getPackageWeight() -
@@ -427,54 +428,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
         }
         
         $request['RequestedShipment']['Recipient']['Address']['CountryCode'] = $rateRequest->getDestCountry();
-        
-		/*
-		<CustomsClearanceDetail>
-               <DutiesPayment>
-                  <PaymentType>SENDER</PaymentType>
-                  <Payor>
-                     <ResponsibleParty>
-                        <AccountNumber>"Input Your Information"</AccountNumber>
-                        <Tins>
-                           <TinType>BUSINESS_STATE</TinType>
-                           <Number>123456</Number>
-                        </Tins>
-                     </ResponsibleParty>
-                  </Payor>
-               </DutiesPayment>
-               <DocumentContent>DOCUMENTS_ONLY</DocumentContent>
-               <CustomsValue>
-                  <Currency>USD</Currency>
-                  <Amount>100.00</Amount>
-               </CustomsValue>
-               <CommercialInvoice>
-                  <TermsOfSale>FOB_OR_FCA</TermsOfSale>
-               </CommercialInvoice>
-               <Commodities>
-                  <NumberOfPieces>1</NumberOfPieces>
-                  <Description>ABCD</Description>
-                  <CountryOfManufacture>US</CountryOfManufacture>
-                  <Weight>
-                     <Units>LB</Units>
-                     <Value>1.0</Value>
-                  </Weight>
-                  <Quantity>1</Quantity>
-                  <QuantityUnits>cm</QuantityUnits>
-                  <UnitPrice>
-                     <Currency>USD</Currency>
-                     <Amount>1.000000</Amount>
-                  </UnitPrice>
-                  <CustomsValue>
-                     <Currency>USD</Currency>
-                     <Amount>100.000000</Amount>
-                  </CustomsValue>
-               </Commodities>
-               <ExportDetail>
-                  <ExportComplianceStatement>30.37(f)</ExportComplianceStatement>
-               </ExportDetail>
-            </CustomsClearanceDetail>
-			*/
-		
+      
         if ($rateRequest->getOrigCountry() != $rateRequest->getDestCountry()) {
             $request['RequestedShipment']['CustomsClearanceDetail'] = array(
                 'DutiesPayment' => array(
@@ -517,17 +471,23 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                 
                 foreach ($packages as $package) {
 					
-                    $weightUnit = (Mage::getModel('shipsync/shipping_carrier_fedex')->getWeightUnits()  == Zend_Measure_Weight::POUND ? 'LB' : 'KG');                    
-                    
-                    $weight = (isset($package['weight']) && round($package['weight'], 1) > 0) ? round($package['weight'], 1) : 0.1;
-                    $length = (isset($package['length']) && round($package['length']) > 0) ? round($package['length']) : 1;
-                    $width  = (isset($package['width']) && round($package['width']) > 0) ? round($package['width']) : 1;
-                    $height = (isset($package['height']) && round($package['height']) > 0) ? round($package['height']) : 1;
-                    
-                    if ($this->getEnableSmartPost() && ($weight < 1)) {
-                        $weight = 1;
-                    }
+					$weightCoef = 1.0;
 					
+                    $weightUnit = Mage::getModel('shipsync/shipping_carrier_fedex')->getWeightUnits();
+
+		    		if ($weightUnit == 'G') {
+						$package['weight'] = $package['weight'] * 0.001; 
+						$weightUnit = 'KG';
+						$weightCoef = 0.001;
+					}			   
+					
+		    		$weight = (isset($package['weight']) && round($package['weight'], 1) > 0) ? round($package['weight'], 1) : 0.1;
+                    $length = (isset($package['length']) && round($package['length']) > 0)    ? round($package['length'])    : 1;
+                    $width  = (isset($package['width'])  && round($package['width']) > 0)     ? round($package['width'])     : 1;
+                    $height = (isset($package['height']) && round($package['height']) > 0)    ? round($package['height'])    : 1;
+
+		    		if ($this->getEnableSmartPost() && ($weight < 1)) { $weight = 1; }
+
                     $request['RequestedShipment']['RequestedPackageLineItems'][$i]['SequenceNumber'] = $i + 1;
                     $request['RequestedShipment']['RequestedPackageLineItems'][$i]['GroupPackageCount'] = $i + 1;                    
                     $request['RequestedShipment']['RequestedPackageLineItems'][$i]['Weight'] = array(
@@ -541,13 +501,17 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                         
                         foreach ($itemsById as $qty => $item) {
 							
-                            $itemValue     = isset($package['package_value']) && $package['package_value'] < $item['value'] ? $package['package_value'] : $item['value'];
-							
+                            $itemValue = isset($package['package_value']) && $package['package_value'] < $item['value'] ? $package['package_value'] : $item['value'];
+
 							if ($rateRequest->getDefaultCommodity() != "") {
 								$itemName = $rateRequest->getDefaultCommodity();
 							} else {								
-                            	$itemName      = preg_replace('/[^\w\d_ -]/si', '', $item['name']);
+                            	$itemName = preg_replace('/[^\w\d_ -]/si', '', $item['name']);
 							}
+							
+							$itemWeight = (isset($item['weight']) 
+										   && round($item['weight'] * $weightCoef, 1) > 0) 
+										    ? round($item['weight'] * $weightCoef, 1) : 0.1;
 							
                             $commodities[] = array(
                                 'NumberOfPieces' => 1,
@@ -555,7 +519,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                                 'CountryOfManufacture' => $rateRequest->getOrigCountry(),
                                 'Weight' => array(
                                     'Units' => $weightUnit,
-                                    'Value' => $item['weight']
+                                    'Value' => $itemWeight
                                 ),
                                 'Quantity' => $item['qty_to_ship'],
                                 'QuantityUnits' => 'EA',
@@ -599,7 +563,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                             'Length' => $length,
                             'Width' => $width,
                             'Height' => $height,
-                            'Units' => ($this->getDimensionUnits() == Zend_Measure_Length::INCH ? 'IN' : 'CM')
+                            'Units' => $this->getDimensionUnits()
                         );
                     }
                     

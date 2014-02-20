@@ -502,10 +502,18 @@ class IllApps_Shipsync_Model_Shipping_Package
     public function getPackageWeight($items)
     {
         $weight = 0;
+		
+		if (Mage::getModel('shipsync/shipping_carrier_fedex')->getWeightUnits() == 'G') {
+			$weightCoef = 0.001;
+		}
+		else {
+			$weightCoef = 1.0;
+		}
         
         foreach ($items as $item) {
-            $weight += $item['weight'];
+            $weight += $item['weight'] * $weightCoef;
         }
+		
         return $weight;
     }
     

@@ -6,7 +6,7 @@
  * @category   IllApps
  * @package    IllApps_Shipsync
  * @author     David Kirby (d@kernelhack.com) / Jonathan Cantrell (j@kernelhack.com)
- * @copyright  Copyright (c) 2011 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
+ * @copyright  Copyright (c) 2014 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -336,8 +336,8 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
     {
         $shipRequest = $this->_shipRequest;
         
-		$dimensionUnits = $package->getDimensionUnits() == Zend_Measure_Length::INCH ? 'IN' : 'CM';
-		$weightUnits = $package->getWeightUnits() == Zend_Measure_Weight::POUND ? 'LB' : 'KG';
+		$dimensionUnits = $package->getDimensionUnits();
+		$weightUnits = $package->getWeightUnits();
 		$weight = $package->getFormattedWeight();		
         $request = $this->_prepareShipmentHeader();
 		$customsValue = $shipRequest->getInsureAmount();
@@ -489,9 +489,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 			Mage::Helper('shipsync')->mageLog($request, 'ship');
             
 			$response = $this->_shipServiceClient->processShipment($request);
-            
-			//Mage::Helper('shipsync')->mageLog($this->_shipServiceClient->__getLastRequest(), 'soap_ship');
-            //Mage::Helper('shipsync')->mageLog($this->_shipServiceClient->__getLastResponse(), 'soap_ship');
             
 			Mage::Helper('shipsync')->mageLog($response, 'ship');
         }
