@@ -16,7 +16,7 @@
  */
 class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unitofmeasure
 {
-    
+
     
     /**
      * toOptionArray
@@ -26,18 +26,10 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unitofmeasure
     
     public function toOptionArray()
     {
-        $fedex = Mage::getSingleton('usa/shipping_carrier_fedex');
-        
-        $arr = array();
-        
-        foreach ($fedex->getCode('unit_of_measure') as $k => $v) {
-            $arr[] = array(
-                'value' => $k,
-                'label' => $v
-            );
-        }
-        
-        return $arr;
+        return array(
+            'LB' => Mage::helper('usa')->__('Pounds'),
+            'KG' => Mage::helper('usa')->__('Kilograms'),
+			'G'  => Mage::helper('usa')->__('Grams')
+        );
     }
-    
 }

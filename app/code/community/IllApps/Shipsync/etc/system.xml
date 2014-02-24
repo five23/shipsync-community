@@ -117,6 +117,14 @@
 						<show_in_website>1</show_in_website>
 						<show_in_store>0</show_in_store>
 					</street_line3>
+					<phone translate="label">
+					  <label>Phone</label>
+					  <frontend_type>text</frontend_type>
+					  <sort_order>80</sort_order>
+					  <show_in_default>1</show_in_default>
+					  <show_in_website>1</show_in_website>
+					  <show_in_store>0</show_in_store>
+					</phone>
 				</fields>
 			</origin>        
         <packages translate="label" module="shipsync">

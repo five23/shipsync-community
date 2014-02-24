@@ -335,9 +335,17 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
     protected function _sendShipmentRequest($package)
     {
         $shipRequest = $this->_shipRequest;
-        
-		$dimensionUnits = $package->getDimensionUnits();
-		$weightUnits = $package->getWeightUnits();
+        												
+		$weightCoef = 1.0;
+
+		$weightUnit = Mage::getModel('shipsync/shipping_carrier_fedex')->getWeightUnits();
+
+		if ($weightUnit == 'G') {
+			$weightUnit = 'KG';
+			$weightCoef = 0.001;
+		}			   
+
+		$dimensionUnits = Mage::getModel('shipsync/shipping_carrier_fedex')->getDimensionUnits();
 		$weight = $package->getFormattedWeight();		
         $request = $this->_prepareShipmentHeader();
 		$customsValue = $shipRequest->getInsureAmount();
@@ -350,7 +358,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
             'PackagingType' => $package->getContainerCode(),
             'TotalWeight' => array(
                 'Value' => $weight,
-                'Units' => $weightUnits
+                'Units' => $weightUnit
             ),
             'Shipper' => $shipRequest->getShipperDetails(),
             'Recipient' => $shipRequest->getRecipientDetails(),
@@ -377,7 +385,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                 'SequenceNumber' => $package->getSequenceNumber(),
                 'Weight' => array(
                     'Value' => $weight,
-                    'Units' => $weightUnits
+                    'Units' => $weightUnit
                 ),
                 'CustomerReferences' => array(
                     '0' => array(
@@ -400,7 +408,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         // If Dimensions enabled for Shipment
 		if (($package->getContainerCode() == "YOUR_PACKAGING" 
 			 || $package->getContainerCode() == "SPECIAL_PAKAGING") 
-			&& !Mage::getStoreConfig('carriers/fedex/shipping_dimensions_disable')) 
+			&& !Mage::getStoreConfig('carriers/fedex/shipping_dimensions_disable'))
 		{
             $request['RequestedShipment']['RequestedPackageLineItems']['Dimensions'] = array(
                 'Length' => $package->getRoundedLength(),
@@ -443,8 +451,8 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                     'Description' => $item->getName(),
                     'CountryOfManufacture' => $shipRequest->getStore()->getConfig('shipping/origin/country_id'),
                     'Weight' => array(
-                        'Value' => $item->getWeight(),
-                        'Units' => $weightUnits
+                        'Value' => $item->getWeight() * $weightCoef,
+                        'Units' => $weightUnit
                     ),
                     'Quantity' => $item->getQtyOrdered(),
                     'QuantityUnits' => 'EA',
