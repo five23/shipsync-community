@@ -274,7 +274,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 		$dimensionUnits = Mage::getModel('shipsync/shipping_carrier_fedex')->getDimensionUnits();
 		$weight = $package->getFormattedWeight();		
         $request = $this->_prepareShipmentHeader();
-		//$customsValue = $shipRequest->getInsureAmount();
+		$customsValue = $shipRequest->getInsureAmount();
         
         // Shipment request
         $request['RequestedShipment'] = array(
@@ -408,7 +408,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                 ),
                 'DocumentContent' => 'NON_DOCUMENTS',
                 'CustomsValue' => array(
-                    'Amount' => sprintf('%01.2f', $item->getPackageValue()), //sprintf('%01.2f', $customsValue),
+                    'Amount' => sprintf('%01.2f', $customsValue), //sprintf('%01.2f', $customsValue),
                     'Currency' => $this->getCurrencyCode()
                 ),
                 'Commodities' => $itemdetails,
@@ -534,8 +534,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         } else {
             
 			if (!Mage::getStoreConfig('carriers/fedex/third_party')) {
-                $result->setCurrencyUnits($response->findStructure('Currency'));
-                $result->setTotalShippingCharges($response->findStructure('Amount'));
                 $result->setBillingWeightUnits($response->findStructure('Units'));
                 $result->setBillingWeight($response->findStructure('Value'));
             }

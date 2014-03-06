@@ -12,23 +12,15 @@
 
 
 /**
- * IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unitofmeasure
+ * IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Freemethod
  */
-class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unitofmeasure
+class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Freemethod
+    extends IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Method
 {
-
-    /**
-     * toOptionArray
-     *
-     * @return array
-     */
-    
     public function toOptionArray()
     {
-        return array(
-            'LB' => Mage::helper('usa')->__('Pounds'),
-            'KG' => Mage::helper('usa')->__('Kilograms'),
-			'G'  => Mage::helper('usa')->__('Grams')
-        );
+        $arr = parent::toOptionArray();
+        array_unshift($arr, array('value' => '', 'label' => Mage::helper('shipping')->__('None')));
+        return $arr;
     }
 }

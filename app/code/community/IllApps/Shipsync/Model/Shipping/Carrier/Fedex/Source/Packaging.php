@@ -17,7 +17,7 @@
 class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Packaging
 {
     
-/**
+	/**
      * toOptionArray
      * 
      * @return array

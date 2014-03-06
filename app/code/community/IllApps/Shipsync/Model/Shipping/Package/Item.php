@@ -169,26 +169,6 @@ class IllApps_Shipsync_Model_Shipping_Package_Item
      */
     public function getOrigin($id)
     {
-        if ($id != 0) {
-            $origRegionCode = Mage::getModel('directory/region')->load(Mage::getStoreConfig('shipping/altorigin/region'))->getCode();
-            
-            $origin['country']    = Mage::getStoreConfig('shipping/altorigin/country');
-            $origin['regionId']   = Mage::getStoreConfig('shipping/altorigin/region');
-            $origin['regionCode'] = (strlen($origRegionCode) > 2) ? '' : $origRegionCode;
-            $origin['postcode']   = Mage::getStoreConfig('shipping/altorigin/postcode');
-            $origin['city']       = Mage::getStoreConfig('shipping/altorigin/city');
-            
-            $shipperStreetLines = array(
-                Mage::getStoreConfig('shipping/altorigin/address1')
-            );
-            if (Mage::getStoreConfig('shipping/altorigin/address2') != '') {
-                $shipperStreetLines[] = Mage::getStoreConfig('shipping/altorigin/address2');
-            }
-            if (Mage::getStoreConfig('shipping/altorigin/address3') != '') {
-                $shipperStreetLines[] = Mage::getStoreConfig('shipping/altorigin/address3');
-            }
-            $origin['street'] = $shipperStreetLines;
-        } else {
             $origRegionCode = Mage::getModel('directory/region')->load(Mage::getStoreConfig('shipping/origin/region_id'))->getCode();
             
             $origin['country']    = Mage::getStoreConfig('shipping/origin/country_id');
@@ -200,14 +180,14 @@ class IllApps_Shipsync_Model_Shipping_Package_Item
             $shipperStreetLines = array(
                 Mage::getStoreConfig('shipping/origin/street_line1')
             );
-            if (Mage::getStoreConfig('shipping/origin/address2') != '') {
+            if (Mage::getStoreConfig('shipping/origin/street_line2') != '') {
                 $shipperStreetLines[] = Mage::getStoreConfig('shipping/origin/street_line2');
             }
-            if (Mage::getStoreConfig('shipping/origin/address3') != '') {
+            if (Mage::getStoreConfig('shipping/origin/street_line3') != '') {
                 $shipperStreetLines[] = Mage::getStoreConfig('shipping/origin/street_line3');
             }
             $origin['street'] = $shipperStreetLines;
-        }
+  
         return $origin;
     }
 }

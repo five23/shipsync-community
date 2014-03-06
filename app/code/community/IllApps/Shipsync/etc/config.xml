@@ -15,7 +15,7 @@
 <config>
 	<modules>
 		<IllApps_Shipsync>
-			<version>0.5.0.1</version>
+			<version>0.5.0.4</version>
 			<depends>
 				<Mage_Usa/>
 				<Mage_Sales/>
@@ -60,6 +60,7 @@
 			</shipsync>
 			<usa>
 				<rewrite>					
+					<shipping_carrier_abstract>IllApps_Shipsync_Model_Shipping_Carrier_Abstract</shipping_carrier_abstract>
 					<shipping_carrier_fedex>IllApps_Shipsync_Model_Shipping_Carrier_Fedex</shipping_carrier_fedex>
 					<shipping_carrier_fedex_rate>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate</shipping_carrier_fedex_rate>
 					<shipping_carrier_fedex_track>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Track</shipping_carrier_fedex_track>
@@ -70,12 +71,13 @@
 					<shipping_carrier_fedex_source_unitofmeasure>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unitofmeasure</shipping_carrier_fedex_source_unitofmeasure>
 					<shipping_carrier_fedex_source_origin>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Origin</shipping_carrier_fedex_source_origin>
 					<shipping_carrier_fedex_source_rate>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Rate</shipping_carrier_fedex_source_rate>
+					<shipping_carrier_fedex_source_method>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Method</shipping_carrier_fedex_source_method>
+					<shipping_carrier_fedex_source_freemethod>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Freemethod</shipping_carrier_fedex_source_freemethod>
 					<shipping_carrier_fedex_source_label_image>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Image</shipping_carrier_fedex_source_label_image>
 					<shipping_carrier_fedex_source_label_stock>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Stock</shipping_carrier_fedex_source_label_stock>
 					<shipping_carrier_fedex_source_label_orientation>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Orientation</shipping_carrier_fedex_source_label_orientation>
 					<shipping_carrier_fedex_source_smartpost_endorsement>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Endorsement</shipping_carrier_fedex_source_smartpost_endorsement>
-					<shipping_carrier_fedex_source_smartpost_indicia>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Indicia</shipping_carrier_fedex_source_smartpost_indicia>
-					<shipping_carrier_abstract>IllApps_Shipsync_Model_Shipping_Carrier_Abstract</shipping_carrier_abstract>
+					<shipping_carrier_fedex_source_smartpost_indicia>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Indicia</shipping_carrier_fedex_source_smartpost_indicia>					
 				</rewrite>
 			</usa>
 			<shipping>
@@ -232,7 +234,7 @@
 				<disable_rating>0</disable_rating>
 				<sandbox_mode>0</sandbox_mode>
 				<shipment_requesttype>0</shipment_requesttype>
-				<active>0</active>
+				<active>1</active>
 				<sallowspecific>0</sallowspecific>
 				<cutoff_cost/>
 				<dropoff>REGULAR_PICKUP</dropoff>

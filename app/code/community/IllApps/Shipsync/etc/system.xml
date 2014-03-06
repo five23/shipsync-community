@@ -1643,13 +1643,24 @@
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
             </third_party_fedex_account_country>
-            <free_shipping_enable translate="label">
-              <label><![CDATA[<strong>Shipping</strong>]]> Enable Free Shipping</label>
-              <sort_order>320</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-            </free_shipping_enable>
+        	<free_shipping_enable translate="label">
+				<label><![CDATA[<strong>Shipping</strong>]]> Free Shipping with Minimum Order Amount</label>
+				<frontend_type>select</frontend_type>
+				<source_model>adminhtml/system_config_source_enabledisable</source_model>
+				<sort_order>210</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>1</show_in_website>
+				<show_in_store>0</show_in_store>
+			</free_shipping_enable>
+			<free_shipping_subtotal translate="label">
+				<label><![CDATA[<strong>Shipping</strong>]]> Minimum Order Amount for Free Shipping</label>
+				<frontend_type>text</frontend_type>
+				<validate>validate-number validate-zero-or-greater</validate>
+				<sort_order>220</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>1</show_in_website>
+				<show_in_store>0</show_in_store>
+			</free_shipping_subtotal>
             <free_method translate="label">
               <label><![CDATA[<strong>Shipping</strong>]]> Free Shipping Method</label>
               <frontend_type>multiselect</frontend_type>
@@ -1660,17 +1671,7 @@
               <show_in_store>1</show_in_store>
               <can_be_empty>1</can_be_empty>
               <comment>Ground and Home Delivery must be selected independently</comment>
-            </free_method>
-            <free_method_limit>
-              <label><![CDATA[<strong>Shipping</strong>]]> Limit Free Shipping</label>
-              <frontend_type>select</frontend_type>
-              <source_model>adminhtml/system_config_source_yesno</source_model>
-              <sort_order>331</sort_order>
-              <show_in_default>1</show_in_default>
-              <show_in_website>1</show_in_website>
-              <show_in_store>1</show_in_store>
-              <comment>Enable to limit Free Shipping to continental U.S. destinations only (U.S. origin, no AK or HI destinations)</comment>
-            </free_method_limit>
+            </free_method>            
             <free_shipping_enable_all>
               <label><![CDATA[<strong>Shipping</strong>]]> Enable Free Shipping for All Items</label>
               <frontend_type>select</frontend_type>

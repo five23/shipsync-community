@@ -220,10 +220,10 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
             $shipperstreetlines = array(
                 Mage::getStoreConfig('shipping/origin/street_line1')
             );
-            if (Mage::getStoreConfig('shipping/origin/address2') != '') {
+            if (Mage::getStoreConfig('shipping/origin/street_line2') != '') {
                 $shipperstreetlines[] = Mage::getStoreConfig('shipping/origin/street_line2');
             }
-            if (Mage::getStoreConfig('shipping/origin/address3') != '') {
+            if (Mage::getStoreConfig('shipping/origin/street_line3') != '') {
                 $shipperstreetlines[] = Mage::getStoreConfig('shipping/origin/street_line3');
             }
             
@@ -253,12 +253,15 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
         } else {
             $rateRequest->setDestCountry(Mage::getModel('directory/country')->load(self::USA_COUNTRY_ID)->getIso2Code());
         }
-        	
-        $rateRequest->setPackageWeight(Mage::getModel('shipsync/shipping_package')->getPackageWeight($rateRequest->getItems()));
-
-        $rateRequest->setFreeMethodWeight($rateRequest->getPackageWeight() -
-            Mage::getModel('shipsync/shipping_package')->getFreeMethodWeight($rateRequest->getItems()));
-
+        
+		
+        $weight = $this->getTotalNumOfBoxes($request->getPackageWeight());
+        $rateRequest->setWeight($weight);
+        if ($request->getFreeMethodWeight()!= $request->getPackageWeight()) {
+            $rateRequest->setFreeMethodWeight($request->getFreeMethodWeight());
+        }
+		
+		
 		if (Mage::getStoreConfig('carriers/fedex/address_validation')
 			&& $rateRequest->getDestCountry() == 'US'
 			&& $rateRequest->getDestStreet()
@@ -269,14 +272,9 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
 		else { $rateRequest->setResidential(Mage::getStoreConfig('carriers/fedex/residence_delivery')); }
 
         
-        $rateRequest->setValue(Mage::getModel('shipsync/shipping_package')->getPackageValue($rateRequest->getItems()));
-        
-        if ($request->getPackageValueWithDiscount()) {
-            $rateRequest->setValueWithDiscount($request->getPackageValueWithDiscount());
-        } elseif ($rateRequest->getOrder()) {
-            $rateRequest->setValueWithDiscount($rateRequest->getValue() - Mage::getModel('shipsync/shipping_package')->getPackageDiscount($rateRequest->getItems(), $rateRequest->getOrder()));
-        }
-        
+        $rateRequest->setValue($request->getPackagePhysicalValue());
+        $rateRequest->setValueWithDiscount($request->getPackageValueWithDiscount());
+		
         $rateRequest->setDropoff($this->getUnderscoreCodeFromCode(Mage::getStoreConfig('carriers/fedex/dropoff')));
         $rateRequest->setRateType(Mage::getStoreConfig('carriers/fedex/rate_type'));
         $rateRequest->setShipTimestamp(date('c'));
@@ -298,6 +296,10 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
 			$rateRequest->setDefaultCommodity(Mage::getStoreConfig('carriers/fedex/default_commodity'));
 		}
         
+        $rateRequest->setIsReturn($request->getIsReturn());
+
+        $rateRequest->setBaseSubtotalInclTax($request->getBaseSubtotalInclTax());
+								   
         $this->_rateRequest = $rateRequest;
         
         return $this;
@@ -757,7 +759,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                 $rateResultMethod->setPrice($rate);
                 
                 //Test for Continental US destination
-                $freeMethodLimit = Mage::getStoreConfig('carriers/fedex/free_method_limit');
+                $freeMethodLimit = Mage::getStoreConfig('carriers/fedex/free_shipping_subtotal');
                 $destCode        = $this->_rateRequest->getDestRegionCode();
                 $destContinental = ($destCode == 'AK' || $destCode == 'HI') ? false : true;
                 $continentalTest = (($freeMethodLimit && $destContinental) || !$freeMethodLimit) ? true : false;

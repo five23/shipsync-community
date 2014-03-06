@@ -12,23 +12,17 @@
 
 
 /**
- * IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unitofmeasure
+ * IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Method
  */
-class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unitofmeasure
+class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Method
 {
-
-    /**
-     * toOptionArray
-     *
-     * @return array
-     */
-    
     public function toOptionArray()
     {
-        return array(
-            'LB' => Mage::helper('usa')->__('Pounds'),
-            'KG' => Mage::helper('usa')->__('Kilograms'),
-			'G'  => Mage::helper('usa')->__('Grams')
-        );
+        $fedex = Mage::getSingleton('usa/shipping_carrier_fedex');
+        $arr = array();
+        foreach ($fedex->getCode('method') as $k => $v) {
+            $arr[] = array('value' => $k, 'label' => $v);
+        }
+        return $arr;
     }
 }
