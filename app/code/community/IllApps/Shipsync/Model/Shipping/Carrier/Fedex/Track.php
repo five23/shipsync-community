@@ -22,8 +22,8 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Track extends IllApps_Shipsy
     protected $_trackResult;
     protected $_trackResultError;
     protected $_trackServiceClient;
-    protected $_trackServiceVersion = '4';
-    protected $_trackServiceWsdlPath = 'TrackService_v4.wsdl';
+    protected $_trackServiceVersion = '5';
+    protected $_trackServiceWsdlPath = 'TrackService_v5.wsdl';
 
 
 
