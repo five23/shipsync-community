@@ -23,8 +23,17 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <type name="Magento\Module\Updater\SetupFactory">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">	
+	<preference for="Magento\Usa\Model\Shipping\Carrier\AbstractCarrier" type="IllApps\ShipSync\Model\Shipping\Carrier\AbstractCarrier" />
+	<preference for="Magento\Usa\Model\Shipping\Carrier\AbstractCarrier\Source\Mode" type="IllApps\ShipSync\Model\Shipping\Carrier\AbstractCarrier\Source\Mode" />
+	<preference for="Magento\Usa\Model\Shipping\Carrier\AbstractCarrier\Source\Requesttype" type="IllApps\ShipSync\Model\Shipping\Carrier\AbstractCarrier\Source\Requesttype" />
+	<preference for="Magento\Usa\Model\Shipping\Carrier\Fedex" type="IllApps\ShipSync\Model\Shipping\Carrier\Fedex" />	
+	<preference for="Magento\Usa\Model\Shipping\Carrier\Fedex\Source\Dropoff" type="IllApps\ShipSync\Model\Shipping\Carrier\Fedex\Source\Dropoff" />	
+	<preference for="Magento\Usa\Model\Shipping\Carrier\Fedex\Source\Freemethod" type="IllApps\ShipSync\Model\Shipping\Carrier\Fedex\Source\Freemethod" />	
+	<preference for="Magento\Usa\Model\Shipping\Carrier\Fedex\Source\Generic" type="IllApps\ShipSync\Model\Shipping\Carrier\Fedex\Source\Generic" />	
+	<preference for="Magento\Usa\Model\Shipping\Carrier\Fedex\Source\Method" type="IllApps\ShipSync\Model\Shipping\Carrier\Fedex\Source\Method" />	
+	<preference for="Magento\Usa\Model\Shipping\Carrier\Fedex\Source\Packaging" type="IllApps\ShipSync\Model\Shipping\Carrier\Fedex\Source\Packaging" />	
+	<type name="Magento\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="shipsync_setup" xsi:type="string">IllApps\ShipSync\Model\Resource\Setup</item>

@@ -24,7 +24,7 @@
  */
 -->
 <config>
-    <module name="IllApps_ShipSync" version="6.0.0.0" active="true">        
+    <module name="IllApps_ShipSync" version="6.0.0.0" active="true">
         <depends>
             <module name="Magenta_Usa"/>
 			<module name="Magento_Sales"/>

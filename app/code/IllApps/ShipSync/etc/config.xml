@@ -32,41 +32,12 @@
             <active>true</active>
         </IllApps_ShipSync>
     </modules>
-    <admin>
-		<secure_url>
-			<shipsync>/shipsync</shipsync>
-		</secure_url>
-		<routers>
-			<shipsync>
-				<use>admin</use>
-				<args>
-					<module>IllApps_ShipSync</module>
-					<frontName>shipsync</frontName>
-				</args>
-			</shipsync>
-		</routers>
-	</admin>
 	<global>
 		<helpers>
 			<shipsync>
-				<class>IllApps_ShipSync_Helper</class>
+				<class>IllApps\ShipSync\Helper</class>
 			</shipsync>
 		</helpers>
-		<models>			
-			<usa>
-				<rewrite>					
-					<shipping_carrier_fedex>IllApps_ShipSync_Model_Shipping_Carrier_Fedex</shipping_carrier_fedex>
-					<shipping_carrier_fedex_source_dropoff>IllApps_ShipSync_Model_Shipping_Carrier_Fedex_Source_Dropoff</shipping_carrier_fedex_source_dropoff>
-					<shipping_carrier_fedex_source_freemethod>IllApps_ShipSync_Model_Shipping_Carrier_Fedex_Source_Freemethod</shipping_carrier_fedex_source_freemethod>							
-					<shipping_carrier_fedex_source_generic>IllApps_ShipSync_Model_Shipping_Carrier_Fedex_Source_Generic</shipping_carrier_fedex_source_generic>		
-					<shipping_carrier_fedex_source_method>IllApps_ShipSync_Model_Shipping_Carrier_Fedex_Source_Method</shipping_carrier_fedex_source_method>					
-					<shipping_carrier_fedex_source_packaging>IllApps_ShipSync_Model_Shipping_Carrier_Fedex_Source_Packaging</shipping_carrier_fedex_source_packaging>					
-					<shipping_carrier_abstractcarrier>IllApps_ShipSync_Model_Shipping_Carrier_AbstractCarrier</shipping_carrier_abstractcarrier>
-					<shipping_carrier_abstractcarrier_source_mode>IllApps_ShipSync_Model_Shipping_Carrier_AbstractCarrier_Source_Mode</shipping_carrier_abstractcarrier_source_mode>
-					<shipping_carrier_abstractcarrier_source_requesttype>IllApps_ShipSync_Model_Shipping_Carrier_AbstractCarrier_Source_Requesttype</shipping_carrier_abstractcarrier_source_requesttype>
-				</rewrite>
-			</usa>
-		</models>
 	</global>
     <default>
         <carriers>
@@ -75,6 +46,10 @@
                 <meter_number backend_model="Magento\Backend\Model\Config\Backend\Encrypted" />
                 <key backend_model="Magento\Backend\Model\Config\Backend\Encrypted" />
                 <password backend_model="Magento\Backend\Model\Config\Backend\Encrypted" />
+				<test_account backend_model="Magento\Backend\Model\Config\Backend\Encrypted" />
+                <test_meter_number backend_model="Magento\Backend\Model\Config\Backend\Encrypted" />
+                <test_key backend_model="Magento\Backend\Model\Config\Backend\Encrypted" />
+                <test_password backend_model="Magento\Backend\Model\Config\Backend\Encrypted" />
                 <sandbox_mode>0</sandbox_mode>
                 <shipment_requesttype>0</shipment_requesttype>
                 <active>0</active>
@@ -84,7 +59,6 @@
                 <dropoff>REGULAR_PICKUP</dropoff>
                 <free_method>FEDEX_GROUND</free_method>
                 <handling>0</handling>
-                <model>IllApps\ShipSync\Model\Shipping\Carrier\Fedex</model>
                 <packaging>YOUR_PACKAGING</packaging>
                 <title>Federal Express</title>
                 <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>

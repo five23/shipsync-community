@@ -27,10 +27,7 @@
 -->
 <config>
     <system>
-		<section id="shipping" translate="label" type="text" sortOrder="310" showInDefault="1" showInWebsite="1" showInStore="0">
-            <label>Shipping Settings</label>
-            <tab>sales</tab>
-            <resource>Magento_Shipping::config_shipping</resource>
+		<section id="shipping" translate="label" type="text" sortOrder="310" showInDefault="1" showInWebsite="1" showInStore="0">            
             <group id="origin" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Origin</label>
                 <field id="country_id" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -61,7 +58,7 @@
                 </field>
             </group>
         </section>
-        <section id="carriers">
+        <section id="carriers" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1">            
             <group id="fedex" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>FedEx</label>
                 <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -72,20 +69,35 @@
                     <label>Title</label>
                 </field>
                 <field id="account" translate="label comment" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Account ID</label>
+                    <label>Production Account ID</label>
                     <backend_model>Magento\Backend\Model\Config\Backend\Encrypted</backend_model>
-                    <comment>Please make sure to use only digits here. No dashes are allowed.</comment>
                 </field>
                 <field id="meter_number" translate="label" type="obscure" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Meter Number</label>
+                    <label>Production Meter Number</label>
                     <backend_model>Magento\Backend\Model\Config\Backend\Encrypted</backend_model>
                 </field>
                 <field id="key" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Key</label>
+                    <label>Production Key</label>
                     <backend_model>Magento\Backend\Model\Config\Backend\Encrypted</backend_model>
                 </field>
                 <field id="password" translate="label" type="obscure" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Password</label>
+                    <label>Production Password</label>
+                    <backend_model>Magento\Backend\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+				<field id="test_account" translate="label comment" type="obscure" sortOrder="71" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Test Account ID</label>
+                    <backend_model>Magento\Backend\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="test_meter_number" translate="label" type="obscure" sortOrder="72" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Test Meter Number</label>
+                    <backend_model>Magento\Backend\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="test_key" translate="label" type="obscure" sortOrder="73" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Test Key</label>
+                    <backend_model>Magento\Backend\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="test_password" translate="label" type="obscure" sortOrder="74" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Test Password</label>
                     <backend_model>Magento\Backend\Model\Config\Backend\Encrypted</backend_model>
                 </field>
                 <field id="sandbox_mode" translate="label" type="select" sortOrder="75" showInDefault="1" showInWebsite="1" showInStore="0">
