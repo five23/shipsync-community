@@ -40,6 +40,23 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
         $rateRequest = new Varien_Object();
         
         $this->_rateServiceClient = $this->_initWebServices($this->_rateServiceWsdlPath);
+		
+		/** Set request */
+ 		$this->_rateRequest = $rateRequest;
+        $this->setRateRequest($request);
+        $this->_rateResult = $this->_getQuotes();
+		
+		if ($this->_rateResult->getError()) {
+                $error = Mage::getModel('shipping/rate_result_error');
+                $error->setCarrier('fedex');
+                $error->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title'));
+                $error->setErrorMessage($this->_rateResultError);
+                $this->_rateResult->append($error);
+        }
+		
+		return $this->getRateResult();
+		
+		/*
         
         $origins = Mage::getModel('shipsync/shipping_package_origins');
         
@@ -90,10 +107,17 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
             return false;
         }
         
-        return $multipleResponses;
+        return $multipleResponses;*/
     }
 	
-    
+    /**
+     * Get result
+     *
+     * @return object
+     */
+    public function getRateResult() { return $this->_rateResult; }
+	
+	
     /*
      * Prepare Request
      *
