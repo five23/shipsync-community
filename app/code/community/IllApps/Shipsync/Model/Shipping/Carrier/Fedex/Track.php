@@ -89,19 +89,12 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Track extends IllApps_Shipsy
 	$request['PackageIdentifier']['Type']  = 'TRACKING_NUMBER_OR_DOORTAG';
         $request['IncludeDetailedScans'] = true;
 
-	//if (Mage::getStoreConfig('carriers/fedex/debug_firebug')) {
-        //    Mage::Helper('shipsync')->log($request);
-	//}
-
         try
         {
             Mage::Helper('shipsync')->mageLog($request, 'track');
             $response = $this->_trackServiceClient->track($request);
             Mage::Helper('shipsync')->mageLog($response, 'track');
 
-            //if (Mage::getStoreConfig('carriers/fedex/debug_firebug')) {
-            //    Mage::Helper('shipsync')->log($response);
-           // }
 
             $this->_parseWsdlTrackingResponse($tracking, $response);
         }

@@ -381,9 +381,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
             }
             
             if (isset($packages) && is_array($packages)) {
-                if (Mage::getStoreConfig('carriers/fedex/debug_firebug')) {
-                    Mage::Helper('shipsync')->log($packages);
-                }
                 
                 $i = 0;
                 
@@ -502,9 +499,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
         
         $this->setPackageCount($request['RequestedShipment']['PackageCount']);
         
-        if (Mage::getStoreConfig('carriers/fedex/debug_firebug')) {
-            Mage::Helper('shipsync')->log($request);
-        }
         try {
             Mage::Helper('shipsync')->mageLog($request, 'rate');			
             $response = $rateServiceClient->getRates($request);            
@@ -513,10 +507,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
         catch (SoapFault $ex) {
             $this->_rateResultError = $ex->getMessage();
             return $rateResult;
-        }
-        
-        if (Mage::getStoreConfig('carriers/fedex/debug_firebug')) {
-            Mage::Helper('shipsync')->log($response);
         }
         
         $this->_rateResult = $rateResult;

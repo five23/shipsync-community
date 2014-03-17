@@ -75,9 +75,7 @@ class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
             'stack' => self::__generateStack($backtrace)
         );
         
-        self::$__log[] = $log;
-        
-        return Mage::getBlockSingleton('shipsync/firebug')->getLastLoggedAsHtml();
+        self::$__log[] = $log;        
     }
     
     

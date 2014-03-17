@@ -50,11 +50,6 @@ class IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_Packages_View extend
         return $this;
     }
     
-    /**
-     * Retrieve shipment model instance
-     *
-     * @return Mage_Sales_Model_Order_Shipment
-     */
     public function getShipment()
     {
         return Mage::registry('current_shipment');

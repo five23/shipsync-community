@@ -17,8 +17,7 @@
 class IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_Packages_View_Form extends Mage_Adminhtml_Block_Sales_Order_Abstract
 {
 
-    public function __construct()
-    {}
+    public function __construct() {}
 
     public function getShipmentId()
     {
@@ -33,7 +32,8 @@ class IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_Packages_View_Form e
     public function setActivePackage($package)
     {
         $this->getModel()->setActivePackage($package);
-        return $this;
+        
+		return $this;
     }
 
     public function getActivePackage()
