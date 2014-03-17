@@ -16,8 +16,7 @@
  */
 class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Orientation
 {
-    
-    
+	
     /**
      * toOptionArray
      *
@@ -27,15 +26,12 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Orientation
     {
         $fedex = Mage::getSingleton('usa/shipping_carrier_fedex');
         
-        $arr = array();
+		$arr = array();
         
-        foreach ($fedex->getCode('label_orientation') as $key => $value) {
-            $arr[] = array(
-                'value' => $key,
-                'label' => $value
-            );
+		foreach ($fedex->getCode('label_orientation') as $k => $v) {
+            $arr[] = array('value' => $k, 'label' => $v);
         }
-        
+		
         return $arr;
     }
     

@@ -15,7 +15,13 @@
  * IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Signature
  */
 class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Signature
-{
+{    
+    
+	/**
+     * toOptionArray
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
         $fedex = Mage::getSingleton('usa/shipping_carrier_fedex');

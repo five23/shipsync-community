@@ -17,8 +17,7 @@
 class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Rate
 {
     
-    
-    /**
+    	/**
      * toOptionArray
      *
      * @return array
@@ -27,15 +26,12 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Rate
     {
         $fedex = Mage::getSingleton('usa/shipping_carrier_fedex');
         
-        $arr = array();
+		$arr = array();
         
-        foreach ($fedex->getCode('rate_type') as $k => $v) {
-            $arr[] = array(
-                'value' => $k,
-                'label' => $v
-            );
+		foreach ($fedex->getCode('rate_type') as $k => $v) {
+            $arr[] = array('value' => $k, 'label' => $v);
         }
-        
+		
         return $arr;
     }
     

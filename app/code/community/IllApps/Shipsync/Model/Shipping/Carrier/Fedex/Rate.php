@@ -319,7 +319,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
 		$request['RequestedShipment']['Shipper']['Address']['CountryCode'] = $rateRequest->getOrigCountry();
             
 		if ($rateRequest->getOrigRegionCode()) {
-			$request['RequestedShipment']['Shipper']['Address']['CountryCode'] = $rateRequest->getOrigRegionCode();
+			$request['RequestedShipment']['Shipper']['Address']['StateOrProvinceCode'] = $rateRequest->getOrigRegionCode();
 		}
         
         if ($rateRequest->getDestStreet()) {

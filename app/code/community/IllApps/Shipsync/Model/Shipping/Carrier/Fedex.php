@@ -230,9 +230,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
             'FEDEXENVELOPE' => 'FEDEX_ENVELOPE',
             'FEDEXPAK' => 'FEDEX_PAK',
             'FEDEXBOX' => 'FEDEX_BOX',
-            'FEDEXBOXSMALL' => 'FEDEX_BOX_SMALL',
-            'FEDEXBOXMED' => 'FEDEX_BOX_MED',
-            'FEDEXBOXLARGE' => 'FEDEX_BOX_LARGE',
             'FEDEXTUBE' => 'FEDEX_TUBE',
             'FEDEX10KGBOX' => 'FEDEX_10KG_BOX',
             'FEDEX25KGBOX' => 'FEDEX_25KG_BOX',
@@ -287,9 +284,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
                 'FEDEX_ENVELOPE' => Mage::helper('usa')->__('FedEx Envelope'),
                 'FEDEX_PAK' => Mage::helper('usa')->__('FedEx Pak'),
                 'FEDEX_BOX' => Mage::helper('usa')->__('FedEx Box'),
-                'FEDEX_BOX_SMALL' => Mage::helper('usa')->__('FedEx Box Small'),
-                'FEDEX_BOX_MED' => Mage::helper('usa')->__('FedEx Box Medium'),
-                'FEDEX_BOX_LARGE' => Mage::helper('usa')->__('FedEx Box Large'),
                 'FEDEX_TUBE' => Mage::helper('usa')->__('FedEx Tube'),
                 'FEDEX_10KG_BOX' => Mage::helper('usa')->__('FedEx 10kg Box'),
                 'FEDEX_25KG_BOX' => Mage::helper('usa')->__('FedEx 25kg Box'),
@@ -329,9 +323,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
                 'FEDEXENVELOPE' => Mage::helper('usa')->__('FedEx Envelope'),
                 'FEDEXPAK' => Mage::helper('usa')->__('FedEx Pak'),
                 'FEDEXBOX' => Mage::helper('usa')->__('FedEx Box'),
-                'FEDEXBOXSMALL' => Mage::helper('usa')->__('FedEx Box Small'),
-                'FEDEXBOXMED' => Mage::helper('usa')->__('FedEx Box Medium'),
-                'FEDEXBOXLARGE' => Mage::helper('usa')->__('FedEx Box Large'),
                 'FEDEXTUBE' => Mage::helper('usa')->__('FedEx Tube'),
                 'FEDEX10KGBOX' => Mage::helper('usa')->__('FedEx 10kg Box'),
                 'FEDEX25KGBOX' => Mage::helper('usa')->__('FedEx 25kg Box'),
@@ -387,7 +378,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
                 'INDIRECT'              => Mage::helper('usa')->__('Indirect'),
 				'SERVICE_DEFAULT'       => Mage::helper('usa')->__('Service Default')
             ),
-			  'unit_of_measure'=>array(
+			'unit_of_measure'=>array(
                 'LB'   =>  Mage::helper('usa')->__('Pounds'),
                 'KG'   =>  Mage::helper('usa')->__('Kilograms'),
 				'G'    =>  Mage::helper('usa')->__('Grams'),

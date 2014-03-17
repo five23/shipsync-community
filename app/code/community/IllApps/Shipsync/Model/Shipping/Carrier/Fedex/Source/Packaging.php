@@ -23,14 +23,14 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Packaging
      * @return array
      */
     public function toOptionArray()
-    {
-	$arr = array();
-
-	$fedexPackages = Mage::getModel('usa/shipping_carrier_fedex_package')->getFedexPackages();
-
-	foreach ($fedexPackages as $key => $value)
 	{
-            $arr[] = array('value' => $key, 'label' => $value['label']);
+		$arr = array();
+
+		$fedexPackages = Mage::getModel('usa/shipping_carrier_fedex_package')->getFedexPackages();
+
+		foreach ($fedexPackages as $key => $value)
+		{
+				$arr[] = array('value' => $key, 'label' => $value['label']);
         }
 
         return $arr;

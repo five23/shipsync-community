@@ -17,8 +17,7 @@
 class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Endorsement
 {
     
-    
-    /**
+       /**
      * toOptionArray
      *
      * @return array
@@ -27,15 +26,12 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Endorsement
     {
         $fedex = Mage::getSingleton('usa/shipping_carrier_fedex');
         
-        $arr = array();
+		$arr = array();
         
-        foreach ($fedex->getCode('smartpost_endorsement') as $k => $v) {
-            $arr[] = array(
-                'value' => $k,
-                'label' => $v
-            );
+		foreach ($fedex->getCode('smartpost_endorsement') as $k => $v) {
+            $arr[] = array('value' => $k, 'label' => $v);
         }
-        
+		
         return $arr;
     }
     

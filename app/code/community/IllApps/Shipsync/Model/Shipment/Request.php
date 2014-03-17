@@ -27,19 +27,24 @@ class IllApps_Shipsync_Model_Shipment_Request extends IllApps_Shipsync_Model_Shi
      */
     public function getShipperDetails()
     {		
-        return array(
+		$details = array(
             'Contact' => array(
                 'CompanyName' => $this->getShipperCompany(),
                 'PhoneNumber' => $this->getShipperPhone()
             ),
             'Address' => array(
                 'StreetLines' => $this->getShipperStreetLines(),
-                'City' => $this->getShipperCity(),
-                'StateOrProvinceCode' => $this->getShipperStateOrProvinceCode(),
+                'City' => $this->getShipperCity(),                
                 'PostalCode' => $this->getShipperPostalCode(),
                 'CountryCode' => $this->getShipperCountryCode()
             )
         );
+		
+		if ($this->getShipperStateOrProvinceCode() != '') {
+			$details['Address']['StateOrProvinceCode'] = $this->getShipperStateOrProvinceCode();
+		}
+		
+		return $details;
     }
     
     /*

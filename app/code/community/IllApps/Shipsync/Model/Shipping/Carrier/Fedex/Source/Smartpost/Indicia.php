@@ -17,7 +17,6 @@
 class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Indicia
 {
     
-    
     /**
      * toOptionArray
      *
@@ -27,15 +26,12 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Indicia
     {
         $fedex = Mage::getSingleton('usa/shipping_carrier_fedex');
         
-        $arr = array();
+		$arr = array();
         
-        foreach ($fedex->getCode('smartpost_indicia') as $k => $v) {
-            $arr[] = array(
-                'value' => $k,
-                'label' => $v
-            );
+		foreach ($fedex->getCode('smartpost_indicia') as $k => $v) {
+            $arr[] = array('value' => $k, 'label' => $v);
         }
-        
+		
         return $arr;
     }
     

@@ -55,33 +55,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
 				'baseline'      => 0.0,
 				'max_weight'    => 20.0
 			),
-			'FEDEX_BOX_SMALL' => array
-			(
-				'label'         => Mage::helper('usa')->__('FedEx Box Small'),		
-				'length'        => 12.25,
-				'width'         => 10.9,
-				'height'        => 1.5,
-				'baseline'      => 0.0,
-				'max_weight'    => 20.0
-			),
-			'FEDEX_BOX_MED' => array
-			(
-				'label'         => Mage::helper('usa')->__('FedEx Box Medium'),		
-				'length'        => 13.25,
-				'width'         => 11.5,
-				'height'        => 2.38,
-				'baseline'      => 0.0,
-				'max_weight'     > 20.0
-			),
-			'FEDEX_BOX_LARGE' => array
-			(
-				'label'         => Mage::helper('usa')->__('FedEx Box Large'),		
-				'length'        => 17.88,
-				'width'         => 12.38,
-				'height'        => 3,
-				'baseline'      => 0.0,
-				'max_weight'    => 20.0
-			),
 			'FEDEX_10KG_BOX' => array
 			(
 				'label'         => Mage::helper('usa')->__('FedEx 10kg Box'),		
@@ -103,10 +76,10 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
 			'YOUR_PACKAGING' => array
 			(
 				'label'         => Mage::helper('usa')->__('Your Packaging'),		
-				'length'        => 0.0,
-				'width'         => 0.0,
-				'height'        => 0.0,                
-				'baseline'      => 0.0,
+				'length'        => null,
+				'width'         => null,
+				'height'        => null,                
+				'baseline'      => null,
 				'max_weight'    => Mage::getStoreConfig('usa/shipping_carriers_fedex/max_package_weight')
 			)
 		);
