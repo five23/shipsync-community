@@ -113,33 +113,6 @@ class IllApps_Shipsync_Model_Shipment_Response extends Varien_Object
         {
             return isset($obj->NetCharge->$var) ? $obj->TotalNetCharge->$var : $obj->TotalBillingWeight->$var;
         }
-		/*
-		if (!Mage::getStoreConfig('carriers/fedex/test_mode') && ($rateType == 'PREFERRED')) {
-			if (is_array($this->getShipmentRateDetails())) {                        
-				foreach ($this->getShipmentRateDetails() as $ratedShipmentDetail) {                            
-					if ($ratedShipmentDetail->ShipmentRateDetail->RateType == 'PREFERRED_ACCOUNT_SHIPMENT') {                            
-						$shipmentRateDetail = $ratedShipmentDetail->ShipmentRateDetail;                       
-					}
-				}
-			}
-		}
-		else {
-			if (is_array($this->getShipmentRateDetails())) {
-			{
-				foreach ($this->getShipmentRateDetails() as $ratedShipmentDetail)
-				{
-					$_rateType = $ratedShipmentDetail->ShipmentRateDetail->RateType;
-
-					if (($_rateType == 'PAYOR_' . $rateType . '_SHIPMENT') || ($_rateType == 'RATED_' . $rateType . '_SHIPMENT') ||
-						($_rateType == 'PAYOR_' . $rateType . '_PACKAGE')  || ($_rateType == 'RATED_' . $rateType . '_PACKAGE'))
-					{
-						$shipmentRateDetail = $ratedShipmentDetail->ShipmentRateDetail; break;
-					}
-				}
-			}
-		}
-
-		$rate = $shipmentRateDetail->TotalNetCharge->Amount;*/
                 
     }
 

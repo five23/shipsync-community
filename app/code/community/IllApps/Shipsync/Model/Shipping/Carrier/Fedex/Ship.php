@@ -36,7 +36,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
      */
     public function createShipment($request)
     {		
-		/** Check if method is active */
         $this->_shipServiceClient = $this->_initWebServices($this->_shipServiceWsdlPath);
 
 		/** Set ship request */

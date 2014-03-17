@@ -20,8 +20,7 @@ class IllApps_Shipsync_Model_Sales_Order_Shipment_Package_Item extends Varien_Ob
     {
         $_item = Mage::getModel('catalog/product')->load($data['i']);
         
-        $this->setName($_item->getName())
-            ->setQty($data['q']);
+        $this->setName($_item->getName())->setQty($data['q']);
 
         return $this;
     }

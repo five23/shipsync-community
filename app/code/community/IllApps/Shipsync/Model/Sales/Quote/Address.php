@@ -25,39 +25,40 @@ class IllApps_Shipsync_Model_Sales_Quote_Address extends Mage_Sales_Model_Quote_
      */
     public function validate()
     {
-	// Get address validation model
-	$fedexAddress = Mage::getModel('usa/shipping_carrier_fedex_address');
+		// Get address validation model
+		$fedexAddress = Mage::getModel('usa/shipping_carrier_fedex_address');
 
-	// If shipping address
-	if ($this->getAddressType() == 'shipping')
-	{
-	    // If street is present
-	    if ($this->getStreet(-1))
-	    {
-		// If PO Box filtering is enabled and street is a PO Box
-		if (Mage::getStoreConfig('carriers/fedex/filter_po_boxes') && $fedexAddress->isPostOfficeBox($this->getStreet(1)))
+		// If shipping address
+		if ($this->getAddressType() == 'shipping')
 		{
-		    return array(Mage::helper('customer')->__("We're sorry, we do not ship to PO Boxes."));
-		}
+			// If street is present
+			if ($this->getStreet(-1))
+			{
+				// If PO Box filtering is enabled and street is a PO Box
+				if (Mage::getStoreConfig('carriers/fedex/filter_po_boxes') && $fedexAddress->isPostOfficeBox($this->getStreet(1)))
+				{
+					return array(Mage::helper('customer')->__("We're sorry, we do not ship to PO Boxes."));
+				}
 
-		// If country is US and address validation is enabled
-		if ($this->getCountryId() == 'US' && Mage::getStoreConfig('carriers/fedex/address_validation'))
-		{
-		    // Validate address
-		    $fedexAddress->validate($this);                    
+				// If country is US and address validation is enabled
+				if ($this->getCountryId() == 'US' && Mage::getStoreConfig('carriers/fedex/address_validation'))
+				{
+					// Validate address
+					$fedexAddress->validate($this);                    
 
-		    // Check for error
-		    if ($fedexAddress->getAddressResultError())
-		    { 
-			return $fedexAddress->getAddressResultError();
-		    }
-		}
-	    }
+					// Check for error
+					if ($fedexAddress->getAddressResultError())
+					{ 
+					return $fedexAddress->getAddressResultError();
+					}
+				}
+			}
         }
 
-	// Return true for all other addresses
-	return true;
+		// Return true for all other addresses
+		return true;
     }   
+	
 	
    /**
      * Collecting shipping rates by address
@@ -65,12 +66,7 @@ class IllApps_Shipsync_Model_Sales_Quote_Address extends Mage_Sales_Model_Quote_
      * @return Mage_Sales_Model_Quote_Address
      */
     public function collectShippingRates()
-    {
-        //always get new rates
-        /*if (!$this->getCollectShippingRates()) {
-            return $this;
-        }*/
- 
+    { 
         $this->setCollectShippingRates(false);
 
         $this->removeAllShippingRates();

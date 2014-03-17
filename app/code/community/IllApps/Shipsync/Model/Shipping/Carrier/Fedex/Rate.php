@@ -38,9 +38,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
 		
-        // Check if active
-		if (!$this->getConfigFlag('active')) { return false; }
-        
         // Set client
 		$this->_rateServiceClient = $this->_initWebServices($this->_rateServiceWsdlPath);
 		

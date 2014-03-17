@@ -178,20 +178,6 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
             
             foreach ($itemsToPack as $key => $itemToPack) {
                 $_items[] = $_itemsBySku[$post['items'][$itemToPack - 1]['sku']];
-                if ($_items[$key]['alt_origin'] != $package['altOrigin']) {
-                    $error = true;
-                }
-            }
-            
-            if ($error) {
-                unset($post);
-                $post['error'] = 'Some items do not match package origin';
-                
-                $encoded = json_encode($post);
-                
-                $this->getResponse()->setBody($encoded);
-                
-                return false;
             }
             
             $_packages[] = array(
@@ -202,9 +188,7 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
                 'weight' => $package['weight'],
                 'length' => $package['length'],
                 'width' => $package['width'],
-                'height' => $package['height'],
-                'alt_origin' => $package['altOrigin']
-                
+                'height' => $package['height']                
             );
         }
         
@@ -298,14 +282,11 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
         foreach ($post['packages'] as $package) {
             unset($_items);
             
-            $itemsToPack = explode(',', $package['items']);
-            
-            $e_origin = false;
+            $itemsToPack = explode(',', $package['items']);            
             
             foreach ($itemsToPack as $key => $itemToPack) {
                 $_items[] = $_itemsById[$post['items'][$itemToPack - 1]['item_id']];
-            }
-            
+            }            
             
             $package['dangerous']    = false;
             $package['cod']          = false;
