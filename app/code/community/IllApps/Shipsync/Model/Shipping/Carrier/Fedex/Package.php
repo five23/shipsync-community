@@ -103,9 +103,9 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
 			'YOUR_PACKAGING' => array
 			(
 				'label'         => Mage::helper('usa')->__('Your Packaging'),		
-				'length'        => Mage::getStoreConfig('usa/shipping_carriers_fedex/max_package_length'),
-				'width'         => Mage::getStoreConfig('usa/shipping_carriers_fedex/max_package_girth'),
-				'height'        => Mage::getStoreConfig('usa/shipping_carriers_fedex/max_package_girth'),                
+				'length'        => 0.0,
+				'width'         => 0.0,
+				'height'        => 0.0,                
 				'baseline'      => 0.0,
 				'max_weight'    => Mage::getStoreConfig('usa/shipping_carriers_fedex/max_package_weight')
 			)

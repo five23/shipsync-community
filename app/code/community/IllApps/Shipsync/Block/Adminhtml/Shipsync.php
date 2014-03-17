@@ -36,10 +36,12 @@ class IllApps_Shipsync_Block_Adminhtml_Shipsync extends Mage_Adminhtml_Block_Wid
         $this->setOrderStoreDate($this->formatDate($this->getOrder()->getCreatedAtStoreDate(), 'medium', true)); // Set order store date
         $this->setOrderTimezone($this->getOrder()->getCreatedAtStoreDate()->getTimezone()); // Set order timezone
         
-        $this->setShippingMethod(explode('_', $this->getOrder()->getShippingMethod())); // Set shipping method        	        
-        $this->setDefaultPackages($shippingPackage->getDefaultPackages(array(
-            $this->getShippingMethod(0)
-        ))); // Set default packages
+        $this->setShippingMethod(explode('_', $this->getOrder()->getShippingMethod())); // Set shipping method
+		
+        $this->setDefaultPackages(Mage::getModel('shipsync/shipping_package')->getDefaultPackages(array(
+            'fedex'
+        )));
+        
         $this->setItems($shippingPackage->getParsedItems($this->getOrder()->getAllItems(), true)); // Set items
         $this->setPackages($shippingPackage->estimatePackages($this->getItems(), $this->getDefaultPackages())); // Set packages        
         
