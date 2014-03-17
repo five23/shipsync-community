@@ -57,14 +57,14 @@ class IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_View extends Mage_Ad
                     ));
                     
                     // Add button for COD label
-                    $this->_addButton('reprint_cod_label_' . $package, array(
+                    $this->_addButton('reprint_cod_label', array(
                         'label' => Mage::helper('sales')->__('Print COD Label'),
                         'onclick' => 'setLocation(\'' . $codurl . '\')'
                     ));
                 }
                 
                 // Add print label button
-                $this->_addButton('reprint_label_' . $package, array(
+                $this->_addButton('reprint_label', array(
                     'label' => Mage::helper('sales')->__('Print Label'),
                     'onclick' => 'setLocation(\'' . $url . '\')'
                 ));

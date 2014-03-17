@@ -67,6 +67,7 @@
 					<shipping_carrier_fedex_ship>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship</shipping_carrier_fedex_ship>
 					<shipping_carrier_fedex_address>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Address</shipping_carrier_fedex_address>
 					<shipping_carrier_fedex_package>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package</shipping_carrier_fedex_package>
+					<shipping_carrier_fedex_source_signature>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Signature</shipping_carrier_fedex_source_signature>
 					<shipping_carrier_fedex_source_packaging>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Packaging</shipping_carrier_fedex_source_packaging>
 					<shipping_carrier_fedex_source_unitofmeasure>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unitofmeasure</shipping_carrier_fedex_source_unitofmeasure>
 					<shipping_carrier_fedex_source_origin>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Origin</shipping_carrier_fedex_source_origin>
@@ -244,7 +245,8 @@
 				<max_package_weight>150</max_package_weight>
 				<handling_type>F</handling_type>
 				<handling_action>O</handling_action>
-				<mage_log>0</mage_log>				
+				<mage_log>0</mage_log>			
+				<signature>SERVICE_DEFAULT</signature>
 			</fedex>
 		</carriers>
 	</default>

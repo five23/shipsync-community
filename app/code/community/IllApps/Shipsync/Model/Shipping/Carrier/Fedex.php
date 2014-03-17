@@ -380,11 +380,12 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
                 'FORWARDING_SERVICE' => Mage::helper('usa')->__('Forwarding Service'),
                 'RETURN_SERVICE' => Mage::helper('usa')->__('Return Service')
             ),			
-            'delivery_confirmation_types' => array(
-                'NO_SIGNATURE_REQUIRED' => Mage::helper('usa')->__('Not Required'),
+            'signature' => array(
+                'NO_SIGNATURE_REQUIRED' => Mage::helper('usa')->__('No Signature Required'),
                 'ADULT'                 => Mage::helper('usa')->__('Adult'),
                 'DIRECT'                => Mage::helper('usa')->__('Direct'),
                 'INDIRECT'              => Mage::helper('usa')->__('Indirect'),
+				'SERVICE_DEFAULT'       => Mage::helper('usa')->__('Service Default')
             ),
 			  'unit_of_measure'=>array(
                 'LB'   =>  Mage::helper('usa')->__('Pounds'),

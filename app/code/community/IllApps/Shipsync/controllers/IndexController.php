@@ -304,20 +304,8 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
             
             foreach ($itemsToPack as $key => $itemToPack) {
                 $_items[] = $_itemsById[$post['items'][$itemToPack - 1]['item_id']];
-                if ($_items[$key]['alt_origin'] != $package['altOrigin']) {
-                    $e_origin = true;
-                }
             }
             
-            if ($e_origin) {
-                /** Set error message */
-                Mage::getSingleton('adminhtml/session')->addError("Some items do not match package origin");
-                
-                /** Redirect */
-                $this->_redirectReferer();
-                
-                return $this;
-            }
             
             $package['dangerous']    = false;
             $package['cod']          = false;

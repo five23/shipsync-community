@@ -23,17 +23,19 @@ class IllApps_Shipsync_Model_Shipment_Package extends Mage_Core_Model_Abstract
     {
         $this->_init('shipping/shipment_package');
     }
+	
     
     /*
      * Returns parsed item details for ship request
      * 
      * @return array
      */
-    public function returnPackageContents()
+    public function getContents()
     {
         foreach ($this->getItems() as $_item) {
+			
             $item = Mage::getModel('sales/order_item')->load($_item['id']);
-            
+			
             $contents[] = array(
                 'ItemNumber' => $item['id'],
                 'Description' => $item->getName(),
@@ -44,6 +46,7 @@ class IllApps_Shipsync_Model_Shipment_Package extends Mage_Core_Model_Abstract
         return $contents;
     }
     
+	
     /*
      * Returns weight converted into KG if applicable
      *

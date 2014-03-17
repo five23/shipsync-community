@@ -438,22 +438,7 @@ class IllApps_Shipsync_Model_Shipping_Package
     
     public function setPackageOrigin(&$packages)
     {
-        foreach ($packages as $key => &$package) {
-            if (isset($package['alt_origin'])) {
-                $origRegionCode = Mage::getModel('directory/region')->load(Mage::getStoreConfig('shipping/altorigin/region'))->getCode();
-                
-                $package['country']  = Mage::getStoreConfig('shipping/altorigin/country');
-                $package['region']   = (strlen($origRegionCode) > 2) ? '' : $origRegionCode;
-                $package['postcode'] = Mage::getStoreConfig('shipping/altorigin/postcode');
-                $package['city']     = Mage::getStoreConfig('shipping/altorigin/city');
-                $package['address1'] = Mage::getStoreConfig('shipping/altorigin/address1');
-                if (Mage::getStoreConfig('shipping/altorigin/address2') != '') {
-                    $package['address2'] = Mage::getStoreConfig('shipping/altorigin/address2');
-                }
-                if (Mage::getStoreConfig('shipping/altorigin/address3') != '') {
-                    $package['address3'] = Mage::getStoreConfig('shipping/altorigin/address3');
-                }
-            } else {
+
                 $origCountry    = Mage::getStoreConfig('shipping/origin/country_id');
                 $origRegionCode = Mage::getModel('directory/region')->load(Mage::getStoreConfig('shipping/origin/region_id'))->getCode();
                 
@@ -468,8 +453,7 @@ class IllApps_Shipsync_Model_Shipping_Package
                 if (Mage::getStoreConfig('shipping/origin/address3') != '') {
                     $package['address3'] = Mage::getStoreConfig('shipping/origin/address3');
                 }
-            }
-        }
+
     }
     
     

@@ -35,28 +35,21 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
      * @return object
      */
     public function createShipment($request)
-    {
-        $origins = Mage::getModel('shipsync/shipping_package_origins');
-        
+    {		
+		/** Check if method is active */
         $this->_shipServiceClient = $this->_initWebServices($this->_shipServiceWsdlPath);
-        
-        $origins->prepareShipRequest($request, $itemsByOrigin, $packagesByOrigin);
-        
-        foreach ($itemsByOrigin as $key => $items) {
-            if (isset($packagesByOrigin)) {
-                $request->setPackages($packagesByOrigin[$key]);
-            }
-            $origins->setOrigins($request, (int) $items[0]['alt_origin']);
-            
-            $this->setShipRequest($request);
-            
-            $this->_shipResult = $this->_createShipment();
-            
-            $shipResultCollection[] = $this->_shipResult;
-        }
-        return $origins->collectMultipleShipments($shipResultCollection);
+
+		/** Set ship request */
+		$this->setShipRequest($request);		
+
+		/** Set result */
+		$this->_shipResult = $this->_createShipment();
+
+		/** Return result */
+		return $this->_shipResult;
     }
     
+	
     /**
      * Set shipment request
      *
@@ -64,59 +57,101 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
      * @return IllApps_Shipsync_Model_Shipping_Carrier_Fedex
      */
     public function setShipRequest($request)
-    {		
-		
+    {				
         $shipRequest = Mage::getModel('shipsync/shipment_request');
-
-		$shipperRegionCode = $request->getOrigRegionId();
+        		
+        $shipRequest->setShipmentObject($request->getShipmentObject());		
+		$shipRequest->setOrderId($request->getOrderId());		
+		$shipRequest->setOrder(Mage::getModel('sales/order')->loadByIncrementId($shipRequest->getOrderId()));
+		$shipRequest->setStore($shipRequest->getOrder()->getStore());				
+		$shipRequest->setPackages($request->getPackages());	
+		$shipRequest->setMethodCode($request->getMethodCode());
+		$shipRequest->setServiceType($this->getUnderscoreCodeFromCode($shipRequest->getMethodCode()));
+		$shipRequest->setDropoffType($this->getUnderscoreCodeFromCode(Mage::getStoreConfig('carriers/fedex/dropoff')));
+		$shipRequest->setCustomerReference($shipRequest->getOrderId() . '_pkg' . $request->getPackageId());
+		$shipRequest->setInvoiceNumber('INV' . $shipRequest->getOrderId());
+					
+		// Shipper region id
+		$shipperRegionId = Mage::getStoreConfig('shipping/origin/region_id');				
         
-		if (is_numeric($shipperRegionCode)) {
-            $shipperRegionCode = Mage::getModel('directory/region')->load($shipperRegionCode)->getCode();
+		// Shipper region code
+		if (is_numeric($shipperRegionId)) {
+            $shipRequest->setShipperRegionCode(Mage::getModel('directory/region')->load($shipperRegionId)->getCode());
+        }				
+		
+		
+		// Shipper company
+        $shipRequest->setShipperCompany(Mage::app()->getStore()->getFrontendName());
+		
+		// Shipper streetlines
+		$shipperStreetLines = array(Mage::getStoreConfig('shipping/origin/street_line1'));
+		
+        if (Mage::getStoreConfig('shipping/origin/street_line2') != '') {
+			$shipperStreetLines[] = Mage::getStoreConfig('shipping/origin/street_line2');
         }
-				
-        $shipRequest->setShipperCompany(Mage::app()->getStore()->getFrontendName());		
-        $shipRequest->setOrderId($request->getOrderId());
-        $shipRequest->setOrder(Mage::getModel('sales/order')->loadByIncrementId($shipRequest->getOrderId()));
-        $shipRequest->setShipmentObject($request->getShipmentObject());
-        $shipRequest->setStore($shipRequest->getOrder()->getStore());
-        $shipRequest->setPackages($request->getPackages());
-        $shipRequest->setMethodCode($request->getMethodCode());
-        $shipRequest->setServiceType($this->getUnderscoreCodeFromCode($shipRequest->getMethodCode()));
-        $shipRequest->setDropoffType($this->getUnderscoreCodeFromCode(Mage::getStoreConfig('carriers/fedex/dropoff')));                
-        $shipRequest->setShipperStreetLines($request->getOrigStreet());
-        $shipRequest->setShipperCity($request->getOrigCity());
-        $shipRequest->setShipperPostalCode($request->getOrigPostcode());
-        $shipRequest->setShipperCountryCode($request->getOrigCountryId());
-        $shipRequest->setShipperPhone(Mage::getStoreConfig('shipping/origin/phone'));
-        $shipRequest->setShipperStateOrProvinceCode($shipperRegionCode);        
-        $shipRequest->setRecipientAddress($request->getRecipientAddress());
-        $shipRequest->setInsureShipment($request->getInsureShipment());
+		if (Mage::getStoreConfig('shipping/origin/street_line3') != '') {
+        	$shipperStreetLines[] = Mage::getStoreConfig('shipping/origin/street_line3');
+        }
         
+        $shipRequest->setShipperStreetLines($shipperStreetLines);
+        $shipRequest->setShipperCity(Mage::getStoreConfig('shipping/origin/city'));
+        $shipRequest->setShipperPostalCode(Mage::getStoreConfig('shipping/origin/postcode'));
+        $shipRequest->setShipperCountryCode(Mage::getStoreConfig('shipping/origin/country_id', $this->getStore()));
+        $shipRequest->setShipperPhone(Mage::getStoreConfig('shipping/origin/phone'));
+        $shipRequest->setShipperStateOrProvinceCode($shipRequest->getShipperRegionCode());
+        
+		$shipRequest->setRecipientAddress($request->getRecipientAddress());        
+		$shipRequest->setInsureShipment($request->getInsureShipment());
+
+		// Set weight units
+		$shipRequest->setWeightUnits(Mage::getModel('shipsync/shipping_carrier_fedex')->getWeightUnits());
+		
+		// Set weight coefficient
+		$shipRequest->setWeightCoefficient(1.0);
+		
+		// Convert G to KG, update coefficient
+		if ($shipRequest->getWeightUnits() == 'G') {
+			$shipRequest->setWeightUnits('KG');
+			$shipRequest->setWeightCoefficient(0.001);
+		}			   
+
+		// Enable/disable dimensions
+		$shipRequest->setEnableDimensions(Mage::getStoreConfig('carriers/fedex/shipping_dimensions_disable'));
+		
+		// Dimension units
+		$shipRequest->setDimensionUnits(Mage::getModel('shipsync/shipping_carrier_fedex')->getDimensionUnits());				
+		
+		// Customs value				
+		$shipRequest->setCustomsValue($shipRequest->getOrder()->getGrandTotal() - $shipRequest->getOrder()->getShippingAmount());
+		
+		// Insurance amount
         if ($request->getInsureAmount() != '') {
             $shipRequest->setInsureAmount($request->getInsureAmount());
         } else {
-            $shipRequest->setInsureAmount(100);
+            $shipRequest->setInsureAmount($shipRequest->getCustomsValue());
         }
-        
-        if ($request->getRequireSignature()) {
-            $shipRequest->setRequireSignature('DIRECT');
-        } else {
-            $shipRequest->setRequireSignature('SERVICE_DEFAULT');
-        }
-        
-        if ($request->getSaturdayDelivery()) {
-            $shipRequest->setSaturdayDelivery(true);
-        }
+				
+        // Set delivery signature type
+		$shipRequest->setSignature(Mage::getStoreConfig('carriers/fedex/signature'));
+
+		// Saturday delivery
+		$shipRequest->setSaturdayDelivery($request->getSaturdayDelivery());
 		
-        if ($request->getCod()) {
-            $shipRequest->setCod(true);
-        }
+		// COD
+        $shipRequest->setCod($request->getCod());       
         
+		// Rate types
+		$shipRequest->setRateType(Mage::getStoreConfig('carriers/fedex/rate_type'));
+        
+		// Timestamp
+		$shipRequest->setShipTimestamp(date('c'));
+		
         if (Mage::getStoreConfig('carriers/fedex/address_validation') && ($shipRequest->getRecipientAddress()->getCountryId() == 'US')) {
             $shipRequest->setResidential($this->getResidential($shipRequest->getRecipientAddress()->getStreet(), $shipRequest->getRecipientAddress()->getPostcode()));
         } else {
             $shipRequest->setResidential(Mage::getStoreConfig('carriers/fedex/residence_delivery'));
         }
+		
         $this->_shipRequest = $shipRequest;
         
         return $this;
@@ -261,41 +296,27 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
     protected function _sendShipmentRequest($package)
     {
         $shipRequest = $this->_shipRequest;
-        
-		$order = $shipRequest->getOrder();
 		
-		$weightCoef = 1.0;
-
-		$weightUnit = Mage::getModel('shipsync/shipping_carrier_fedex')->getWeightUnits();
-
-		if ($weightUnit == 'G') {
-			$weightUnit = 'KG';
-			$weightCoef = 0.001;
-		}			   
-
-		$dimensionUnits = Mage::getModel('shipsync/shipping_carrier_fedex')->getDimensionUnits();
-		$weight = $package->getFormattedWeight();		
         $request = $this->_prepareShipmentHeader();
-		$customsValue = $order->getGrandTotal() - $order->getShippingAmount();
-        
-        // Shipment request
+		
+		// Shipment request
         $request['RequestedShipment'] = array(
-            'ShipTimestamp' => date('c'),
+            'ShipTimestamp' => $shipRequest->getShipTimestamp(),
             'DropoffType' => $shipRequest->getDropoffType(),
             'ServiceType' => $shipRequest->getServiceType(),
             'PackagingType' => $package->getContainerCode(),
             'TotalWeight' => array(
-                'Value' => $weight,
-                'Units' => $weightUnit
+                'Value' => $package->getWeight(),
+                'Units' => $shipRequest->getWeightUnits()
             ),
             'Shipper' => $shipRequest->getShipperDetails(),
             'Recipient' => $shipRequest->getRecipientDetails(),
             'LabelSpecification' => $shipRequest->getLabelSpecification(),
-            'RateRequestTypes' => Mage::getStoreConfig('carriers/fedex/rate_type'),
+            'RateRequestTypes' => $shipRequest->getRateType(),
 			'PreferredCurrency' => $this->getCurrencyCode(),        
             'PackageDetail' => 'INDIVIDUAL_PACKAGES',
             'SignatureOptionDetail' => array(
-                'OptionType' => $shipRequest->getRequireSignature()
+                'OptionType' => $shipRequest->getSignature()
             ),
             'ShippingChargesPayment' => array(
                 'PaymentType' => $shipRequest->getPayorType(),
@@ -312,39 +333,70 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
             'RequestedPackageLineItems' => array(
                 'SequenceNumber' => $package->getSequenceNumber(),
                 'Weight' => array(
-                    'Value' => $weight,
-                    'Units' => $weightUnit
+                    'Value' => $package->getWeight(),
+                    'Units' => $shipRequest->getWeightUnits()
                 ),
                 'CustomerReferences' => array(
                     '0' => array(
                         'CustomerReferenceType' => 'CUSTOMER_REFERENCE',
-                        'Value' => $shipRequest->getOrder()->getIncrementId() . '_pkg' . $package->getPackageNumber()
+                        'Value' => $shipRequest->getCustomerReference()
                     ),
                     '1' => array(
                         'CustomerReferenceType' => 'INVOICE_NUMBER',
-                        'Value' => 'INV' . $shipRequest->getOrder()->getIncrementId()
+                        'Value' => $shipRequest->getInvoiceNumber()
                     )
                 ),
-                'ContentRecords' => $package->returnPackageContents()
+                'ContentRecords' => $package->getContents()
             )
         );
         
         $request['RequestedShipment'] = array_merge($request['RequestedShipment'], $shipRequest->getMPSData());
-        
-        $request = $this->_setSpecialServices($request, $package);
-        
-        // If Dimensions enabled for Shipment
-		if (($package->getContainerCode() == "YOUR_PACKAGING" 
-			 || $package->getContainerCode() == "SPECIAL_PAKAGING") 
-			&& !Mage::getStoreConfig('carriers/fedex/shipping_dimensions_disable'))
-		{
-            $request['RequestedShipment']['RequestedPackageLineItems']['Dimensions'] = array(
-                'Length' => $package->getRoundedLength(),
-                'Width' => $package->getRoundedWidth(),
-                'Height' => $package->getRoundedHeight(),
-                'Units' => $dimensionUnits);
+                
+		// Saturday delivery
+        if ($shipRequest->getSaturdayDelivery()) {
+            $specialServiceTypes[] = 'SATURDAY_DELIVERY';
         }
         
+		// Dangerous goods
+        if ($package['dangerous']) {
+            $request['RequestedShipment']['RequestedPackageLineItems']['SpecialServicesRequested'] = array(
+                'DangerousGoodsDetail' => array(
+                    'Accessibility' => 'ACCESSIBLE',
+                    'Options' => 'ORM_D'
+                )
+            );
+            $specialServiceTypes[] = 'DANGEROUS_GOODS';
+        }
+		
+		// COD
+		if ($shipRequest->getCod()) {
+            $request['RequestedShipment']['SpecialServicesRequested'] = array(
+                'CodDetail' => array(
+                    'CodCollectionAmount' => array(
+                        'Amount' => $package['cod_amount'],
+                        'Currency' => $this->getCurrencyCode()
+                    ),
+                    'CollectionType' => 'ANY'
+                )
+            );
+            $specialServiceTypes[] = 'COD';
+        }
+        
+        if (isset($specialServiceTypes)) {
+            $request['RequestedShipment']['RequestedPackageLineItems']['SpecialServicesRequested']['SpecialServiceTypes'] = $specialServiceTypes;
+        }        
+        
+		 // If Dimensions enabled for Shipment
+		if (($package->getContainerCode() == "YOUR_PACKAGING") && (!$shipRequest->getEnableDimensions()) 
+			&& ($package->getRoundedLength() && $package->getRoundedWidth() && $package->getRoundedHeight()))
+		{
+			 $request['RequestedShipment']['RequestedPackageLineItems']['Dimensions'] = array(
+				'Length' => $package->getRoundedLength(),
+				'Width' => $package->getRoundedWidth(),
+				'Height' => $package->getRoundedHeight(),
+				'Units' => $shipRequest->getDimensionUnits());		
+		}
+		
         // Check if shipment needs to be insured and if insurance amount is available
         if ($shipRequest->getInsureShipment()) {
             $request['RequestedShipment']['RequestedPackageLineItems']['InsuredValue'] = array(
@@ -366,7 +418,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                 $request['TIN'] = $this->getConfig('tax_id_number');
             }
             
-            $itemdetails = array();            
+            $itemDetails = array();            
 				
             // Iterate through package items
             foreach ($package->getItems() as $_item) {
@@ -374,13 +426,13 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                 /** Load item by order item id */
                 $item = Mage::getModel('sales/order_item')->load($_item['id']);                
 				
-                $itemdetails[] = array(
+                $itemDetails[] = array(
                     'NumberOfPieces' => 1,
                     'Description' => $item->getName(),
-                    'CountryOfManufacture' => $shipRequest->getStore()->getConfig('shipping/origin/country_id'),
+                    'CountryOfManufacture' => $shipRequest->getShipperCountryCode(),
                     'Weight' => array(
-                        'Value' => $item->getWeight() * $weightCoef,
-                        'Units' => $weightUnit
+                        'Value' => $item->getWeight() * $shipRequest->getWeightCoefficient(),
+                        'Units' => $shipRequest->getWeightUnits()
                     ),
                     'Quantity' => $item->getQtyOrdered(),
                     'QuantityUnits' => 'EA',
@@ -403,23 +455,23 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                         	'AccountNumber' => $this->getFedexAccount(),
 							'Contact' => null,
 							'Address' => array(
-                        		'CountryCode' => Mage::getStoreConfig('carriers/fedex/account_country')
+                        		'CountryCode' => $shipRequest->getShipperCountryCode()
 							)
 						)
                     )
                 ),
                 'DocumentContent' => 'NON_DOCUMENTS',
                 'CustomsValue' => array(
-                    'Amount' => sprintf('%01.2f', $customsValue), //sprintf('%01.2f', $customsValue),
+                    'Amount' => sprintf('%01.2f', $shipRequest->getCustomsValue()),
                     'Currency' => $this->getCurrencyCode()
                 ),
-                'Commodities' => $itemdetails,
+                'Commodities' => $itemDetails,
                 'ExportDetail' => array(
                     'B13AFilingOption' => 'NOT_REQUIRED'
                 )
             );
         }
-        		
+		
         try {
             
 			Mage::Helper('shipsync')->mageLog($request, 'ship');
@@ -480,39 +532,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
      */
     protected function _setSpecialServices($request, $package)
     {
-        if ($this->_shipRequest->getSaturdayDelivery()) {
-            $specialServiceTypes[] = 'SATURDAY_DELIVERY';
-        }
-        
-        if ($package['dangerous']) {
-            $request['RequestedShipment']['RequestedPackageLineItems']['SpecialServicesRequested'] = array(
-                'DangerousGoodsDetail' => array(
-                    'Accessibility' => 'ACCESSIBLE',
-                    'Options' => 'ORM_D'
-                )
-            );
-            $specialServiceTypes[]                                                                 = 'DANGEROUS_GOODS';
-        }
-		
-		if ($this->_shipRequest->getCod()) {
-            $request['RequestedShipment']['SpecialServicesRequested'] = array(
-                'CodDetail' => array(
-                    'CodCollectionAmount' => array(
-                        'Amount' => $package['cod_amount'],
-                        'Currency' => $this->getCurrencyCode()
-                    ),
-                    'CollectionType' => 'ANY'
-                )
-            );
-            $specialServiceTypes[]                                    = 'COD';
-        }
-        
-        if (isset($specialServiceTypes))
-        {
-            $request['RequestedShipment']['RequestedPackageLineItems']['SpecialServicesRequested']['SpecialServiceTypes'] = $specialServiceTypes;
-        }
-        
-        return $request;
     }
     
     /**

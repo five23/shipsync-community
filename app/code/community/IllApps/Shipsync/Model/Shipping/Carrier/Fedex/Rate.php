@@ -37,13 +37,20 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
-        $rateRequest = new Varien_Object();
-        
-        $this->_rateServiceClient = $this->_initWebServices($this->_rateServiceWsdlPath);
 		
-		/** Set request */
- 		$this->_rateRequest = $rateRequest;
-        $this->setRateRequest($request);
+        // Check if active
+		if (!$this->getConfigFlag('active')) { return false; }
+        
+        // Set client
+		$this->_rateServiceClient = $this->_initWebServices($this->_rateServiceWsdlPath);
+		
+		// Init request object
+ 		$this->_rateRequest = new Varien_Object();
+        
+		// Set rate request
+		$this->setRateRequest($request);
+		
+		// Rate result
         $this->_rateResult = $this->_getQuotes();
 		
 		if ($this->_rateResult->getError()) {
@@ -54,61 +61,11 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                 $this->_rateResult->append($error);
         }
 		
+		// Return rate result
 		return $this->getRateResult();
 		
-		/*
-        
-        $origins = Mage::getModel('shipsync/shipping_package_origins');
-        
-        $this->prepareRequest($request, $itemsByOrigin, $packagesByOrigin);
-        
-        foreach ($itemsByOrigin as $key => $items) {
-            unset($this->_rateRequest);
-            if (isset($packagesByOrigin)) {
-                $rateRequest->setPackages($packagesByOrigin[$key]);
-            }
-            
-            $rateRequest->setItems($items);
-            
-            $this->setOrigins($rateRequest, (int) $items[0]['alt_origin']);
-            
-            $this->_saturdayDelivery = 0;
-            
-            if (Mage::getStoreConfig('carriers/fedex/saturday_delivery')) {
-                for ($i = 2; $i > 0; $i--) {
-                    $this->_rateRequest = $rateRequest;
-                    $this->setRateRequest($request);
-                    $saturdayResultsCollection[] = $this->_getQuotes();
-                    $this->_saturdayDelivery     = 1;
-                    
-                }
-                $this->_rateResult = $origins->collectSaturdayResponses($saturdayResultsCollection);
-            } else {
-                $this->_rateRequest = $rateRequest;
-                $this->setRateRequest($request);
-                $this->_rateResult = $this->_getQuotes();
-            }
-            
-            if ($this->_rateResult->getError()) {
-                $error = Mage::getModel('shipping/rate_result_error');
-                $error->setCarrier('fedex');
-                $error->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title'));
-                $error->setErrorMessage($this->_rateResultError);
-                $this->_rateResult->append($error);
-            }
-            
-            $this->_rateResultCollection[] = $this->_rateResult;
-        }
-        
-        $multipleResponses = $origins->collectMultipleResponses($this->_rateResultCollection);
-        
-        if ($multipleResponses->getError())
-        {
-            return false;
-        }
-        
-        return $multipleResponses;*/
     }
+	
 	
     /**
      * Get result
@@ -118,60 +75,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
     public function getRateResult() { return $this->_rateResult; }
 	
 	
-    /*
-     * Prepare Request
-     *
-     * Takes request object, and <empty> arrays for items and packages.
-     * Parses request packages and divides the items by package, or divides the items by origin
-     * if request packages not set.
-     *
-     * @param Mage_Shipping_Model_Rate_Request $request
-     * @param array $itemsByOrigin
-     * @param array $packagesByOrigin
-     *
-     * @return void
-     *
-     */
-    public function prepareRequest($request, &$itemsByOrigin, &$packagesByOrigin)
-    {
-        if ($request->getPackages()) {
-            foreach ($request->getPackages() as $package) {
-                if (isset($itemsByOrigin[(int) $package['alt_origin']])) {
-                    $itemsToMerge                                = $itemsByOrigin[(int) $package['alt_origin']];
-                    $itemsByOrigin[(int) $package['alt_origin']] = array_merge($itemsToMerge, $package['items']);
-                } else {
-                    $itemsByOrigin[(int) $package['alt_origin']] = $package['items'];
-                }
-                $packagesByOrigin[(int) $package['alt_origin']][] = $package;
-            }
-        } else {
-            $_items        = Mage::getModel('shipsync/shipping_package')->getParsedItems($request->getAllItems());
-            $itemsByOrigin = Mage::getModel('shipsync/shipping_package_item')->byOrigin($_items);
-        }
-    }
-    
-	
-    /*
-     * Set Origins
-     * Sets request object's origins based on key.
-     *
-     * @param object $request
-     * @param int $int
-     *
-     * @return void
-     */
-    public function setOrigins(&$request, $int)
-    {
-        $origin = Mage::getModel('shipsync/shipping_package_item')->getOrigin($int); //(int) $item['alt_origin']);
-        
-        $request->setOrigCountryId($origin['country']);
-        $request->setOrigRegionId($origin['regionId']);
-        $request->setOrigRegionCode($origin['regionCode']);
-        $request->setOrigPostcode($origin['postcode']);
-        $request->setOrigCity($origin['city']);
-        $request->setOrigStreet($origin['street']);
-    }
-    
 	
     /**
      * setRateRequest
@@ -191,12 +94,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
             $rateRequest->setService($request->getLimitMethod());
         }
         
-        if ($rateRequest->getItems()) {
-        } else if (!$request->getAllItems()) {
-            $rateRequest->setItems(Mage::getModel('shipsync/shipping_package')->getParsedItems($request->getAllItems()));
-        } else {
-            $rateRequest->setItems($request->getAllItems());
-        }
+		$rateRequest->setItems(Mage::getModel('shipsync/shipping_package')->getParsedItems($request->getAllItems()));       
         
         $rateRequest->setDefaultPackages(Mage::getModel('shipsync/shipping_package')->getDefaultPackages(array(
             'fedex'
@@ -208,22 +106,15 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
             $origCountry = Mage::getStoreConfig('shipping/origin/country_id', $this->getStore());
             $rateRequest->setOrigCountry(Mage::getModel('directory/country')->load($origCountry)->getIso2Code());
         }
+		
+		// Shipper region id
+		$shipperRegionId = Mage::getStoreConfig('shipping/origin/region_id');				
         
-        if ($request->getOrigRegionId()) {
-            $rateRequest->setOrigRegionId($request->getOrigRegionId());
-            $rateRequest->setOrigRegionCode($request->getOrigRegionCode());
-        } else {
-            $rateRequest->setOrigRegionId(Mage::getStoreConfig('shipping/origin/region_id'));
-            
-            $origRegionCode = Mage::getModel('directory/region')->load($rateRequest->getOrigRegionId())->getCode();
-            
-            if (strlen($origRegionCode) > 2) {
-                $rateRequest->setOrigRegionCode('');
-            } else {
-                $rateRequest->setOrigRegionCode($origRegionCode);
-            }
-        }
-        
+		// Shipper region code
+		if (is_numeric($shipperRegionId)) {
+            $rateRequest->setOrigRegionCode(Mage::getModel('directory/region')->load($shipperRegionId)->getCode());
+        }				
+		
         if ($request->getInsureShipment()) {
             $rateRequest->setInsureShipment(true)->setInsureAmount($request->getInsureAmount());
         }
@@ -425,13 +316,14 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
             );
         }
         
-        $request['RequestedShipment']['Shipper']['Address'] = array(
-            'StreetLines' => $rateRequest->getOrigStreet(),
-            'City' => $rateRequest->getOrigCity(),
-            'StateOrProvinceCode' => $rateRequest->getOrigRegionCode(),
-            'PostalCode' => $rateRequest->getOrigPostcode(),
-            'CountryCode' => $rateRequest->getOrigCountry()
-        );
+        $request['RequestedShipment']['Shipper']['Address']['StreetLines'] = $rateRequest->getOrigStreet();
+		$request['RequestedShipment']['Shipper']['Address']['City'] = $rateRequest->getOrigCity();
+		$request['RequestedShipment']['Shipper']['Address']['PostalCode'] = $rateRequest->getOrigPostcode();
+		$request['RequestedShipment']['Shipper']['Address']['CountryCode'] = $rateRequest->getOrigCountry();
+            
+		if ($rateRequest->getOrigRegionCode()) {
+			$request['RequestedShipment']['Shipper']['Address']['CountryCode'] = $rateRequest->getOrigRegionCode();
+		}
         
         if ($rateRequest->getDestStreet()) {
             $request['RequestedShipment']['Recipient']['Address']['StreetLines'] = $rateRequest->getDestStreet();
@@ -469,7 +361,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
 				'DocumentContent' => 'NON_DOCUMENTS',
                 'CustomsValue' => array(
                     'Currency' => $this->getCurrencyCode(),
-                    'Amount' => $rateRequest->getValue()
+                    'Amount' => sprintf('%01.2f', $rateRequest->getValue())
                 ),
 				/*'CommercialInvoice' => array(
 					'TermsOfSale' => 'FOB_OR_FCA' // 'CFR_OR_CPT', etc...
@@ -495,7 +387,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                 
                 $i = 0;
                 
-                foreach ($packages as $package) {
+                foreach ($packages as $package) {					
 					
 					$weightCoef = 1.0;
 					
@@ -551,11 +443,11 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                                 'QuantityUnits' => 'EA',
                                 'UnitPrice' => array(
                                     'Currency' => $this->getCurrencyCode(),
-                                    'Amount' => $itemValue
+                                    'Amount' => sprintf('%01.2f', $item['value'])
                                 ),
                                 'CustomsValue' => array(
                                     'Currency' => $this->getCurrencyCode(),
-                                    'Amount' => ($itemValue * $item['qty_to_ship'])
+                                    'Amount' => sprintf('%01.2f', $item['value'] * $item['qty_to_ship'])
                                 )
                             );
                         }
