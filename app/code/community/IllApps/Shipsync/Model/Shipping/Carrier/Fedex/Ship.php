@@ -261,7 +261,9 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
     protected function _sendShipmentRequest($package)
     {
         $shipRequest = $this->_shipRequest;
-        												
+        
+		$order = $shipRequest->getOrder();
+		
 		$weightCoef = 1.0;
 
 		$weightUnit = Mage::getModel('shipsync/shipping_carrier_fedex')->getWeightUnits();
@@ -274,7 +276,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 		$dimensionUnits = Mage::getModel('shipsync/shipping_carrier_fedex')->getDimensionUnits();
 		$weight = $package->getFormattedWeight();		
         $request = $this->_prepareShipmentHeader();
-		$customsValue = $shipRequest->getInsureAmount();
+		$customsValue = $order->getGrandTotal() - $order->getShippingAmount();
         
         // Shipment request
         $request['RequestedShipment'] = array(
