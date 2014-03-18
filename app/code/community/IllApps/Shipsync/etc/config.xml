@@ -193,6 +193,7 @@
 			<fedex>
 				<title>Federal Express</title>
 				<model>usa/shipping_carrier_fedex</model>
+				<account backend_model="adminhtml/system_config_backend_encrypted"></account>
 				<password backend_model="adminhtml/system_config_backend_encrypted"></password>
 				<key backend_model="adminhtml/system_config_backend_encrypted"></key>
 				<meter_number backend_model="adminhtml/system_config_backend_encrypted"></meter_number>
@@ -203,7 +204,7 @@
 				<test_meter backend_model="adminhtml/system_config_backend_encrypted"></test_meter>
 				<smartpost_hub_id backend_model="adminhtml/system_config_backend_encrypted"></smartpost_hub_id>
 				<smartpost_customer_manifest_id backend_model="adminhtml/system_config_backend_encrypted"></smartpost_customer_manifest_id>
-				<enable_soap_cache>1</enable_soap_cache>
+				<enable_soap_cache>0</enable_soap_cache>
 				<enable_smartpost>0</enable_smartpost>
 				<smartpost_indicia_type>PARCEL_SELECT</smartpost_indicia_type>
 				<smartpost_ancillary_endorsement>CARRIER_LEAVE_IF_NO_RESPONSE</smartpost_ancillary_endorsement>
