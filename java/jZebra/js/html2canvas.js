@@ -1174,9 +1174,9 @@ _html2canvas.Parse = function ( images, options ) {
         return bounds;
 
     }
-    
 
-    
+
+
     function elementIndex( el ) {
         var i = -1,
         count = 1,
@@ -1192,7 +1192,7 @@ _html2canvas.Parse = function ( images, options ) {
         } else {
             return -1;
         }
-       
+
     }
 
     function renderListItem(element, stack, elBounds) {
@@ -1631,7 +1631,7 @@ _html2canvas.Parse = function ( images, options ) {
                         );*/
 
 
-                       
+
                         bgw = bounds.width - bgp.left;
                         bgh = bounds.height - bgp.top;
                         bgsx = bgp.left;
@@ -1967,7 +1967,7 @@ _html2canvas.Parse = function ( images, options ) {
                 }
 
             }
-        } 
+        }
     }
 
     stack = renderElement(element, null);
@@ -2178,7 +2178,7 @@ _html2canvas.Preload = function( options ) {
 
         // if (!this.ignoreRe.test(el.nodeName)){
         //
-        
+
         var contents = _html2canvas.Util.Children(el),
         i,
         background_image,

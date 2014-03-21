@@ -525,45 +525,32 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
     
     public function thermalPrint($labelImage, $labelFormat)
     {
-        $javaUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'java/jZebra/jzebra.jar';
+		$jsUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'js/illapps/shipsync/jzebra.js';
+
+        $javaUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'java/jZebra/';
         
         $printerName = Mage::getStoreConfig('carriers/fedex/printer_name');
         
         $htmlBody = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
             <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
             <head>
-                <script>
-                  function print() {
-                     var applet = document.jZebra;
-                     if (applet != null) {
-                        applet.append64("' . $labelImage . '");
-                        applet.print();
-                        while (!applet.isDonePrinting()) {
-                            // Wait
-                        }
-                        var e = applet.getException();
-                        alert(e == null ? "Printed Successfully" : "Printing Failed");
-                     }
-                     else {
-                        alert("Applet not loaded!");
-                     }
-                  }
-                  function chr(i) {
-                     return String.fromCharCode(i);
-                  }
-                </script>
+				<script type="text/javascript">
+					var label = "' . $labelImage .'";
+				</script>
+			 	<script type="text/javascript" src="' . $jsUrl . '"></script>
             </head>
-            <body style="background-color: #ccc; padding: 20px;"><form>
+            <body style="background-color: #ccc; padding: 20px;">
                 <p><strong>ShipSync Thermal Printing</strong></p>
                     <div style="border: 1px #000 solid; padding: 10px; background-color: #fff; margin: 20px; ">
-                        <applet name="jZebra" code="jzebra.RawPrintApplet.class" archive="' . $javaUrl . '" width="0" height="0">
+                        <applet name="jZebra" code="jzebra.PrintApplet.class" archive="' . $javaUrl . 'jzebra.jar" width="0" height="0">
                             <param name="sleep" value="200">
                             <param name="printer" value="' . $printerName . '">
-                        </applet>
-                        <input type="button" onClick="print()" value="Print">
+                        </applet><br />
+						<input type=button onClick="findPrinter()" value="Detect Printer"><br />
+   						<input type=button onClick="useDefaultPrinter()" value="Use Default Printer"><br />
+                        <input type=button onClick="print()" value="Print">
                     </div>
-                </form>
-            </body>
+				</body>
         </html>';
         
         $this->getResponse()->setBody($htmlBody);
