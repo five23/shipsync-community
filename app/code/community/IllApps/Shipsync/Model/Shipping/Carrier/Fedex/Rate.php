@@ -631,7 +631,11 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                     }
                 }
                     
-                $rate = $shipmentRateDetail->TotalNetCharge->Amount;
+				if (isset($shipmentRateDetail)) {
+                	$rate = $shipmentRateDetail->TotalNetCharge->Amount;
+				} else {
+					$rate = 0;
+				}
                 
                 if (Mage::getStoreConfig('carriers/fedex/subtract_vat') > 0) {
                     $rate = $rate / (1 + (Mage::getStoreConfig('carriers/fedex/subtract_vat') / 100));

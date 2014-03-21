@@ -14,8 +14,7 @@
  */
 class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
 {
-    
-    
+
     /**
      * Index action
      */
@@ -31,8 +30,7 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
         
         $this->renderLayout();
     }
-    
-    
+
     /**
      * optionAction
      */
@@ -56,7 +54,7 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
     }
     
     /**
-     * optionAction
+     * packagesAction
      */
     public function packagesAction()
     {
@@ -70,8 +68,7 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
         
         $this->renderLayout();
     }
-    
-    
+
     /**
      * Attributes Action
      * 
@@ -104,9 +101,7 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
             }
         }
     }
-    
-    
-    
+
     /**
      * Rate Action
      *

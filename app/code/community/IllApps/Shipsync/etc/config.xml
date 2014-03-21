@@ -125,6 +125,8 @@
 					<sales_order_view>IllApps_Shipsync_Block_Adminhtml_Sales_Order_View</sales_order_view>
 					<sales_order_shipment_abstract>IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_Abstract</sales_order_shipment_abstract>
 					<sales_order_shipment_view>IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_View</sales_order_shipment_view>
+					<sales_order_shipment_packages_view_package>IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_Packages_View_Package</sales_order_shipment_packages_view_package>
+					<sales_order_shipment_packages_view_items>IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_Packages_View_Items</sales_order_shipment_packages_view_items>
 					<sales_order_shipment_packages_view_form>IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_Packages_View_Form</sales_order_shipment_packages_view_form>
 				</rewrite>
 			</adminhtml>

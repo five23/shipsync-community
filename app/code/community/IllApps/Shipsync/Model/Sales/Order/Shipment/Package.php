@@ -10,7 +10,7 @@
  */
 
 /**
- * IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
+ * IllApps_Shipsync_Model_Sales_Order_Shipment_Package
  */
 class IllApps_Shipsync_Model_Sales_Order_Shipment_Package extends Varien_Object
 {
