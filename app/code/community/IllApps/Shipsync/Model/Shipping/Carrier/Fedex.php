@@ -227,7 +227,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
             'STATION' => 'STATION',
             'FEDEXENVELOPE' => 'FEDEX_ENVELOPE',
             'FEDEXPAK' => 'FEDEX_PAK',
-            'FEDEXBOX' => 'FEDEX_BOX',
             'FEDEXTUBE' => 'FEDEX_TUBE',
             'FEDEX10KGBOX' => 'FEDEX_10KG_BOX',
             'FEDEX25KGBOX' => 'FEDEX_25KG_BOX',
@@ -281,7 +280,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
             'packaging' => array(
                 'FEDEX_ENVELOPE' => Mage::helper('usa')->__('FedEx Envelope'),
                 'FEDEX_PAK' => Mage::helper('usa')->__('FedEx Pak'),
-                'FEDEX_BOX' => Mage::helper('usa')->__('FedEx Box'),
                 'FEDEX_TUBE' => Mage::helper('usa')->__('FedEx Tube'),
                 'FEDEX_10KG_BOX' => Mage::helper('usa')->__('FedEx 10kg Box'),
                 'FEDEX_25KG_BOX' => Mage::helper('usa')->__('FedEx 25kg Box'),
@@ -320,7 +318,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
             'packaging' => array(
                 'FEDEXENVELOPE' => Mage::helper('usa')->__('FedEx Envelope'),
                 'FEDEXPAK' => Mage::helper('usa')->__('FedEx Pak'),
-                'FEDEXBOX' => Mage::helper('usa')->__('FedEx Box'),
                 'FEDEXTUBE' => Mage::helper('usa')->__('FedEx Tube'),
                 'FEDEX10KGBOX' => Mage::helper('usa')->__('FedEx 10kg Box'),
                 'FEDEX25KGBOX' => Mage::helper('usa')->__('FedEx 25kg Box'),
@@ -380,7 +377,21 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
                 'LB'   =>  Mage::helper('usa')->__('Pounds'),
                 'KG'   =>  Mage::helper('usa')->__('Kilograms'),
 				'G'    =>  Mage::helper('usa')->__('Grams'),
-            )
+            ),
+			'b13a_filing_option' => array(
+				'FILED_ELECTRONICALLY' 	=> Mage::helper('usa')->__('Filed Electronically'),
+				'MANUALLY_ATTACHED' 	=> Mage::helper('usa')->__('Manually Attached'),
+				'NOT_REQUIRED' 			=> Mage::helper('usa')->__('Not Required'),
+				'SUMMARY_REPORTING' 	=> Mage::helper('usa')->__('Summary Reporting'),
+				'FEDEX_TO_STAMP'		=> Mage::helper('usa')->__('Fedex to Stamp')
+			),
+			'rate_discount' => array(
+				'BONUS'		=> Mage::helper('usa')->__('Bonus'),
+				'COUPON'	=> Mage::helper('usa')->__('Coupon'),
+				'EARNED'	=> Mage::helper('usa')->__('Earned'),
+				'OTHER'		=> Mage::helper('usa')->__('Other'),
+				'VOLUME'	=> Mage::helper('usa')->__('Volume'),
+			)
         );
         
         if ($underscore) {

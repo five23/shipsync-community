@@ -14,7 +14,8 @@
  */
 class IllApps_Shipsync_Helper_Data extends Mage_Core_Helper_Abstract
 {
-	 /**
+
+	/**
      * @var string
      */
     const VERSION = '3.0.1';

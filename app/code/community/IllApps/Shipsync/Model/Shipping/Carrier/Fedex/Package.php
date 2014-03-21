@@ -29,19 +29,19 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
 			'FEDEX_ENVELOPE' => array
 			(
 				'label'         => Mage::helper('usa')->__('FedEx Envelope'),
-				'length'        => 13.5,
-				'width'         => 9.875,
+				'length'        => 13.2,
+				'width'         => 9.25,
 				'height'        => 0.1,
-				'baseline'      => 0.0,
+				'baseline'      => 0.1125,
 				'max_weight'    => 1.1
 			),
 			'FEDEX_PAK' => array
 			(
 				'label'         => Mage::helper('usa')->__('FedEx Pak'),		
 				'length'        => 15.5,
-				'width'         => 12,
+				'width'         => 12.0,
 				'height'        => 0.1,
-				'baseline'      => 0.0,
+				'baseline'      => 0.0625,
 				'max_weight'    => 5.5
 			),
 			'FEDEX_TUBE' => array

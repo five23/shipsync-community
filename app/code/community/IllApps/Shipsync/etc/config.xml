@@ -72,6 +72,8 @@
 					<shipping_carrier_fedex_source_rate>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Rate</shipping_carrier_fedex_source_rate>
 					<shipping_carrier_fedex_source_method>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Method</shipping_carrier_fedex_source_method>
 					<shipping_carrier_fedex_source_freemethod>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Freemethod</shipping_carrier_fedex_source_freemethod>
+					<shipping_carrier_fedex_source_ratediscount>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Ratediscount</shipping_carrier_fedex_source_ratediscount>
+					<shipping_carrier_fedex_source_b13afilingoption>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_B13afilingoption</shipping_carrier_fedex_source_b13afilingoption>
 					<shipping_carrier_fedex_source_label_image>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Image</shipping_carrier_fedex_source_label_image>
 					<shipping_carrier_fedex_source_label_stock>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Stock</shipping_carrier_fedex_source_label_stock>
 					<shipping_carrier_fedex_source_label_orientation>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Orientation</shipping_carrier_fedex_source_label_orientation>
@@ -238,6 +240,8 @@
 				<handling_action>O</handling_action>
 				<mage_log>0</mage_log>			
 				<signature>SERVICE_DEFAULT</signature>
+				<rating_preferred_currency>USD</rating_preferred_currency>
+				<b13a_filing_option>NOT_REQUIRED</b13a_filing_option>
 			</fedex>
 		</carriers>
 	</default>

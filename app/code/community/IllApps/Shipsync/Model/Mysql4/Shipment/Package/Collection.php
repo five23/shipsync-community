@@ -16,7 +16,7 @@ class IllApps_Shipsync_Model_Mysql4_Shipment_Package_Collection extends Mage_Cor
 {
     
     /**
-     * _construct
+     * Construct
      */
     protected function _construct()
     {
