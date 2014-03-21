@@ -559,14 +559,38 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
     
     
     
-    
-    /**
-     * _isAllowed
-     *
-     * @return bool
-     */
-    protected function _isAllowed()
+    public function deleteAction()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/ship');
+		$console = Mage::helper('shipsync');
+
+		$orderId = $this->getRequest()->getParam('order_id');
+
+		$order = Mage::getModel('sales/order');
+
+		$order->loadByIncrementId($orderId);
+
+		$items = Mage::getResourceModel('sales/order_item_collection')
+                ->setOrderFilter($orderId)
+                ->load();
+
+		foreach ($items as $item)
+		{
+			if ($item->getQtyShipped() > 0) { $item->setQtyShipped(0)->save(); }
+		}
+
+		$shipments = Mage::getResourceModel('sales/order_shipment_collection')
+                ->setOrderFilter($orderId)
+                ->load();
+
+		foreach ($shipments as $shipment) {
+
+			$shipment->delete();
+		}
+
+		$shipments->save();
+
+		$this->_getSession()->addSuccess($this->__('Shipment successfully deleted.'));
+
+        $this->_redirect('adminhtml/sales_order/view', array('order_id' => $orderId));
     }
 }
