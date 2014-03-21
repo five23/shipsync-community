@@ -14,12 +14,6 @@
  */
 class IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_Abstract extends Mage_Adminhtml_Block_Sales_Order_Abstract
 {
-
-    /**
-     * Construct
-     */
-    public function __construct() {}
-
 	/**
 	 * Get Shipment Id
 	 *
