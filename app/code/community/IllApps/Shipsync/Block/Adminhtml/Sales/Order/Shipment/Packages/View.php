@@ -14,6 +14,10 @@
  */
 class IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_Packages_View extends Mage_Adminhtml_Block_Widget_Form_Container
 {
+
+    /**
+     * Construct
+     */
     public function __construct()
     {
         $this->_objectId    = 'shipment_id';
@@ -28,6 +32,9 @@ class IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_Packages_View extend
         $this->_removeButton('save');
     }
 
+    /**
+     * Get Back Url
+     */
     public function getBackUrl()
     {
         return $this->getUrl(
@@ -37,6 +44,9 @@ class IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_Packages_View extend
             ));
     }
 
+    /**
+     * Update Back Button Url
+     */
     public function updateBackButtonUrl($flag)
     {
         if ($flag) {
@@ -48,6 +58,9 @@ class IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_Packages_View extend
         return $this;
     }
     
+	/**
+	 * Get Shipment
+	 */
     public function getShipment()
     {
         return Mage::registry('current_shipment');

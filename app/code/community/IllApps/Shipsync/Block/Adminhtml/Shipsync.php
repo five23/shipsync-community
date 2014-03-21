@@ -14,9 +14,9 @@
  */
 class IllApps_Shipsync_Block_Adminhtml_Shipsync extends Mage_Adminhtml_Block_Widget
 {
-    
+
     /**
-     * __construct
+     * Construct
      */
     public function __construct()
     {

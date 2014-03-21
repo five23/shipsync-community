@@ -25,9 +25,9 @@
     <shipsync_index_packages>
         <reference name="content">
             <block type="shipsync/adminhtml_sales_order_shipment_packages_view" name="shipsync_packages">
-                <block type="shipsync/adminhtml_sales_order_shipment_packages_view_form" name="form" template="shipsync/shipment/packages/view/form.phtml">
-                    <block type="shipsync/adminhtml_sales_order_shipment_packages_view_package" name="shipsync_shipping_package" template="shipsync/shipment/packages/view/package.phtml"></block>
-                    <block type="shipsync/adminhtml_sales_order_shipment_packages_view_items" name="shipsync_shipping_items" template="shipsync/shipment/packages/view/items.phtml"></block>
+                <block type="shipsync/adminhtml_sales_order_shipment_abstract" name="form" template="shipsync/shipment/packages/view/form.phtml">
+                    <block type="shipsync/adminhtml_sales_order_shipment_abstract" name="shipsync_shipping_package" template="shipsync/shipment/packages/view/package.phtml"></block>
+                    <block type="shipsync/adminhtml_sales_order_shipment_abstract" name="shipsync_shipping_items" template="shipsync/shipment/packages/view/items.phtml"></block>
                 </block>
             </block>
         </reference>

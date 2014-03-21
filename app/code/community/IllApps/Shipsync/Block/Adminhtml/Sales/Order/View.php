@@ -15,7 +15,6 @@
 class IllApps_Shipsync_Block_Adminhtml_Sales_Order_View extends Mage_Adminhtml_Block_Sales_Order_View
 {
 
-    
     /**
      * Construct
      */
