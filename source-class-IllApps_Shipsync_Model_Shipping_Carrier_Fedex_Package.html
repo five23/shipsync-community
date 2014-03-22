@@ -455,59 +455,54 @@
 </span><span id="327" class="l"><a class="l" href="#327">327: </a>        }
 </span><span id="328" class="l"><a class="l" href="#328">328: </a>    }
 </span><span id="329" class="l"><a class="l" href="#329">329: </a>    
-</span><span id="330" class="l"><a class="l" href="#330">330: </a>    
-</span><span id="331" class="l"><a class="l" href="#331">331: </a>    
-</span><span id="332" class="l"><a class="l" href="#332">332: </a>    <span class="php-comment">/**
-</span></span><span id="333" class="l"><a class="l" href="#333">333: </a><span class="php-comment">     * isFedexPackage
-</span></span><span id="334" class="l"><a class="l" href="#334">334: </a><span class="php-comment">     *
-</span></span><span id="335" class="l"><a class="l" href="#335">335: </a><span class="php-comment">     * @param string $packageCode
-</span></span><span id="336" class="l"><a class="l" href="#336">336: </a><span class="php-comment">     * @return bool
-</span></span><span id="337" class="l"><a class="l" href="#337">337: </a><span class="php-comment">     */</span>
-</span><span id="338" class="l"><a class="l" href="#338">338: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_isFedexPackage" href="#_isFedexPackage">isFedexPackage</a>(<span class="php-var">$packageCode</span>)
-</span><span id="339" class="l"><a class="l" href="#339">339: </a>    {
-</span><span id="340" class="l"><a class="l" href="#340">340: </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;_fedexPackages <span class="php-keyword1">as</span> <span class="php-var">$key</span> =&gt; <span class="php-var">$value</span>) {
-</span><span id="341" class="l"><a class="l" href="#341">341: </a>            <span class="php-keyword1">if</span> (<span class="php-var">$packageCode</span> == <span class="php-var">$key</span>) {
-</span><span id="342" class="l"><a class="l" href="#342">342: </a>                <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;
-</span><span id="343" class="l"><a class="l" href="#343">343: </a>            }
-</span><span id="344" class="l"><a class="l" href="#344">344: </a>        }
-</span><span id="345" class="l"><a class="l" href="#345">345: </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
-</span><span id="346" class="l"><a class="l" href="#346">346: </a>    }
-</span><span id="347" class="l"><a class="l" href="#347">347: </a>    
-</span><span id="348" class="l"><a class="l" href="#348">348: </a>    
-</span><span id="349" class="l"><a class="l" href="#349">349: </a>    
-</span><span id="350" class="l"><a class="l" href="#350">350: </a>    <span class="php-comment">/**
-</span></span><span id="351" class="l"><a class="l" href="#351">351: </a><span class="php-comment">     * getPackageCodes
-</span></span><span id="352" class="l"><a class="l" href="#352">352: </a><span class="php-comment">     *
-</span></span><span id="353" class="l"><a class="l" href="#353">353: </a><span class="php-comment">     * @return string
-</span></span><span id="354" class="l"><a class="l" href="#354">354: </a><span class="php-comment">     */</span>
-</span><span id="355" class="l"><a class="l" href="#355">355: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_getPackageCodes" href="#_getPackageCodes">getPackageCodes</a>()
-</span><span id="356" class="l"><a class="l" href="#356">356: </a>    {
-</span><span id="357" class="l"><a class="l" href="#357">357: </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;_fedexPackages <span class="php-keyword1">as</span> <span class="php-var">$key</span> =&gt; <span class="php-var">$value</span>) {
-</span><span id="358" class="l"><a class="l" href="#358">358: </a>            <span class="php-var">$var</span>[] = <span class="php-var">$key</span>;
-</span><span id="359" class="l"><a class="l" href="#359">359: </a>        }
-</span><span id="360" class="l"><a class="l" href="#360">360: </a>        
-</span><span id="361" class="l"><a class="l" href="#361">361: </a>        <span class="php-keyword1">return</span> <span class="php-var">$var</span>;
-</span><span id="362" class="l"><a class="l" href="#362">362: </a>    }
-</span><span id="363" class="l"><a class="l" href="#363">363: </a>    
-</span><span id="364" class="l"><a class="l" href="#364">364: </a>    
-</span><span id="365" class="l"><a class="l" href="#365">365: </a>    
-</span><span id="366" class="l"><a class="l" href="#366">366: </a>    <span class="php-comment">/**
-</span></span><span id="367" class="l"><a class="l" href="#367">367: </a><span class="php-comment">     * getPackageName
-</span></span><span id="368" class="l"><a class="l" href="#368">368: </a><span class="php-comment">     *
-</span></span><span id="369" class="l"><a class="l" href="#369">369: </a><span class="php-comment">     * @param string $packageValue
-</span></span><span id="370" class="l"><a class="l" href="#370">370: </a><span class="php-comment">     * @return string
-</span></span><span id="371" class="l"><a class="l" href="#371">371: </a><span class="php-comment">     */</span>
-</span><span id="372" class="l"><a class="l" href="#372">372: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_getPackageName" href="#_getPackageName">getPackageName</a>(<span class="php-var">$value</span>)
-</span><span id="373" class="l"><a class="l" href="#373">373: </a>    {
-</span><span id="374" class="l"><a class="l" href="#374">374: </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;_fedexPackages <span class="php-keyword1">as</span> <span class="php-var">$key</span> =&gt; <span class="php-var">$value</span>) {
-</span><span id="375" class="l"><a class="l" href="#375">375: </a>            <span class="php-keyword1">if</span> (<span class="php-var">$value</span> == <span class="php-var">$key</span>) {
-</span><span id="376" class="l"><a class="l" href="#376">376: </a>                <span class="php-keyword1">return</span> <span class="php-var">$value</span>[<span class="php-quote">'label'</span>];
-</span><span id="377" class="l"><a class="l" href="#377">377: </a>            }
-</span><span id="378" class="l"><a class="l" href="#378">378: </a>        }
-</span><span id="379" class="l"><a class="l" href="#379">379: </a>    }
-</span><span id="380" class="l"><a class="l" href="#380">380: </a>       
-</span><span id="381" class="l"><a class="l" href="#381">381: </a>}
-</span><span id="382" class="l"><a class="l" href="#382">382: </a></span></code></pre>
+</span><span id="330" class="l"><a class="l" href="#330">330: </a>
+</span><span id="331" class="l"><a class="l" href="#331">331: </a>    <span class="php-comment">/**
+</span></span><span id="332" class="l"><a class="l" href="#332">332: </a><span class="php-comment">     * isFedexPackage
+</span></span><span id="333" class="l"><a class="l" href="#333">333: </a><span class="php-comment">     *
+</span></span><span id="334" class="l"><a class="l" href="#334">334: </a><span class="php-comment">     * @param string $packageCode
+</span></span><span id="335" class="l"><a class="l" href="#335">335: </a><span class="php-comment">     * @return bool
+</span></span><span id="336" class="l"><a class="l" href="#336">336: </a><span class="php-comment">     */</span>
+</span><span id="337" class="l"><a class="l" href="#337">337: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_isFedexPackage" href="#_isFedexPackage">isFedexPackage</a>(<span class="php-var">$packageCode</span>)
+</span><span id="338" class="l"><a class="l" href="#338">338: </a>    {
+</span><span id="339" class="l"><a class="l" href="#339">339: </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;_fedexPackages <span class="php-keyword1">as</span> <span class="php-var">$key</span> =&gt; <span class="php-var">$value</span>) {
+</span><span id="340" class="l"><a class="l" href="#340">340: </a>            <span class="php-keyword1">if</span> (<span class="php-var">$packageCode</span> == <span class="php-var">$key</span>) {
+</span><span id="341" class="l"><a class="l" href="#341">341: </a>                <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;
+</span><span id="342" class="l"><a class="l" href="#342">342: </a>            }
+</span><span id="343" class="l"><a class="l" href="#343">343: </a>        }
+</span><span id="344" class="l"><a class="l" href="#344">344: </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
+</span><span id="345" class="l"><a class="l" href="#345">345: </a>    }
+</span><span id="346" class="l"><a class="l" href="#346">346: </a>
+</span><span id="347" class="l"><a class="l" href="#347">347: </a>    <span class="php-comment">/**
+</span></span><span id="348" class="l"><a class="l" href="#348">348: </a><span class="php-comment">     * getPackageCodes
+</span></span><span id="349" class="l"><a class="l" href="#349">349: </a><span class="php-comment">     *
+</span></span><span id="350" class="l"><a class="l" href="#350">350: </a><span class="php-comment">     * @return string
+</span></span><span id="351" class="l"><a class="l" href="#351">351: </a><span class="php-comment">     */</span>
+</span><span id="352" class="l"><a class="l" href="#352">352: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_getPackageCodes" href="#_getPackageCodes">getPackageCodes</a>()
+</span><span id="353" class="l"><a class="l" href="#353">353: </a>    {
+</span><span id="354" class="l"><a class="l" href="#354">354: </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;_fedexPackages <span class="php-keyword1">as</span> <span class="php-var">$key</span> =&gt; <span class="php-var">$value</span>) {
+</span><span id="355" class="l"><a class="l" href="#355">355: </a>            <span class="php-var">$var</span>[] = <span class="php-var">$key</span>;
+</span><span id="356" class="l"><a class="l" href="#356">356: </a>        }
+</span><span id="357" class="l"><a class="l" href="#357">357: </a>        
+</span><span id="358" class="l"><a class="l" href="#358">358: </a>        <span class="php-keyword1">return</span> <span class="php-var">$var</span>;
+</span><span id="359" class="l"><a class="l" href="#359">359: </a>    }
+</span><span id="360" class="l"><a class="l" href="#360">360: </a>
+</span><span id="361" class="l"><a class="l" href="#361">361: </a>    <span class="php-comment">/**
+</span></span><span id="362" class="l"><a class="l" href="#362">362: </a><span class="php-comment">     * getPackageName
+</span></span><span id="363" class="l"><a class="l" href="#363">363: </a><span class="php-comment">     *
+</span></span><span id="364" class="l"><a class="l" href="#364">364: </a><span class="php-comment">     * @param string $packageValue
+</span></span><span id="365" class="l"><a class="l" href="#365">365: </a><span class="php-comment">     * @return string
+</span></span><span id="366" class="l"><a class="l" href="#366">366: </a><span class="php-comment">     */</span>
+</span><span id="367" class="l"><a class="l" href="#367">367: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_getPackageName" href="#_getPackageName">getPackageName</a>(<span class="php-var">$value</span>)
+</span><span id="368" class="l"><a class="l" href="#368">368: </a>    {
+</span><span id="369" class="l"><a class="l" href="#369">369: </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;_fedexPackages <span class="php-keyword1">as</span> <span class="php-var">$key</span> =&gt; <span class="php-var">$value</span>) {
+</span><span id="370" class="l"><a class="l" href="#370">370: </a>            <span class="php-keyword1">if</span> (<span class="php-var">$value</span> == <span class="php-var">$key</span>) {
+</span><span id="371" class="l"><a class="l" href="#371">371: </a>                <span class="php-keyword1">return</span> <span class="php-var">$value</span>[<span class="php-quote">'label'</span>];
+</span><span id="372" class="l"><a class="l" href="#372">372: </a>            }
+</span><span id="373" class="l"><a class="l" href="#373">373: </a>        }
+</span><span id="374" class="l"><a class="l" href="#374">374: </a>    }
+</span><span id="375" class="l"><a class="l" href="#375">375: </a>       
+</span><span id="376" class="l"><a class="l" href="#376">376: </a>}
+</span><span id="377" class="l"><a class="l" href="#377">377: </a></span></code></pre>
 
 	<div id="footer">
 		shipsync-community API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
