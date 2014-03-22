@@ -14,13 +14,10 @@
  */
 class IllApps_Shipsync_Model_Shipping_Package
 {
-    
-    
+
     protected $_packageError;
     protected $_packageCollection;
-    
-    
-    
+
     /**
      * getPackages
      *
@@ -30,24 +27,25 @@ class IllApps_Shipsync_Model_Shipping_Package
     public function getDefaultPackages($carriers = null)
     {
         // Merge packages
-        $mergedPackages = array_merge($this->getSpecialPackage(), // Special package
-            $this->getShipsyncPackages(), // ShipSync packages
-            $this->getCarrierPackages($carriers) // Carrier specific packages
+        $mergedPackages = array_merge(
+			$this->getSpecialPackage(), 			// Special package
+            $this->getShipsyncPackages(), 			// ShipSync packages
+            $this->getCarrierPackages($carriers) 	// Carrier specific packages
           );
         
-        $sortedPackages = Mage::getModel('shipsync/shipping_package_sort')->sortByKey('max_weight', $mergedPackages);
+        $sortedPackages = Mage::getModel('shipsync/shipping_package_sort')
+			->sortByKey('max_weight', $mergedPackages);
         
         foreach ($sortedPackages as $key => $package) {
-            $package['value']  = $key;
-            $package['items']  = null;
+            $package['value'] = $key;
+            $package['items'] = null;
             $defaultPackages[] = $package;
         }
         
         return $defaultPackages;
     }
     
-    
-    
+
     /**
      * getCarrierPackages
      *
@@ -74,9 +72,7 @@ class IllApps_Shipsync_Model_Shipping_Package
         return $carrierPackages;
     }
     
-    
-    
-    
+
     /**
      * getSpecialPackage
      * 
@@ -87,19 +83,18 @@ class IllApps_Shipsync_Model_Shipping_Package
         // Return special package
         return array(
             'SPECIAL_PACKAGE' => array(
-                'label' => Mage::helper('usa')->__('Special Packaging'),
-                'length' => null,
-                'width' => null,
-                'height' => null,
+                'label' 	 => Mage::helper('usa')->__('Special Packaging'),
+                'length' 	 => null,
+                'width' 	 => null,
+                'height' 	 => null,
                 'max_weight' => null,
                 'max_volume' => null,
-                'baseline' => null
+                'baseline'   => null
             )
         );
     }
     
-    
-    
+
     /**
      * getShipsyncPackages
      *
@@ -112,26 +107,28 @@ class IllApps_Shipsync_Model_Shipping_Package
         
         // Iterate through package slots
         for ($i = 1; $i <= 20; $i++) {
+
             // Retrieve package data from config
             if (Mage::getStoreConfig('shipping/packages/pkg' . $i . 'enabled')) {
+
                 $label      = Mage::getStoreConfig('shipping/packages/pkg' . $i . 'title');
                 $length     = Mage::getStoreConfig('shipping/packages/pkg' . $i . 'length');
                 $width      = Mage::getStoreConfig('shipping/packages/pkg' . $i . 'width');
                 $height     = Mage::getStoreConfig('shipping/packages/pkg' . $i . 'height');
-                $base       = Mage::getStoreConfig('shipping/packages/pkg' . $i . 'base');
+                $baseline   = Mage::getStoreConfig('shipping/packages/pkg' . $i . 'base');
                 $max_weight = Mage::getStoreConfig('shipping/packages/pkg' . $i . 'weight');
                 
                 $max_volume = ($length * $width * $height);
                 
                 // Add package to array
                 $shipsyncPackages["SHIPSYNC_PKG_$i"] = array(
-                    'label' => $label,
-                    'length' => $length,
-                    'width' => $width,
-                    'height' => $height,
+                    'label' 	 => $label,
+                    'length' 	 => $length,
+                    'width' 	 => $width,
+                    'height' 	 => $height,
                     'max_weight' => $max_weight,
                     'max_volume' => $max_volume,
-                    'baseline' => $base
+                    'baseline' 	 => $baseline
                 );
             }
         }
@@ -140,8 +137,7 @@ class IllApps_Shipsync_Model_Shipping_Package
         return $shipsyncPackages;
     }
     
-    
-    
+
     /**
      * getParsedItems
      *
@@ -151,11 +147,11 @@ class IllApps_Shipsync_Model_Shipping_Package
      */
     public function getParsedItems($items, $toShip = false)
     {
-        return Mage::getModel('shipsync/shipping_package_item')->getParsedItems($items, $toShip);
+        return Mage::getModel('shipsync/shipping_package_item')
+			->getParsedItems($items, $toShip);
     }
     
-    
-    
+
     /**
      * Estimate packages
      *
@@ -174,9 +170,12 @@ class IllApps_Shipsync_Model_Shipping_Package
         $_items = $this->collectPackages($itemsToShip, $specialPackages, $s);
         
         if (!empty($_items)) {
+
             foreach ($_items as $alt => $items) {
+
                 // Iterate through items to pack
                 foreach ($items as $key => $item) {
+
                     // Check if item has dimensions
                     if (!isset($item['dimensions']) || $item['dimensions'] == null) {
                         // If not, set volume to 0
@@ -185,6 +184,7 @@ class IllApps_Shipsync_Model_Shipping_Package
                     
                     // If package has not been started
                     if (!isset($packages[$i]['weight'])) {
+
                         // Set package volume to 0
                         $packages[$i]['volume'] = 0;
                         
@@ -194,7 +194,9 @@ class IllApps_Shipsync_Model_Shipping_Package
                     
                     // If a package has been started
                     else {
-                        $key = Mage::getModel('shipsync/shipping_package_sort')->findBestFit($packages, $item);
+
+                        $key = Mage::getModel('shipsync/shipping_package_sort')
+							->findBestFit($packages, $item);
                         
                         if (isset($key)) {
                             $packages[$key]['items'][] = $item;
@@ -213,9 +215,9 @@ class IllApps_Shipsync_Model_Shipping_Package
                 $count = (isset($_packages)) ? count($_packages) : 0;
                 
                 foreach ($packages as $key => $package) {
-                    $package['alt_origin']    = $alt;
                     $_packages[$key + $count] = $package;
                 }
+
                 unset($packages);
             }
         }
@@ -235,8 +237,7 @@ class IllApps_Shipsync_Model_Shipping_Package
         return $_packages;
     }
     
-    
-    
+
     /**
      * optimizePackages
      * 
@@ -248,22 +249,34 @@ class IllApps_Shipsync_Model_Shipping_Package
         $sort = Mage::getModel('shipsync/shipping_package_sort');
         
         foreach ($defaultPackages as $key => $defaultPackage) {
+
             if ($defaultPackage['value'] == 'SPECIAL_PACKAGE') {
                 unset($defaultPackages[$key]);
                 break;
             }
+
             $free_weights[] = $defaultPackage['max_weight'];
             $free_volumes[] = $defaultPackage['max_volume'];
+
             $longest_side[] = $sort->getPackageLongestSide($defaultPackage);
         }
         
         foreach ($packages as $key => &$package) {
+
             $i = 0;
 			            
             $package['max_dim'] = $sort->getItemLongestSide($package['items']);
             
             while ($i < count($free_weights)) {
-                if (isset($package['weight']) && isset($package['volume']) && $package['weight'] < $free_weights[$i] && $package['volume'] < $free_volumes[$i] && $sort->dimensionCheck($longest_side[$i], $package['max_dim']) || isset($package['weight']) && !isset($package['volume']) && $package['weight'] < $free_weights[$i]) {
+
+                if (isset($package['weight']) &&
+					isset($package['volume']) &&
+					$package['weight'] < $free_weights[$i] &&
+					$package['volume'] < $free_volumes[$i] &&
+					$sort->dimensionCheck($longest_side[$i], $package['max_dim']) ||
+					isset($package['weight']) && !isset($package['volume']) &&
+					$package['weight'] < $free_weights[$i]) {
+
                     $j = $i;
                     
                     $packages[$key]['value']       = $defaultPackages[$j]['value'];
@@ -280,14 +293,13 @@ class IllApps_Shipsync_Model_Shipping_Package
                 
                 $i++;
             }
+
             if (isset($package['weight']) && isset($package['baseline'])) {
                 $package['weight'] = $package['weight'] + $package['baseline'];
             }
         }
     }
-    
-    
-    
+
     /**
      * initPackage
      *
@@ -304,6 +316,7 @@ class IllApps_Shipsync_Model_Shipping_Package
         $packageFit = false;
         
         foreach ($defaultPackages as $key => &$defaultPackage) {
+
             if ($init) {
                 $defaultPackage['free_weight'] = $defaultPackage['max_weight'] - $defaultPackage['baseline'];
                 $defaultPackage['free_volume'] = $defaultPackage['max_volume'];
@@ -314,18 +327,21 @@ class IllApps_Shipsync_Model_Shipping_Package
                 $packages[$i]['free_volume'] = $defaultPackage['free_volume'];
                 
                 $this->setPackage($defaultPackage, $packages, $item, $i);
+
                 $packageFit = true;
+
                 break;
             }
         }
+
         if (!$packageFit) {
+
             $this->_packageError = 'There are no configured packages large enough to ship this item.
 		    Please contact the store administrator.';
         }
     }
     
-    
-    
+
     /**
      * setSpecial
      *
@@ -342,7 +358,6 @@ class IllApps_Shipsync_Model_Shipping_Package
         
         $specialPackages[$s]['items'][0]   = $item;
         $specialPackages[$s]['weight']     = $item['weight'];
-        $specialPackages[$s]['alt_origin'] = $item['alt_origin'];
         
         // If item has dimensions
         if ($item['dimensions']) {
@@ -361,6 +376,7 @@ class IllApps_Shipsync_Model_Shipping_Package
         $s++;
     }
     
+
     /**
      * Set Package
      *
@@ -392,8 +408,7 @@ class IllApps_Shipsync_Model_Shipping_Package
         }
     }
     
-    
-    
+
     /**
      * Takes argument of the items in a package, and an array key name.
      * Parses them, and resorts their human-readable contents.
@@ -434,28 +449,40 @@ class IllApps_Shipsync_Model_Shipping_Package
         return preg_replace('/[\-]+/u', '-', $ret);
     }
     
+	/**
+     * Set Package Origin
+     *
+	 * @param array $packages
+     */
     public function setPackageOrigin(&$packages)
     {
 
-                $origCountry    = Mage::getStoreConfig('shipping/origin/country_id');
-                $origRegionCode = Mage::getModel('directory/region')->load(Mage::getStoreConfig('shipping/origin/region_id'))->getCode();
-                
-                $package['country']  = $origCountry;
-                $package['region']   = (strlen($origRegionCode) > 2) ? '' : $origRegionCode;
-                $package['postcode'] = Mage::getStoreConfig('shipping/origin/postcode');
-                $package['city']     = Mage::getStoreConfig('shipping/origin/city');
-                $package['address1'] = Mage::getStoreConfig('shipping/origin/address1');
-                if (Mage::getStoreConfig('shipping/origin/address2') != '') {
-                    $package['address2'] = Mage::getStoreConfig('shipping/origin/address2');
-                }
-                if (Mage::getStoreConfig('shipping/origin/address3') != '') {
-                    $package['address3'] = Mage::getStoreConfig('shipping/origin/address3');
-                }
+		$package['country']  = Mage::getStoreConfig('shipping/origin/country_id');
 
+		// Shipper region id
+		$originRegionId = Mage::getStoreConfig('shipping/origin/region_id');
+
+		// Shipper region code
+		if (is_numeric($originRegionId)) {
+            $package['region'] = Mage::getModel('directory/region')->load($originRegionId)->getCode();
+        } else {
+			$package['region'] = $originRegionid;
+		}
+
+		$package['postcode'] = Mage::getStoreConfig('shipping/origin/postcode');
+        $package['city']     = Mage::getStoreConfig('shipping/origin/city');
+		$package['address1'] = Mage::getStoreConfig('shipping/origin/street_line1');
+
+        if (Mage::getStoreConfig('shipping/origin/street_line2') != '') {
+			$package['address2'] = Mage::getStoreConfig('shipping/origin/street_line2');
+        }
+		if (Mage::getStoreConfig('shipping/origin/street_line3') != '') {
+        	$package['address3'] = Mage::getStoreConfig('shipping/origin/street_line3');
+        }
+
+		$package['phone'] = Mage::getStoreConfig('shipping/origin/phone');
     }
-    
-    
-    
+
     /**
      * getPackageError
      *
@@ -469,6 +496,9 @@ class IllApps_Shipsync_Model_Shipping_Package
         return false;
     }
     
+	/**
+     * Get Free Method Weight
+     */
     public function getFreeMethodWeight($items)
     {
         $weight = 0;
@@ -481,6 +511,9 @@ class IllApps_Shipsync_Model_Shipping_Package
         return $weight;
     }
     
+	/**
+     * Get Package Weight
+     */
     public function getPackageWeight($items)
     {
         $weight = 0;
@@ -498,7 +531,10 @@ class IllApps_Shipsync_Model_Shipping_Package
 		
         return $weight;
     }
-    
+
+	/**
+     * Get Package Value
+     */
     public function getPackageValue($items)
     {
         $value = 0.0;
@@ -510,7 +546,10 @@ class IllApps_Shipsync_Model_Shipping_Package
         }
         return $value;
     }
-    
+
+	/**
+     * Get Package Discount
+     */
     public function getPackageDiscount($items, $order)
     {
         $discount = 0.0;
@@ -519,7 +558,10 @@ class IllApps_Shipsync_Model_Shipping_Package
         }
         return $discount;
     }
-    
+
+	/**
+     * Collect Packages
+     */
     public function collectPackages($itemsToShip, &$specialPackages, &$s)
     {
         if (empty($itemsToShip)) {
@@ -536,14 +578,6 @@ class IllApps_Shipsync_Model_Shipping_Package
                 // Add item to special package
                 $this->setSpecial($specialPackages, $item, $s);
             }
-            /*else if ($xpkgs = Mage::getModel('extrapackages/package')->getExtraPackages($item['product_id']))
-            {
-            $this->setExtraPackages($specialPackages, $xpkgs, $item, $s);
-            }*/
-            else {
-                $_items[$item['alt_origin']][] = $item;
-            }
-            
         }
         return isset($_items) ? $_items : false;
     }

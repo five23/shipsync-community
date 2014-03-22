@@ -14,8 +14,7 @@
  */
 class IllApps_Shipsync_Model_Shipping_Package_Item
 {
-    
-    
+
     /**
      * getParsedItems
      *
@@ -38,15 +37,10 @@ class IllApps_Shipsync_Model_Shipping_Package_Item
 		
         foreach ($items as $item) {
 			
-            if ($item->getParentItem() && !$item->isShipSeparately()) {
-                continue;
-            }
-            if ($item->getHasChildren() && $item->isShipSeparately()) {
-                continue;
-            }
-            if ($item->getIsVirtual()) {
-                continue;
-            }
+            if ($item->getParentItem() && !$item->isShipSeparately()) { continue; }
+            if ($item->getHasChildren() && $item->isShipSeparately()) { continue; }
+
+			if ($item->getIsVirtual()) { continue; }
             
             $product = Mage::getModel('catalog/product')->load($item->getProductId());
             
@@ -64,9 +58,9 @@ class IllApps_Shipsync_Model_Shipping_Package_Item
 				
                 if ($toShip) {
                     
-                    $_items[$i]['status'] = $item->getStatus();
-                    $_items[$i]['sku']    = $item->getSku();                    
-                    $_items[$i]['weight'] = $itemWeight;                    
+                    $_items[$i]['status'] 	 = $item->getStatus();
+                    $_items[$i]['sku']    	 = $item->getSku();
+                    $_items[$i]['weight'] 	 = $itemWeight;
                     $_items[$i]['dangerous'] = $product->getDangerousGoods();
                 }
                 
@@ -78,19 +72,24 @@ class IllApps_Shipsync_Model_Shipping_Package_Item
                 $_items[$i]['value']          = $product->getPrice();
                 $_items[$i]['special']        = $product->getSpecialPackaging();
                 $_items[$i]['free_shipping']  = $product->getFreeShipping();
-                $_items[$i]['alt_origin']     = 0; //(int) $product->getProductOrigin();
                 $_items[$i]['is_decimal_qty'] = $item->getIsQtyDecimal();
                 
-                if (Mage::getStoreConfig('carriers/fedex/enable_dimensions') && $product->getWidth() && $product->getHeight() && $product->getLength()) {
+                if (Mage::getStoreConfig('carriers/fedex/enable_dimensions')
+					&& $product->getWidth() && $product->getHeight()
+					&& $product->getLength()) {
+
                     $_items[$i]['dimensions'] = true;
                     
                     if ($toShip) {
+
                         $itemLength = round($product->getLength(), 2) > 0 ? round($product->getLength(), 2) : 1;
-                        $itemWidth  = round($product->getWidth(), 2) > 0 ? round($product->getWidth(), 2) : 1;
+                        $itemWidth  = round($product->getWidth(),  2) > 0 ? round($product->getWidth(),  2) : 1;
                         $itemHeight = round($product->getHeight(), 2) > 0 ? round($product->getHeight(), 2) : 1;
                         
                         $itemVolume = round($itemLength * $itemWidth * $itemHeight);
+
                     } else {
+
                         $itemLength = $product->getLength();
                         $itemWidth  = $product->getWidth();
                         $itemHeight = $product->getHeight();
@@ -102,7 +101,9 @@ class IllApps_Shipsync_Model_Shipping_Package_Item
                     $_items[$i]['width']  = $itemWidth;
                     $_items[$i]['height'] = $itemHeight;
                     $_items[$i]['volume'] = $itemVolume;
+
                 } else {
+
                     $_items[$i]['dimensions'] = false;
                     
                     $_items[$i]['length'] = null;
@@ -141,51 +142,5 @@ class IllApps_Shipsync_Model_Shipping_Package_Item
         
         return $_items;
 	}
-    
-		
-    /*
-     * By Origin
-     * 
-     * Sorts items by origin
-     * 
-     * @param array $items
-     * @return array $items
-     */
-    public function byOrigin($items)
-    {
-        foreach ($items as $item) {
-            $_items[(int) $item['alt_origin']][] = $item;
-        }
-        return $_items;
-    }
-    
-    /*
-     * Get Origin
-     * 
-     * @param int $id
-     * @return array $origin
-     */
-    public function getOrigin($id)
-    {
-            $origRegionCode = Mage::getModel('directory/region')->load(Mage::getStoreConfig('shipping/origin/region_id'))->getCode();
-            
-            $origin['country']    = Mage::getStoreConfig('shipping/origin/country_id');
-            $origin['regionId']   = Mage::getStoreConfig('shipping/origin/region_id');
-            $origin['regionCode'] = (strlen($origRegionCode) > 2) ? '' : $origRegionCode;
-            $origin['postcode']   = Mage::getStoreConfig('shipping/origin/postcode');
-            $origin['city']       = Mage::getStoreConfig('shipping/origin/city');
-            
-            $shipperStreetLines = array(
-                Mage::getStoreConfig('shipping/origin/street_line1')
-            );
-            if (Mage::getStoreConfig('shipping/origin/street_line2') != '') {
-                $shipperStreetLines[] = Mage::getStoreConfig('shipping/origin/street_line2');
-            }
-            if (Mage::getStoreConfig('shipping/origin/street_line3') != '') {
-                $shipperStreetLines[] = Mage::getStoreConfig('shipping/origin/street_line3');
-            }
-            $origin['street'] = $shipperStreetLines;
-  
-        return $origin;
-    }
+
 }
