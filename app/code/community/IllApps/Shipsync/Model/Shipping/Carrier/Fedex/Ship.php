@@ -15,16 +15,12 @@
 class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsync_Model_Shipping_Carrier_Fedex
 {
     
-    
+    protected $_shipServiceClient;
     protected $_shipRequest;
     protected $_shipResult;
     protected $_shipResultError;
-    protected $_shipServiceClient;
-    protected $_shipServiceVersion = '13';
-    protected $_shipServiceWsdlPath = 'ShipService_v13.wsdl';
     protected $_activeShipment;
-    
-    
+
     /**
      * Create shipment
      *

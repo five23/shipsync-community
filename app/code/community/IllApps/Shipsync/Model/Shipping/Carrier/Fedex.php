@@ -12,13 +12,88 @@
 /**
  * IllApps_Shipsync_Model_Shipping_Carrier_Fedex
  */
-class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carrier_Abstract implements Mage_Shipping_Model_Carrier_Interface
+class IllApps_Shipsync_Model_Shipping_Carrier_Fedex
+   extends Mage_Usa_Model_Shipping_Carrier_Abstract
+   implements Mage_Shipping_Model_Carrier_Interface
 {
-    
-    protected $_code = 'fedex';
-    protected $_request;
-    protected $_rateResult;
-    
+
+    /**
+     * Code of the carrier
+     *
+     * @var string
+     */
+    const CODE = 'fedex';
+
+    /**
+     * Code of the carrier
+     *
+     * @var string
+     */
+    protected $_code = self::CODE;
+
+    /**
+     * Rate request data
+     *
+     * @var Mage_Shipping_Model_Rate_Request|null
+     */
+    protected $_request = null;
+
+    /**
+     * Raw rate request data
+     *
+     * @var Varien_Object|null
+     */
+    protected $_rawRequest = null;
+
+    /**
+     * Rate result data
+     *
+     * @var Mage_Shipping_Model_Rate_Result|null
+     */
+    protected $_result = null;
+
+    /**
+     * Container types that could be customized for FedEx carrier
+     *
+     * @var array
+     */
+    protected $_customizableContainerTypes = array('YOUR_PACKAGING');
+
+    /**
+     * Path to wsdl file of rate service
+     *
+     * @var string
+     */
+    protected $_rateServiceWsdl = null;
+	protected $_rateServiceVersion = '14';
+    protected $_rateServiceWsdlPath = 'RateService_v14.wsdl';
+
+    /**
+     * Path to wsdl file of ship service
+     *
+     * @var string
+     */
+    protected $_shipServiceWsdl = null;
+    protected $_shipServiceVersion = '13';
+    protected $_shipServiceWsdlPath = 'ShipService_v13.wsdl';
+
+    /**
+     * Path to wsdl file of track service
+     *
+     * @var string
+     */
+    protected $_trackServiceWsdl = null;
+    protected $_trackServiceVersion = '5';
+    protected $_trackServiceWsdlPath = 'TrackService_v5.wsdl';
+
+    /**
+     * Path to wsdl file of address service
+     *
+     * @var string
+     */
+    protected $_addressServiceWsdl = null;
+    protected $_addressServiceVersion = '2';
+    protected $_addressServiceWsdlPath = 'AddressValidationService_v2.wsdl';
     
     /**
      * collectRates
@@ -28,21 +103,14 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
-        // Check if method is active
-        if (!$this->getConfigFlag('active')) {
+        if ((!$this->getConfigFlag('active'))
+			|| Mage::getStoreConfig('carriers/fedex/disable_rating')) {
             return false;
         }
-        
-        if (Mage::getStoreConfig('carriers/fedex/disable_rating')) {
-            return false;
-        }
-        
-        // Collect rates
+
         return Mage::getModel('usa/shipping_carrier_fedex_rate')->collectRates($request);
     }
-    
-    
-    
+
     /**
      * createShipment
      * 
@@ -51,16 +119,12 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
      */
     public function createShipment($request)
     {
-        // Check if method is active
         if (!$this->getConfigFlag('active')) {
             return false;
         }
-        
-        // Create shipment
+
         return Mage::getModel('usa/shipping_carrier_fedex_ship')->createShipment($request);
     }
-    
-    
     
     /**
      * getTracking
@@ -72,9 +136,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
     {
         return Mage::getModel('usa/shipping_carrier_fedex_track')->getTracking($trackings);
     }
-    
-    
-    
+
     /**
      * Check residential status
      */
@@ -82,7 +144,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
     {
         return Mage::getModel('usa/shipping_carrier_fedex_address')->getResidential($street, $postcode);
     }
-    
     
     /**
      * getPackages
@@ -93,8 +154,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
     {
         return Mage::getModel('usa/shipping_carrier_fedex_package')->getPackages();
     }
-    
-    
+
     /**
      * _initWebServices
      *
@@ -133,8 +193,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
         return $soapClient;
     }
     
-    
-    
     /**
      * getDimensionUnits
      *
@@ -159,9 +217,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
     {
         return Mage::getStoreConfig('carriers/fedex/unit_of_measure');
     }
-    
-    
-    
+
     /**
      *  Return FedEx currency ISO code by Magento Base Currency Code
      *
@@ -191,9 +247,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
         
         return isset($codes[$currencyCode]) ? $codes[$currencyCode] : $currencyCode;
     }
-    
-    
-    
+
     /**
      * Get underscore from code
      *

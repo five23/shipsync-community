@@ -15,15 +15,10 @@
 class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Track extends IllApps_Shipsync_Model_Shipping_Carrier_Fedex
 {
 
-
+    protected $_trackServiceClient;
     protected $_trackRequest;
     protected $_trackResult;
     protected $_trackResultError;
-    protected $_trackServiceClient;
-    protected $_trackServiceVersion = '5';
-    protected $_trackServiceWsdlPath = 'TrackService_v5.wsdl';
-
-
 
     /**
      * getTracking
@@ -34,10 +29,10 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Track extends IllApps_Shipsy
     public function getTracking($trackings)
     {
         // Track service client
-	$this->_trackServiceClient = $this->_initWebServices($this->_trackServiceWsdlPath);
+		$this->_trackServiceClient = $this->_initWebServices($this->_trackServiceWsdlPath);
 
         // Set the request
-	$this->setTrackingRequest();
+		$this->setTrackingRequest();
 
         if (!is_array($trackings)) { $_trackings = array($trackings); }
         else                       { $_trackings = $trackings; }
@@ -47,18 +42,13 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Track extends IllApps_Shipsy
         return $this->_trackResult;
     }
 
-
-
     /**
      * setTrackingRequest
      */
     protected function setTrackingRequest()
     {	        
-	$this->_trackRequest = new Varien_Object();
+		$this->_trackRequest = new Varien_Object();
     }
-
-            
-        
         
     /**
      * _getWsdlTracking
@@ -68,38 +58,40 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Track extends IllApps_Shipsy
     protected function _getWsdlTracking($tracking)
     {
         $trackRequest	     = $this->_trackRequest;
-	$trackServiceVersion = $this->_trackServiceVersion;
+		$trackServiceVersion = $this->_trackServiceVersion;
 	
-	$request['WebAuthenticationDetail'] = array(
-	    'UserCredential' => array(
-		'Key'      => $this->getFedexKey(),
-		'Password' => $this->getFedexPassword()));
+		$request['WebAuthenticationDetail'] = array(
+			'UserCredential' => array(
+				'Key'      => $this->getFedexKey(),
+				'Password' => $this->getFedexPassword()));
 
-	$request['ClientDetail'] = array(
-	    'AccountNumber' => $this->getFedexAccount(),
-	    'MeterNumber'   => $this->getFedexMeter());
+		$request['ClientDetail'] = array(
+			'AccountNumber' => $this->getFedexAccount(),
+			'MeterNumber'   => $this->getFedexMeter());
 
-	$request['TransactionDetail']['CustomerTransactionId'] = '*** Track Request v' . $trackServiceVersion . ' Using PHP ***';
+		$request['TransactionDetail']['CustomerTransactionId'] =
+			'*** Track Request v' . $trackServiceVersion . ' Using PHP ***';
 
-	$request['Version'] = array('ServiceId' => 'trck', 'Major' => $trackServiceVersion, 'Intermediate' => '0', 'Minor' => '0');
+		$request['Version'] = array(
+			'ServiceId' => 'trck',
+			'Major' => $trackServiceVersion,
+			'Intermediate' => '0',
+			'Minor' => '0');
 
-        $request['PackageIdentifier']['Value'] = $tracking;
-	$request['PackageIdentifier']['Type']  = 'TRACKING_NUMBER_OR_DOORTAG';
-        $request['IncludeDetailedScans'] = true;
+		$request['PackageIdentifier']['Value'] = $tracking;
+		$request['PackageIdentifier']['Type'] = 'TRACKING_NUMBER_OR_DOORTAG';
+		$request['IncludeDetailedScans'] = true;
 
-        try
-        {
-            Mage::Helper('shipsync')->mageLog($request, 'track');
-            $response = $this->_trackServiceClient->track($request);
-            Mage::Helper('shipsync')->mageLog($response, 'track');
+		try
+		{
+			$response = $this->_trackServiceClient->track($request);
 
-
-            $this->_parseWsdlTrackingResponse($tracking, $response);
-        }
-        catch (SoapFault $ex)
-        {
-            $this->_trackResultError = $ex->getMessage();
-        }
+			$this->_parseWsdlTrackingResponse($tracking, $response);
+		}
+		catch (SoapFault $ex)
+		{
+			$this->_trackResultError = $ex->getMessage();
+		}
     }
 
 

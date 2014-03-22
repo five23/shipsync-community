@@ -16,15 +16,10 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Address extends IllApps_Ship
 {
     
     
-    protected $_addressRequest;
+	protected $_addressServiceClient;
+	protected $_addressRequest;
     protected $_addressResult;
     protected $_addressResultError;
-    protected $_addressServiceClient;
-    protected $_addressServiceVersion = '2';
-    protected $_addressServiceWsdlPath = 'AddressValidationService_v2.wsdl';
-    
-    
-    
     /**
      * validate
      *

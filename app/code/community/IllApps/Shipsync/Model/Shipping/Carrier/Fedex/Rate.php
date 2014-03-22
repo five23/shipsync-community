@@ -14,19 +14,14 @@
  */
 class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsync_Model_Shipping_Carrier_Fedex
 {
-    
-    
-    protected $_rateRequest;
+
+	protected $_rateServiceClient;
+	protected $_rateRequest;
     protected $_rateResult;
     protected $_rateResultCollection;
     protected $_rateResultError;
-    protected $_rateServiceClient;
-    protected $_rateServiceVersion = '14';
-    protected $_rateServiceWsdlPath = 'RateService_v14.wsdl';
     protected $_saturdayDelivery;
-    
-    
-    
+
     /**
      * collectRates
      *
@@ -58,7 +53,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
 		
 		// Return rate result
 		return $this->getRateResult();
-		
     }
 	
 	
@@ -68,8 +62,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
      * @return object
      */
     public function getRateResult() { return $this->_rateResult; }
-	
-	
+
 	
     /**
      * setRateRequest
