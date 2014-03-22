@@ -16,7 +16,8 @@ class IllApps_Shipsync_Model_Shipping_Package_Sort
 {
     
     protected $_key;
-
+    
+    
     /**
      * sortByKey
      *
@@ -34,7 +35,11 @@ class IllApps_Shipsync_Model_Shipping_Package_Sort
         
         return $array;
     }
-
+    
+    
+    
+    
+    
     /**
      * _sortByKey
      *
@@ -55,7 +60,9 @@ class IllApps_Shipsync_Model_Shipping_Package_Sort
         
         return ($a_key > $b_key) ? -1 : 1;
     }
-
+    
+    
+    
     /**
      * Find Best Fit
      *
@@ -77,7 +84,9 @@ class IllApps_Shipsync_Model_Shipping_Package_Sort
         
         return (isset($free_weights) && isset($free_volumes) ? $this->minKey($free_weights, $free_volumes) : null);
     }
-
+    
+    
+    
     /**
      * Min Key
      *
@@ -98,7 +107,9 @@ class IllApps_Shipsync_Model_Shipping_Package_Sort
             }
         }
     }
-
+    
+    
+    
     /**
      * Find Fit
      *
@@ -120,7 +131,9 @@ class IllApps_Shipsync_Model_Shipping_Package_Sort
             return $this->findFitWeight($package, $item);
         }
     }
-
+    
+    
+    
     /**
      * Find Fit Volume
      *
@@ -138,7 +151,9 @@ class IllApps_Shipsync_Model_Shipping_Package_Sort
             return false;
         }
     }
-
+    
+    
+    
     /**
      * Find Fit Weight
      *
@@ -187,19 +202,17 @@ class IllApps_Shipsync_Model_Shipping_Package_Sort
         return $this->dimensionCheck($arr, $cmp);
     }
     
-	/**
-     * Get Package Longest Side
-     */
     public function getPackageLongestSide($package)
     {
-        $arr = array($package['length'], $package['width'], $package['height']);
+        $arr = array(
+            $package['length'],
+            $package['width'],
+            $package['height']
+        );
         sort($arr);
         return $arr;
     }
     
-	/**
-     * Get Item Longest Side
-     */
     public function getItemLongestSide($items)
     {
         foreach ($items as $item) {
@@ -215,10 +228,7 @@ class IllApps_Shipsync_Model_Shipping_Package_Sort
         sort($arr);
         return $arr;
     }
-
-	/**
-     * Dimension Check
-     */
+    
     public function dimensionCheck($arr, $cmp)
     {
         foreach ($arr as $key => $el) {

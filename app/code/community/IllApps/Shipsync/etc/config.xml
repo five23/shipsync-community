@@ -54,6 +54,7 @@
 					<shipping_package>IllApps_Shipsync_Model_Shipping_Package</shipping_package>
 					<shipping_package_item>IllApps_Shipsync_Model_Shipping_Package_Item</shipping_package_item>
 					<shipping_package_sort>IllApps_Shipsync_Model_Shipping_Package_Sort</shipping_package_sort>
+					<shipping_package_origins>IllApps_Shipsync_Model_Shipping_Package_Origins</shipping_package_origins>
 				</rewrite>
 			</shipsync>
 			<usa>
@@ -212,13 +213,15 @@
 				<enable_smartpost>0</enable_smartpost>
 				<smartpost_indicia_type>PARCEL_SELECT</smartpost_indicia_type>
 				<smartpost_ancillary_endorsement>CARRIER_LEAVE_IF_NO_RESPONSE</smartpost_ancillary_endorsement>
+				<allowed_methods>EUROPE_FIRST_INTERNATIONAL_PRIORITY,FEDEX_1_DAY_FREIGHT,FEDEX_2_DAY_FREIGHT,FEDEX_2_DAY,FEDEX_2_DAY_AM,FEDEX_3_DAY_FREIGHT,FEDEX_EXPRESS_SAVER,FEDEX_GROUND,FIRST_OVERNIGHT,GROUND_HOME_DELIVERY,INTERNATIONAL_ECONOMY,INTERNATIONAL_ECONOMY_FREIGHT,INTERNATIONAL_FIRST,INTERNATIONAL_GROUND,INTERNATIONAL_PRIORITY,INTERNATIONAL_PRIORITY_FREIGHT,PRIORITY_OVERNIGHT,SMART_POST,STANDARD_OVERNIGHT,FEDEX_FREIGHT,FEDEX_NATIONAL_FREIGHT</allowed_methods>								
 				<address_validation>0</address_validation>
 				<filter_po_boxes>0</filter_po_boxes>
 				<label_stock>PAPER_7X4.75</label_stock>
 				<label_image>PDF</label_image>
 				<label_orientation>BOTTOM_EDGE_OF_TEXT_FIRST</label_orientation>
 				<free_shipping_enable>0</free_shipping_enable>
-				<residence_delivery>0</residence_delivery>
+				<free_method>FEDEX_GROUND</free_method>
+				<residence_delivery>1</residence_delivery>
 				<enable_dimensions>1</enable_dimensions>
 				<unit_of_measure>LB</unit_of_measure>
 				<rate_type>ACCOUNT</rate_type>
@@ -231,6 +234,7 @@
 				<cutoff_cost/>
 				<dropoff>REGULAR_PICKUP</dropoff>
 				<handling>0</handling>
+				<packaging>YOUR_PACKAGING</packaging>
 				<specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
 				<max_package_weight>150</max_package_weight>
 				<handling_type>F</handling_type>

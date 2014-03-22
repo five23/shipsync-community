@@ -12,9 +12,7 @@
 /**
  * IllApps_Shipsync_Model_Shipping_Carrier_Fedex
  */
-class IllApps_Shipsync_Model_Shipping_Carrier_Fedex
-	extends Mage_Usa_Model_Shipping_Carrier_Abstract
-	implements Mage_Shipping_Model_Carrier_Interface
+class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipping_Carrier_Abstract implements Mage_Shipping_Model_Carrier_Interface
 {
     
     protected $_code = 'fedex';
