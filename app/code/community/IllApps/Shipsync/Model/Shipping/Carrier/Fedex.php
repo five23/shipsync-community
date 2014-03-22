@@ -94,7 +94,24 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex
     protected $_addressServiceWsdl = null;
     protected $_addressServiceVersion = '2';
     protected $_addressServiceWsdlPath = 'AddressValidationService_v2.wsdl';
-    
+
+	/**
+     * Base wsdl path
+     *
+     * @var string
+     */
+	protected $_wsdlBasePath = null;
+
+	/**
+	 * Construct
+	 */
+	public function __construct()
+    {
+        parent::__construct();
+
+        $this->_wsdlBasePath = Mage::getModuleDir('etc', 'IllApps_Shipsync')  . DS . 'wsdl' . DS . 'FedEx' . DS;
+	}
+
     /**
      * collectRates
      *
@@ -172,13 +189,13 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex
             $this->setFedexPassword(Mage::getStoreConfig('carriers/fedex/test_password'));
             $this->setFedexAccount(Mage::getStoreConfig('carriers/fedex/test_account'));
             $this->setFedexMeter(Mage::getStoreConfig('carriers/fedex/test_meter'));
-            $this->setWsdlPath(dirname(__FILE__) . '/Fedex/wsdl/test/' . $wsdlPath);
+            $this->setWsdlPath($this->_wsdlBasePath . 'test' . DS . $wsdlPath);
         } else {
             $this->setFedexKey(Mage::getStoreConfig('carriers/fedex/key'));
             $this->setFedexPassword(Mage::getStoreConfig('carriers/fedex/password'));
             $this->setFedexAccount(Mage::getStoreConfig('carriers/fedex/account'));
             $this->setFedexMeter(Mage::getStoreConfig('carriers/fedex/meter_number'));
-            $this->setWsdlPath(dirname(__FILE__) . '/Fedex/wsdl/' . $wsdlPath);
+            $this->setWsdlPath($this->_wsdlBasePath . $wsdlPath);
         }
         
         try {
