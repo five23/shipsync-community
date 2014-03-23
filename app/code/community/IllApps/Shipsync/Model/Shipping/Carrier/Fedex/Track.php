@@ -123,7 +123,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Track extends IllApps_Shipsy
 
 	    $error = Mage::getModel('shipping/tracking_result_error');
             $error->setCarrier('fedex');
-            $error->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title'));
+            $error->setCarrierTitle($this->getConfigData('title'));
             $error->setTracking($tracking);
             $error->setErrorMessage($errorMsg);
 
@@ -202,7 +202,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Track extends IllApps_Shipsy
                 {
                     $trackResultStatus = Mage::getModel('shipping/tracking_result_status');
                     $trackResultStatus->setCarrier('fedex');
-                    $trackResultStatus->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title'));
+                    $trackResultStatus->setCarrierTitle($this->getConfigData('title'));
                     $trackResultStatus->setTracking($tracking);
                     $trackResultStatus->addData($trackResultArray);
 
@@ -212,7 +212,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Track extends IllApps_Shipsy
                 {
                     $error = Mage::getModel('shipping/tracking_result_error');
                     $error->setCarrier('fedex');
-                    $error->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title'));
+                    $error->setCarrierTitle($this->getConfigData('title'));
                     $error->setTracking($tracking);
                     $error->setErrorMessage('No tracking results retrieved.  Please try again later.');
 

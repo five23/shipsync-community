@@ -24,7 +24,8 @@ class IllApps_Shipsync_Block_Adminhtml_Shipsync extends Mage_Adminhtml_Block_Wid
 
         $shippingPackage = Mage::getModel('shipsync/shipping_package'); // Get shipping package model
 
-        $this->setOrder(Mage::getModel('sales/order')->load($order_id)); // Set order model        
+        $this->setOrder(Mage::getModel('sales/order')->load($order_id)); // Set order model
+
         $this->setOrderUrl($this->getUrl('adminhtml/sales_order/view', array(
                     'order_id' => $order_id
         ))); // Set order url
@@ -32,25 +33,18 @@ class IllApps_Shipsync_Block_Adminhtml_Shipsync extends Mage_Adminhtml_Block_Wid
         $this->setOrderStoreDate($this->formatDate($this->getOrder()->getCreatedAtStoreDate(), 'medium', true)); // Set order store date
         $this->setOrderTimezone($this->getOrder()->getCreatedAtStoreDate()->getTimezone()); // Set order timezone
 
-        $this->setShippingMethod(explode('_', $this->getOrder()->getShippingMethod())); // Set shipping method
-
-        $this->setDefaultPackages(Mage::getModel('shipsync/shipping_package')->getDefaultPackages(array(
-                    'fedex'
-        )));
-
+        $this->setShippingMethod($this->getOrder()->getShippingMethod(true)); // Set shipping method
+        $this->setDefaultPackages(Mage::getModel('shipsync/shipping_package')->getDefaultPackages(array('fedex')));
         $this->setItems($shippingPackage->getParsedItems($this->getOrder()->getAllItems(), true)); // Set items
-        $this->setPackages($shippingPackage->estimatePackages($this->getItems(), $this->getDefaultPackages())); // Set packages        
-
+        $this->setPackages($shippingPackage->estimatePackages($this->getItems(), $this->getDefaultPackages())); // Set packages
         $this->setCarrier(Mage::getModel('usa/shipping_carrier_fedex')); // Set carrier model
         $this->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title')); // Set carrier title
         $this->setCarrierCode(strtoupper($this->getShippingMethod(0))); // Set carrier code
-        $this->setMethodCode($this->getShippingMethod(1)); // Set method code
-        $this->setMethod($this->getCarrier()->getCode('method', $this->getMethodCode())); // Set method	
-        $this->setAllowedMethods(explode(",", Mage::getStoreConfig('carriers/fedex/allowed_methods'))); // Set allowed methods	
+		$this->setMethod($this->getShippingMethod()->getMethod());
+        $this->setAllowedMethods($this->getCarrier()->getAllowedMethods()); // Set allowed methods
         $this->setDimensionUnits($this->getCarrier()->getDimensionUnits()); // Set dimension units
         $this->setWeightUnits($this->getCarrier()->getWeightUnits()); // Set weight units	
         $this->setSaturdayDelivery((bool) strpos($this->getOrder()->getShippingDescription(), 'Saturday Delivery')); // Determine if shipment delivers on Saturday
-
         $this->setFormKey(Mage::getSingleton('core/session')->getFormKey()); // Set form key		
 
         if ($this->getOrder()->getEmailSent()) { // Check if order email is sent

@@ -116,9 +116,9 @@
 			    <!-- Shipping method select -->
 			    <select id="method" name="method">
                                 <?php $allowedMethods = $this->getAllowedMethods(); $last = end($allowedMethods); $set = false;?>
-				<?php foreach ( $allowedMethods as $method) {; ?>
+				<?php foreach ($allowedMethods as $method) {; ?>
 				    <?php echo '<option value="' . $method . '"'; ?>
-				    <?php if ($method == $this->getMethodCode()) { echo " SELECTED"; $set = true; }
+				    <?php if ($method == $this->getMethod()) { echo " SELECTED"; $set = true; }
                                           elseif ($method == $last && !$set) { echo " SELECTED"; }
                                           echo '>'; ?>
 				    <?php echo $this->getCarrier()->getCode('method', $method) . '</option>'; ?>
