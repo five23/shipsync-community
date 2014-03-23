@@ -58,8 +58,7 @@
 				</rewrite>
 			</shipsync>
 			<usa>
-				<rewrite>					
-					<shipping_carrier_abstract>IllApps_Shipsync_Model_Shipping_Carrier_Abstract</shipping_carrier_abstract>
+				<rewrite>
 					<shipping_carrier_fedex>IllApps_Shipsync_Model_Shipping_Carrier_Fedex</shipping_carrier_fedex>
 					<shipping_carrier_fedex_rate>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate</shipping_carrier_fedex_rate>
 					<shipping_carrier_fedex_track>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Track</shipping_carrier_fedex_track>
