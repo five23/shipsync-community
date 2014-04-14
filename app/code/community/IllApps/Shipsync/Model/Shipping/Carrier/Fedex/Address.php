@@ -16,10 +16,15 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Address extends IllApps_Ship
 {
     
     
-	protected $_addressServiceClient;
-	protected $_addressRequest;
+    protected $_addressRequest;
     protected $_addressResult;
     protected $_addressResultError;
+    protected $_addressServiceClient;
+    protected $_addressServiceVersion = '2';
+    protected $_addressServiceWsdlPath = 'AddressValidationService_v2.wsdl';
+    
+    
+    
     /**
      * validate
      *
@@ -280,7 +285,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Address extends IllApps_Ship
                 foreach ($response->Notifications as $notification) {
                     $errorMsg .= $notification->Severity . ': ' . $notification->Message . '<br />';
                 }
-            } elseif (($response->Notifications->Message == 'General Error') && $this->getConfigData('test_mode')) {
+            } elseif (($response->Notifications->Message == 'General Error') && Mage::getStoreConfig('carriers/fedex/test_mode')) {
                 $errorMsg .= 'ERROR: FedEx Testing servers are temporarily unavailable. Please try again in a few moments.<br />';
             } else {
                 $errorMsg .= $response->Notifications->Severity . ': ' . $response->Notifications->Message . '<br />';

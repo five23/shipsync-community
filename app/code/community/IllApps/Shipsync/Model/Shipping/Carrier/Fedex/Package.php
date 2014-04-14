@@ -327,7 +327,8 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
         }
     }
     
-
+    
+    
     /**
      * isFedexPackage
      *
@@ -343,7 +344,9 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
         }
         return false;
     }
-
+    
+    
+    
     /**
      * getPackageCodes
      *
@@ -357,7 +360,9 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package
         
         return $var;
     }
-
+    
+    
+    
     /**
      * getPackageName
      *

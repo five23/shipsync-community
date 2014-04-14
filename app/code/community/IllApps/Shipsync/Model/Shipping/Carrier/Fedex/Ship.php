@@ -15,12 +15,16 @@
 class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsync_Model_Shipping_Carrier_Fedex
 {
     
-    protected $_shipServiceClient;
+    
     protected $_shipRequest;
     protected $_shipResult;
     protected $_shipResultError;
+    protected $_shipServiceClient;
+    protected $_shipServiceVersion = '13';
+    protected $_shipServiceWsdlPath = 'ShipService_v13.wsdl';
     protected $_activeShipment;
-
+    
+    
     /**
      * Create shipment
      *
@@ -59,9 +63,9 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 		$shipRequest->setStore($shipRequest->getOrder()->getStore());				
 		$shipRequest->setPackages($request->getPackages());	
 		$shipRequest->setMethodCode($request->getMethodCode());
-		$shipRequest->setServiceType($request->getMethodCode());
-		$shipRequest->setDropoffType($this->getConfigData('dropoff'));
-		$shipRequest->setCustomerReference($shipRequest->getOrderId() . '_pkg' . $request->getPackageId());
+		$shipRequest->setServiceType($this->getUnderscoreCodeFromCode($shipRequest->getMethodCode()));
+		$shipRequest->setDropoffType($this->getUnderscoreCodeFromCode(Mage::getStoreConfig('carriers/fedex/dropoff')));
+		$shipRequest->setCustomerReference($shipRequest->getOrderId() . '_pkg2' . $request->getPackageId());
 		$shipRequest->setInvoiceNumber('INV' . $shipRequest->getOrderId());
 					
 		// Shipper region id
@@ -109,7 +113,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 		}			   
 
 		// Enable/disable dimensions
-		$shipRequest->setEnableDimensions($this->getConfigData('shipping_dimensions_disable'));
+		$shipRequest->setEnableDimensions(Mage::getStoreConfig('carriers/fedex/shipping_dimensions_disable'));
 		
 		// Dimension units
 		$shipRequest->setDimensionUnits(Mage::getModel('shipsync/shipping_carrier_fedex')->getDimensionUnits());				
@@ -125,7 +129,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         }
 				
         // Set delivery signature type
-		$shipRequest->setSignature($this->getConfigData('signature'));
+		$shipRequest->setSignature(Mage::getStoreConfig('carriers/fedex/signature'));
 
 		// Saturday delivery
 		$shipRequest->setSaturdayDelivery($request->getSaturdayDelivery());
@@ -134,15 +138,15 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         $shipRequest->setCod($request->getCod());       
         
 		// Rate types
-		$shipRequest->setRateType($this->getConfigData('rate_type'));
+		$shipRequest->setRateType(Mage::getStoreConfig('carriers/fedex/rate_type'));
         
 		// Timestamp
 		$shipRequest->setShipTimestamp(date('c'));
 		
-        if ($this->getConfigData('address_validation') && ($shipRequest->getRecipientAddress()->getCountryId() == 'US')) {
+        if (Mage::getStoreConfig('carriers/fedex/address_validation') && ($shipRequest->getRecipientAddress()->getCountryId() == 'US')) {
             $shipRequest->setResidential($this->getResidential($shipRequest->getRecipientAddress()->getStreet(), $shipRequest->getRecipientAddress()->getPostcode()));
         } else {
-            $shipRequest->setResidential($this->getConfigData('residence_delivery'));
+            $shipRequest->setResidential(Mage::getStoreConfig('carriers/fedex/residence_delivery'));
         }
 		
         $this->_shipRequest = $shipRequest;
@@ -188,7 +192,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                 }
                 
                 $track = Mage::getModel('sales/order_shipment_track')
-					->setTitle($this->getCode('method', $shipRequest->getServiceType()))
+					->setTitle($this->getCode('method', $shipRequest->getServiceType(), true))
 					->setCarrierCode('fedex')
 					->setNumber($packageShipped['tracking_number'])
 					->setShipment($shipment);
@@ -212,7 +216,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 					->setPackageItems($this->jsonPackageItems($packageToShip))
 					->setCarrier('fedex')
 					->setShippingMethod($track->getTitle())
-					->setPackageType($this->getCode('packaging', $packageToShip->getContainerCode()))
+					->setPackageType($this->getCode('packaging', $packageToShip->getContainerCode(), true))
 					->setCarrierShipmentId($shipResult->getShipmentIdentificationNumber())
 					->setWeightUnits($shipResult->getBillingWeightUnits())
 					->setDimensionUnits($packageToShip->getDimensionUnitCode())
@@ -235,7 +239,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                 $retval[] = $pkg;
             }
             
-            if ($this->getConfigData('mps_shipments')) {
+            if (Mage::getStoreConfig('carriers/fedex/mps_shipments')) {
                 foreach ($retval as $pkg) {
                     $pkg->setOrderShipmentId($shipment->getEntityId())->save();
                 }
@@ -399,7 +403,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         }
         
         // If SmartPost is enabled
-        if ($this->getConfigData('enable_smartpost')) {
+        if (Mage::getStoreConfig('carriers/fedex/enable_smartpost')) {
             $request['RequestedShipment']['SmartPostDetail'] = $shipRequest->getSmartPostDetails();
         }
         
@@ -547,7 +551,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
             throw Mage::exception('Mage_Shipping', $response->incompleteApi());
         } else {
             
-			if (!$this->getConfigData('third_party')) {
+			if (!Mage::getStoreConfig('carriers/fedex/third_party')) {
                 $result->setBillingWeightUnits($response->findStructure('Units'));
                 $result->setBillingWeight($response->findStructure('Value'));
             }
@@ -560,7 +564,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                 'masterTrackingId' => $response->getMasterTrackingId(),
                 'service_option_currency' => '',
                 'service_option_charge' => '',
-                'label_image_format' => $this->getConfigData('label_image'),
+                'label_image_format' => Mage::getStoreConfig('carriers/fedex/label_image'),
                 'label_image' => base64_encode($r->CompletedShipmentDetail->CompletedPackageDetails->Label->Parts->Image),
                 'cod_label_image' => $response->getCodLabelImage(),
                 'html_image' => ''

@@ -313,27 +313,8 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
             /** If package items are not empty */
             if (isset($package['items'])) {
                 /** Set package object */
-                $_package = Mage::getModel('shipping/shipment_package')
-					->setPackageNumber($i)
-					->setItems($package['items'])
-					->setCod($package['cod'])
-					->setCodAmount($package['cod_amount'])
-					->setConfirmation($package['confirmation'])
-					->setSaturdayDelivery($package['saturday'])
-					->setDangerous($package['dangerous'])
-					->setWeight($package['weight'])
-					->setDescription('Package ' . $i + 1 . ' for order id ' . $post['order_id'])
-					->setContainerCode(Mage::getModel('usa/shipping_carrier_fedex_package')
-									   ->isFedexPackage($package['value']) ? $package['value'] : 'YOUR_PACKAGING')
-					->setContainerDescription('')
-					->setWeightUnitCode($post['weight_units'])
-					->setDimensionUnitCode($post['dimension_units'])
-					->setHeight($package['height'])
-					->setWidth($package['width'])
-					->setLength($package['length'])
-					->setOrigin($package['altOrigin'])
-					->setIsChild($package['isChild'])
-					->setPackageItemIds($itemIds);
+                $_package = Mage::getModel('shipping/shipment_package')->setPackageNumber($i)->setItems($package['items'])->setCod($package['cod'])->setCodAmount($package['cod_amount'])->setConfirmation($package['confirmation'])->setSaturdayDelivery($package['saturday'])->setDangerous($package['dangerous'])->setWeight($package['weight'])->setDescription('Package ' . $i + 1 . ' for order id ' . $post['order_id'])->setContainerCode(Mage::getModel('usa/shipping_carrier_fedex_package')->isFedexPackage($package['value']) ? $package['value'] : 'YOUR_PACKAGING')->setContainerDescription('')->setWeightUnitCode($post['weight_units'])->setDimensionUnitCode($post['dimension_units'])->setHeight($package['height'])->setWidth($package['width'])->setLength($package['length'])->setOrigin($package['altOrigin'])->setIsChild($package['isChild'])->setPackageItemIds($itemIds);
+                ;
                 
                 /** Add package object to packages array */
                 $packages[] = $_package;
@@ -357,7 +338,7 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
         $carrier = Mage::getModel('usa/shipping_carrier_fedex');
         
         $order->setShippingDescription("Federal Express - " . $carrier->getCode('method', $post['method']));
-        $order->setShippingMethod($post['method'])->save();
+        $order->setShippingMethod("fedex_" . $post['method'])->save();
         
         $recipientAddress = new Varien_Object();
         
@@ -399,16 +380,7 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
         
         $request = new Varien_Object();
         
-        $request
-			->setOrderId($post['order_id'])
-			->setMethodCode($post['method'])
-			->setRecipientAddress($recipientAddress)
-			->setPackages($packages)
-			->setInsureShipment($insureShipment)
-			->setInsureAmount($insureAmount)
-			->setRequireSignature($requireSignature)
-			->setSaturdayDelivery($package['saturday'])
-			->setCod($package['cod']);
+        $request->setOrderId($post['order_id'])->setMethodCode($post['method'])->setRecipientAddress($recipientAddress)->setPackages($packages)->setInsureShipment($insureShipment)->setInsureAmount($insureAmount)->setRequireSignature($requireSignature)->setSaturdayDelivery($package['saturday'])->setCod($package['cod']);
         
         try {
             $results = $carrier->createShipment($request);

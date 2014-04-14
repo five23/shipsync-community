@@ -237,7 +237,7 @@ class IllApps_Shipsync_Model_Shipping_Package
     
     
     
-    /**
+	/**
      * optimizePackages
      * 
      * @param array $defaultPackages
@@ -246,46 +246,50 @@ class IllApps_Shipsync_Model_Shipping_Package
     public function optimizePackages($defaultPackages, &$packages)
     {
         $sort = Mage::getModel('shipsync/shipping_package_sort');
-        
-        foreach ($defaultPackages as $key => $defaultPackage) {
-            if ($defaultPackage['value'] == 'SPECIAL_PACKAGE') {
-                unset($defaultPackages[$key]);
-                break;
-            }
+
+        foreach ($defaultPackages as $key => $defaultPackage) 
+        {
+            if ($defaultPackage['value'] == 'SPECIAL_PACKAGE') { unset($defaultPackages[$key]); break;}
             $free_weights[] = $defaultPackage['max_weight'];
             $free_volumes[] = $defaultPackage['max_volume'];
             $longest_side[] = $sort->getPackageLongestSide($defaultPackage);
         }
         
-        foreach ($packages as $key => &$package) {
+        foreach ($packages as $key => &$package)
+        {
             $i = 0;
-			            
+
             $package['max_dim'] = $sort->getItemLongestSide($package['items']);
             
-            while ($i < count($free_weights)) {
-                if (isset($package['weight']) && isset($package['volume']) && $package['weight'] < $free_weights[$i] && $package['volume'] < $free_volumes[$i] && $sort->dimensionCheck($longest_side[$i], $package['max_dim']) || isset($package['weight']) && !isset($package['volume']) && $package['weight'] < $free_weights[$i]) {
+            while ($i < count($free_weights))
+            {                
+                if (isset($package['weight']) && isset($package['volume'])
+                            && $package['weight'] < $free_weights[$i]
+                            && $package['volume'] < $free_volumes[$i]
+                            && $sort->dimensionCheck($longest_side[$i], $package['max_dim'])
+                        || isset($package['weight'])
+                            && !isset($package['volume'])
+                            && $package['weight'] < $free_weights[$i])
+                {
                     $j = $i;
-                    
-                    $packages[$key]['value']       = $defaultPackages[$j]['value'];
-                    $packages[$key]['label']       = $defaultPackages[$j]['label'];
-                    $packages[$key]['max_weight']  = $defaultPackages[$j]['max_weight'];
-                    $packages[$key]['max_volume']  = $defaultPackages[$j]['max_volume'];
-                    $packages[$key]['length']      = $defaultPackages[$j]['length'];
-                    $packages[$key]['width']       = $defaultPackages[$j]['width'];
-                    $packages[$key]['height']      = $defaultPackages[$j]['height'];
-                    $packages[$key]['free_weight'] = $defaultPackages[$j]['max_weight'] - $package['weight'];
-                    $packages[$key]['free_volume'] = $defaultPackages[$j]['max_volume'] - $package['volume'];
-                    $packages[$key]['baseline']    = $defaultPackages[$j]['baseline'];
+
+		    $packages[$key]['value']		  = $defaultPackages[$j]['value'];
+                    $packages[$key]['label']              = $defaultPackages[$j]['label'];
+                    $packages[$key]['max_weight']         = $defaultPackages[$j]['max_weight'];   
+                    $packages[$key]['max_volume']         = $defaultPackages[$j]['max_volume'];    
+                    $packages[$key]['length']             = $defaultPackages[$j]['length'];      
+                    $packages[$key]['width']              = $defaultPackages[$j]['width'];		
+                    $packages[$key]['height']             = $defaultPackages[$j]['height'];            
+                    $packages[$key]['free_weight']        = $defaultPackages[$j]['max_weight'] - $package['weight'];
+                    $packages[$key]['free_volume']        = $defaultPackages[$j]['max_volume'] - $package['volume'];
+                    $packages[$key]['baseline']           = $defaultPackages[$j]['baseline'];
                 }
-                
+
                 $i++;
             }
-            if (isset($package['weight']) && isset($package['baseline'])) {
-                $package['weight'] = $package['weight'] + $package['baseline'];
-            }
+            if(isset($package['weight']) && isset($package['baseline'])) { $package['weight'] = $package['weight'] + $package['baseline']; }
         }
     }
-    
     
     
     /**
