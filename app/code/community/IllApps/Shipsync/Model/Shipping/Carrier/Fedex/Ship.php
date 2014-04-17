@@ -143,11 +143,23 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 		// Timestamp
 		$shipRequest->setShipTimestamp(date('c'));
 		
+		if ($shipRequest->getServiceType() == 'GROUND_HOME_DELIVERY') {
+			$shipRequest->setResidential(true);
+		}
+		else if ($shipRequest->getServiceType() == 'GROUND') {
+			$shipRequest->setResidential(false);
+		}
+		else {
+			$shipRequest->setResidential($request->getResidential());
+		}
+
+		/*
         if (Mage::getStoreConfig('carriers/fedex/address_validation') && ($shipRequest->getRecipientAddress()->getCountryId() == 'US')) {
             $shipRequest->setResidential($this->getResidential($shipRequest->getRecipientAddress()->getStreet(), $shipRequest->getRecipientAddress()->getPostcode()));
         } else {
             $shipRequest->setResidential(Mage::getStoreConfig('carriers/fedex/residence_delivery'));
         }
+		*/
 		
         $this->_shipRequest = $shipRequest;
         

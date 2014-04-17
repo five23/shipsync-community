@@ -377,10 +377,25 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
         } else {
             $requireSignature = false;
         }
+
+		if (isset($post['residential']) && ($post['residential'] == 'on')) {
+            $residential = true;
+        } else {
+            $residential = false;
+        }
         
         $request = new Varien_Object();
         
-        $request->setOrderId($post['order_id'])->setMethodCode($post['method'])->setRecipientAddress($recipientAddress)->setPackages($packages)->setInsureShipment($insureShipment)->setInsureAmount($insureAmount)->setRequireSignature($requireSignature)->setSaturdayDelivery($package['saturday'])->setCod($package['cod']);
+        $request->setOrderId($post['order_id'])
+			->setMethodCode($post['method'])
+			->setRecipientAddress($recipientAddress)
+			->setPackages($packages)
+			->setInsureShipment($insureShipment)
+			->setInsureAmount($insureAmount)
+			->setRequireSignature($requireSignature)
+			->setSaturdayDelivery($package['saturday'])
+			->setCod($package['cod'])
+			->setResidential($residential);
         
         try {
             $results = $carrier->createShipment($request);
