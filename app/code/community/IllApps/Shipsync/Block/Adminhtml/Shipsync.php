@@ -52,7 +52,8 @@ class IllApps_Shipsync_Block_Adminhtml_Shipsync extends Mage_Adminhtml_Block_Wid
         $this->setDimensionUnits($this->getCarrier()->getDimensionUnits()); // Set dimension units
         $this->setWeightUnits($this->getCarrier()->getWeightUnits()); // Set weight units	
         $this->setSaturdayDelivery((bool) strpos($this->getOrder()->getShippingDescription(), 'Saturday Delivery')); // Determine if shipment delivers on Saturday
-        
+        $this->setAddressValidation(Mage::getStoreConfig('carriers/fedex/shipping_address_validation'));
+		$this->setResidenceDelivery(Mage::getStoreConfig('carriers/fedex/shipping_residence_delivery'));
         $this->setFormKey(Mage::getSingleton('core/session')->getFormKey()); // Set form key		
         
         if ($this->getOrder()->getEmailSent()) // Check if order email is sent

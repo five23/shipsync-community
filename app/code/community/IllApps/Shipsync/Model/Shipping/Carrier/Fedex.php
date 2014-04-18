@@ -391,7 +391,11 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
 				'EARNED'	=> Mage::helper('usa')->__('Earned'),
 				'OTHER'		=> Mage::helper('usa')->__('Other'),
 				'VOLUME'	=> Mage::helper('usa')->__('Volume'),
-			)
+			),
+			'residence_delivery' => array(
+				'VALIDATE'  => Mage::helper('usa')->__('Validate'),
+				'ENABLED'  => Mage::helper('usa')->__('Enabled'),
+				'DISABLED'  => Mage::helper('usa')->__('Disabled'))
         );
         
         if ($underscore) {

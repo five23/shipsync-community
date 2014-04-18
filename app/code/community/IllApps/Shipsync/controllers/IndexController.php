@@ -153,6 +153,9 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
             $rateRequest->setInsureShipment(false);
         }
         
+		$rateRequest->setResidenceDelivery($post['residence_delivery']);
+		$rateRequest->setAddressValidation($post['address_validation']);
+
         // Get all items to ship
         $items = Mage::getModel('shipsync/shipping_package')->getParsedItems($rateRequest->getAllItems(), true);
         
@@ -186,7 +189,7 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
         }
         
         $rateRequest->setPackages($_packages);
-        
+
         $rateResult = Mage::getModel('shipsync/shipping_carrier_fedex_rate')->collectRates($rateRequest);
         
         $possibleMethods = $rateResult->asArray();
@@ -378,12 +381,6 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
             $requireSignature = false;
         }
 
-		if (isset($post['residential']) && ($post['residential'] == 'on')) {
-            $residential = true;
-        } else {
-            $residential = false;
-        }
-        
         $request = new Varien_Object();
         
         $request->setOrderId($post['order_id'])
@@ -395,7 +392,8 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
 			->setRequireSignature($requireSignature)
 			->setSaturdayDelivery($package['saturday'])
 			->setCod($package['cod'])
-			->setResidential($residential);
+			->setResidenceDelivery($post['residence_delivery'])
+			->setAddressValidation($post['address_validation']);
         
         try {
             $results = $carrier->createShipment($request);

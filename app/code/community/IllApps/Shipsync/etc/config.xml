@@ -66,9 +66,10 @@
 					<shipping_carrier_fedex_ship>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship</shipping_carrier_fedex_ship>
 					<shipping_carrier_fedex_address>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Address</shipping_carrier_fedex_address>
 					<shipping_carrier_fedex_package>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package</shipping_carrier_fedex_package>
+					<shipping_carrier_fedex_source_residencedelivery>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Residencedelivery</shipping_carrier_fedex_source_residencedelivery>
 					<shipping_carrier_fedex_source_signature>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Signature</shipping_carrier_fedex_source_signature>
 					<shipping_carrier_fedex_source_packaging>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Packaging</shipping_carrier_fedex_source_packaging>
-					<shipping_carrier_fedex_source_unitofmeasure>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unitofmeasure</shipping_carrier_fedex_source_unitofmeasure>					
+					<shipping_carrier_fedex_source_unitofmeasure>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Unitofmeasure</shipping_carrier_fedex_source_unitofmeasure>
 					<shipping_carrier_fedex_source_rate>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Rate</shipping_carrier_fedex_source_rate>
 					<shipping_carrier_fedex_source_method>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Method</shipping_carrier_fedex_source_method>
 					<shipping_carrier_fedex_source_freemethod>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Freemethod</shipping_carrier_fedex_source_freemethod>
@@ -221,7 +222,6 @@
 				<label_orientation>BOTTOM_EDGE_OF_TEXT_FIRST</label_orientation>
 				<free_shipping_enable>0</free_shipping_enable>
 				<free_method>FEDEX_GROUND</free_method>
-				<residence_delivery>1</residence_delivery>
 				<enable_dimensions>1</enable_dimensions>
 				<unit_of_measure>LB</unit_of_measure>
 				<rate_type>ACCOUNT</rate_type>

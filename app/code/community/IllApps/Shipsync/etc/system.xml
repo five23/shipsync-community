@@ -1016,11 +1016,12 @@
 						<residence_delivery>
 							<label>
 								<![CDATA[<strong>Rating</strong>]]> Residential Delivery</label>
-							<sort_order>60</sort_order>
+							<frontend_type>select</frontend_type>
+							<source_model>usa/shipping_carrier_fedex_source_residencedelivery</source_model>
+							<sort_order>59</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
-							<comment>Enables residential surcharge for all addresses, and forces usage of the 'Home Delivery' method for 'Ground' shipments.</comment>
 						</residence_delivery>
 						<saturday_delivery translate="label">
 							<label>
@@ -1063,6 +1064,16 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</rate_discount>
+						<rate_address_validation>
+							<label>
+								<![CDATA[<strong>Rating</strong>]]> Address Validation</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>65</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</rate_address_validation>
 						<enable_dimensions translate="label">
 							<label>
 								<![CDATA[<strong>Packages</strong>]]> Enable Dimensions</label>
@@ -1341,11 +1352,31 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</b13a_filing_option>
+						<shipping_address_validation>
+							<label>
+								<![CDATA[<strong>Shipping</strong>]]> Address Validation</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>402</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</shipping_address_validation>
+						<shipping_residence_delivery>
+							<label>
+								<![CDATA[<strong>Shipping</strong>]]> Residential Delivery</label>
+							<frontend_type>select</frontend_type>
+							<source_model>usa/shipping_carrier_fedex_source_residencedelivery</source_model>
+							<sort_order>404</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</shipping_residence_delivery>
 						<enable_smartpost>
 							<label>
 								<![CDATA[<strong>SmartPost</strong>]]> Enable</label>
 							<frontend_type>select</frontend_type>
-							<sort_order>403</sort_order>
+							<sort_order>405</sort_order>
 							<source_model>adminhtml/system_config_source_yesno</source_model>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
@@ -1357,7 +1388,7 @@
 								<![CDATA[<strong>SmartPost</strong>]]> Ancillary Endorsement</label>
 							<frontend_type>select</frontend_type>
 							<source_model>usa/shipping_carrier_fedex_source_smartpost_endorsement</source_model>
-							<sort_order>404</sort_order>
+							<sort_order>406</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
@@ -1367,7 +1398,7 @@
 								<![CDATA[<strong>SmartPost</strong>]]> Indicia</label>
 							<frontend_type>select</frontend_type>
 							<source_model>usa/shipping_carrier_fedex_source_smartpost_indicia</source_model>
-							<sort_order>405</sort_order>
+							<sort_order>407</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
@@ -1377,7 +1408,7 @@
 								<![CDATA[<strong>SmartPost</strong>]]> Hub ID</label>
 							<frontend_type>text</frontend_type>
 							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-							<sort_order>406</sort_order>
+							<sort_order>408</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
@@ -1387,7 +1418,7 @@
 								<![CDATA[<strong>SmartPost</strong>]]> Manifest ID</label>
 							<frontend_type>text</frontend_type>
 							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-							<sort_order>407</sort_order>
+							<sort_order>409</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
@@ -1463,17 +1494,6 @@
 							<show_in_website>0</show_in_website>
 							<show_in_store>0</show_in_store>
 						</specificerrmsg>
-						<address_validation translate="label">
-							<label>
-								<![CDATA[<strong>Address Validation</strong>]]> Enable</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>515</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Validates addresses using FedEx's Address Validation service. This service is only available by request from your FedEx representative</comment>
-						</address_validation>
 						<enable_soap_cache translate="label">
 							<label>Enable API Cache</label>
 							<frontend_type>select</frontend_type>

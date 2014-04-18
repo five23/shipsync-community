@@ -170,18 +170,33 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
         if ($request->getFreeMethodWeight()!= $request->getPackageWeight()) {
             $rateRequest->setFreeMethodWeight($request->getFreeMethodWeight());
         }
-		
-		
-		if (Mage::getStoreConfig('carriers/fedex/address_validation')
-			&& $rateRequest->getDestCountry() == 'US'
-			&& $rateRequest->getDestStreet()
-			&& $rateRequest->getDestPostcode())
-		{
-	    	$rateRequest->setResidential($this->getResidential($rateRequest->getDestStreet(), $rateRequest->getDestPostcode()));
-		}
-		else { $rateRequest->setResidential(Mage::getStoreConfig('carriers/fedex/residence_delivery')); }
 
-        
+		if (($request->getAddressValidation() == 'ENABLED') && ($request->getResidenceDelivery() == 'VALIDATE')) {
+			$rateRequest->setResidential($this->getResidential($rateRequest->getDestStreet(), $rateRequest->getDestPostcode()));
+        }
+		else if ($request->getResidenceDelivery() == 'ENABLED') {
+			$rateRequest->setResidential(true);
+		}
+		else if ($request->getResidenceDelivery() == 'DISABLED') {
+			$rateRequest->setResidential(false);
+		}
+		else {
+			if (Mage::getStoreConfig('carriers/fedex/rate_address_validation')
+				&& (Mage::getStoreConfig('carriers/fedex/residence_delivery') == 'VALIDATE')
+				&& $rateRequest->getDestCountry() == 'US'
+				&& $rateRequest->getDestStreet()
+				&& $rateRequest->getDestPostcode())
+			{
+				$rateRequest->setResidential($this->getResidential($rateRequest->getDestStreet(), $rateRequest->getDestPostcode()));
+			}
+			else if (Mage::getStoreConfig('carriers/fedex/residence_delivery') == 'DISABLED') {
+				$rateRequest->setResidential(false);
+			}
+			else {
+				$rateRequest->setResidential(true);
+			}
+		}
+
         $rateRequest->setValue($request->getPackagePhysicalValue());
         $rateRequest->setValueWithDiscount($request->getPackageValueWithDiscount());
 		

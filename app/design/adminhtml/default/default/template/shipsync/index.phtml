@@ -300,11 +300,29 @@
 			    <td><input class="input-text required-entry" id="recipient_telephone" name="recipient_telephone" value="<?php echo $shipAddress->getTelephone(); ?>" /></td>
 			</tr>
 
-		    <!-- Residential -->
+		    <!-- Address Validation -->
 		    <tr>
-			<td class="label"><label>Residential</label></td>
-			<td><input type="checkbox" id="residential" name="residential" /></td>
+				<td class="label"><label>Address Validation</label></td>
+				<td>
+			    	<select id="address_validation" name="address_validation">
+						<option value="ENABLED" <?php if ($this->getAddressValidation()) echo 'SELECTED' ?>>Enabled</option>
+						<option value="DISABLED" <?php if (!$this->getAddressValidation()) echo 'SELECTED' ?>>Disabled</option>
+			    	</select>
+				</td>
 		    </tr>
+
+			<!-- Residential -->
+		    <tr>
+				<td class="label"><label>Residential Delivery</label></td>
+				<td>
+			    	<select id="residence_delivery" name="residence_delivery">
+						<option value="VALIDATE" <?php if ($this->getResidenceDelivery() == "VALIDATE") echo 'SELECTED' ?>>Validate</option>
+						<option value="ENABLED" <?php if ($this->getResidenceDelivery() == "ENABLED") echo 'SELECTED' ?>>Enabled</option>
+						<option value="DISABLED" <?php if ($this->getResidenceDelivery() == "DISABLED") echo 'SELECTED' ?>>Disabled</option>
+			    	</select>
+				</td>
+		    </tr>
+
 		    </table>
 		</div>
 	    </div>
