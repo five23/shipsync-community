@@ -37,6 +37,7 @@ class IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_View extends Mage_Ad
             ));
         }
         
+
         // Loop through available packages
         foreach ($packages->getData() as $package) {
             // If package matches order

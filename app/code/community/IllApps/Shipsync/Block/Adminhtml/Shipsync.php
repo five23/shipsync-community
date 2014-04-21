@@ -27,22 +27,14 @@ class IllApps_Shipsync_Block_Adminhtml_Shipsync extends Mage_Adminhtml_Block_Wid
         $shippingPackage = Mage::getModel('shipsync/shipping_package'); // Get shipping package model
         
         $this->setOrder(Mage::getModel('sales/order')->load($order_id)); // Set order model        
-        $this->setOrderUrl($this->getUrl('adminhtml/sales_order/view', array(
-            'order_id' => $order_id
-        ))); // Set order url
+        $this->setOrderUrl($this->getUrl('adminhtml/sales_order/view', array('order_id' => $order_id))); // Set order url
         $this->setOrderAdminDate($this->formatDate($this->getOrder()->getCreatedAtDate(), 'medium', true)); // Set order admin date
         $this->setOrderStoreDate($this->formatDate($this->getOrder()->getCreatedAtStoreDate(), 'medium', true)); // Set order store date
         $this->setOrderTimezone($this->getOrder()->getCreatedAtStoreDate()->getTimezone()); // Set order timezone
-        
         $this->setShippingMethod(explode('_', $this->getOrder()->getShippingMethod())); // Set shipping method
-		
-        $this->setDefaultPackages(Mage::getModel('shipsync/shipping_package')->getDefaultPackages(array(
-            'fedex'
-        )));
-        
+        $this->setDefaultPackages(Mage::getModel('shipsync/shipping_package')->getDefaultPackages(array('fedex')));
         $this->setItems($shippingPackage->getParsedItems($this->getOrder()->getAllItems(), true)); // Set items
-        $this->setPackages($shippingPackage->estimatePackages($this->getItems(), $this->getDefaultPackages())); // Set packages        
-        
+        $this->setPackages($shippingPackage->estimatePackages($this->getItems(), $this->getDefaultPackages())); // Set packages
         $this->setCarrier(Mage::getModel('usa/shipping_carrier_fedex')); // Set carrier model
         $this->setCarrierTitle(Mage::getStoreConfig('carriers/fedex/title')); // Set carrier title
         $this->setCarrierCode(strtoupper($this->getShippingMethod(0))); // Set carrier code
@@ -56,6 +48,8 @@ class IllApps_Shipsync_Block_Adminhtml_Shipsync extends Mage_Adminhtml_Block_Wid
 		$this->setResidenceDelivery(Mage::getStoreConfig('carriers/fedex/shipping_residence_delivery'));
         $this->setFormKey(Mage::getSingleton('core/session')->getFormKey()); // Set form key		
         
+		$this->setShipperCompany(Mage::app()->getStore()->getFrontendName());
+
         if ($this->getOrder()->getEmailSent()) // Check if order email is sent
             {
             $this->setEmailSentMsg(Mage::helper('sales')->__('the order confirmation email was sent'));
@@ -63,6 +57,13 @@ class IllApps_Shipsync_Block_Adminhtml_Shipsync extends Mage_Adminhtml_Block_Wid
         else {
             $this->setEmailSentMsg(Mage::helper('sales')->__('the order confirmation email is not sent'));
         } // Set 'not sent' message
+
+		$this->setLabelImageType(Mage::getStoreConfig('carriers/fedex/label_image'));
+		$this->setLabelStockType(Mage::getStoreConfig('carriers/fedex/label_stock'));
+		$this->setLabelPrintingOrientation(Mage::getStoreConfig('carriers/fedex/label_orientation'));
+		$this->setEnableJavaPrinting(Mage::getStoreConfig('carriers/fedex/enable_java_printing'));
+        $this->setPrinterName(Mage::getStoreConfig('carriers/fedex/printer_name'));
+		$this->setPackingList(Mage::getStoreConfig('carriers/fedex/packing_list'));
     }
     
 }

@@ -74,11 +74,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 		// Shipper region code
 		if (is_numeric($shipperRegionId)) {
             $shipRequest->setShipperRegionCode(Mage::getModel('directory/region')->load($shipperRegionId)->getCode());
-        }				
-		
-		
-		// Shipper company
-        $shipRequest->setShipperCompany(Mage::app()->getStore()->getFrontendName());
+        }
 		
 		// Shipper streetlines
 		$shipperStreetLines = array(Mage::getStoreConfig('shipping/origin/street_line1'));
@@ -153,6 +149,14 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 			$shipRequest->setResidential(false);
 		}
 
+		$shipRequest->setLabelStockType($request->getLabelStockType());
+		$shipRequest->setLabelImageType($request->getLabelImageType());
+		$shipRequest->setLabelPrintingOrientation($request->getLabelPrintingOrientation());
+		$shipRequest->setEnableJavaPrinting($request->getEnableJavaPrinting());
+		$shipRequest->setPrinterName($request->getPrinterName());
+		$shipRequest->setPackingList($request->getPackingList());
+		$shipRequest->setShipperCompany($request->getShipperCompany());
+
         $this->_shipRequest = $shipRequest;
         
         return $this;
@@ -194,7 +198,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                     $item->setQty($itemToShip['qty_to_ship']);
                     $shipment->addItem($item);
                 }
-                
+
                 $track = Mage::getModel('sales/order_shipment_track')
 					->setTitle($this->getCode('method', $shipRequest->getServiceType(), true))
 					->setCarrierCode('fedex')
@@ -212,8 +216,62 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                 } else {
                     $shipment->addTrack($track);
                 }
+
+				// Append packing list
+				if ($shipRequest->getLabelImageType() == 'PDF' &&
+					$shipRequest->getLabelStockType() == 'PAPER_7X4.75' &&
+					$shipRequest->getLabelPrintingOrientation() == 'BOTTOM_EDGE_OF_TEXT_FIRST' &&
+					$shipRequest->getPackingList()) {
                 
-                #Mage::log($shipment->debug());
+					// Create Zend PDF object
+					$pdf = Zend_Pdf::parse(base64_decode($packageShipped['label_image']));
+
+					// Set font style
+					$font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
+
+					// Set font size and apply to current page
+					$pdf->pages[0]->setFont($font, 8);
+
+					// Set Y Position (## pixels from bottom of page)
+					$yPosition = 360;
+
+					// Draw header text (text, xPosition, yPosition)
+					$pdf->pages[0]->drawText('ID', 30, $yPosition);
+					$pdf->pages[0]->drawText('SKU', 60, $yPosition);
+					$pdf->pages[0]->drawText('Name', 180, $yPosition);
+					$pdf->pages[0]->drawText('Qty', 560, $yPosition);
+
+					// Draw separator line (xPosition1, yPosition1, xPosition2, yPosition2)
+					$pdf->pages[0]->drawLine(30, $yPosition-3, 575, $yPosition-3);
+
+					// Set cursor (ie, line height)
+					$cursor = 12;
+
+					// Retrieve shipment items
+					$items = $this->getItemsById($packageToShip);
+
+					foreach ($items as $item) {
+
+						// New line
+						$yPosition -= $cursor;
+
+						// Draw item text (text, xPosition, yPosition)
+						$pdf->pages[0]->drawText($item['product_id'], 30, $yPosition);
+						$pdf->pages[0]->drawText($item['sku'], 60, $yPosition);
+						$pdf->pages[0]->drawText($item['name'], 180, $yPosition);
+						$pdf->pages[0]->drawText($item['qty_to_ship'], 560, $yPosition);
+
+						// Draw separator line (xPosition1, yPosition1, xPosition2, yPosition2)
+						$pdf->pages[0]->drawLine(30, $yPosition-3, 575, $yPosition-3);
+					}
+
+					// Render & encode label image
+					$labelImage = base64_encode($pdf->render());
+				}
+				else {
+					$labelImage = $packageShipped['label_image'];
+				}
+
                 $pkg = Mage::getModel('shipping/shipment_package')
 					->setOrderIncrementId($shipRequest->getOrder()->getIncrementId())
 					->setOrderShipmentId($shipment->getEntityId())
@@ -235,7 +293,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 					->setShippingTotal($shipResult->getTotalShippingCharges())
 					->setNegotiatedTotal($shipResult->getNegotiatedTotalShippingCharges())
 					->setLabelFormat($packageShipped['label_image_format'])
-					->setLabelImage($packageShipped['label_image'])
+					->setLabelImage($labelImage)
 					->setCodLabelImage($packageShipped['cod_label_image'])
 					->setDateShipped(date('Y-m-d H:i:s'))
 					->save();
@@ -312,7 +370,17 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
             ),
             'Shipper' => $shipRequest->getShipperDetails(),
             'Recipient' => $shipRequest->getRecipientDetails(),
-            'LabelSpecification' => $shipRequest->getLabelSpecification(),
+            'LabelSpecification' => array(
+				'LabelFormatType' => 'COMMON2D',
+				'ImageType' => $shipRequest->getLabelImageType(),
+				'LabelStockType' => $shipRequest->getLabelStockType(),
+				'LabelPrintingOrientation' => $shipRequest->getLabelPrintingOrientation(),
+				'CustomerSpecifiedDetail' => array(
+					'DocTabContent' => array(
+						'DocTabContentType' => 'STANDARD'
+					)
+				)
+			),
             'RateRequestTypes' => $shipRequest->getRateType(),
 			'PreferredCurrency' => $this->getCurrencyCode(),        
             'PackageDetail' => 'INDIVIDUAL_PACKAGES',
@@ -562,80 +630,19 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
             
             $packages = array();
             
-            $packages[] = array(
+			$packages[] = array(
                 'package_number' => $response->getSequenceNumber(),
                 'tracking_number' => $response->getTrackingNumber(),
                 'masterTrackingId' => $response->getMasterTrackingId(),
-                'service_option_currency' => '',
-                'service_option_charge' => '',
-                'label_image_format' => Mage::getStoreConfig('carriers/fedex/label_image'),
+                'label_image_format' => $shipRequest->getLabelImageType(),
                 'label_image' => base64_encode($r->CompletedShipmentDetail->CompletedPackageDetails->Label->Parts->Image),
-                'cod_label_image' => $response->getCodLabelImage(),
-                'html_image' => ''
+                'cod_label_image' => $response->getCodLabelImage()
             );
             
             $result->setPackages($packages);
             
             return $result;
         }
-    }
-    
-	
-	/**
-     * Return container types of carrier
-     *
-     * @param Varien_Object|null $params
-     * @return array|bool
-     */
-    public function getContainerTypes(Varien_Object $params = null)
-    {
-        if ($params == null) {
-            return $this->_getAllowedContainers($params);
-        }
-        $method             = $params->getMethod();
-        $countryShipper     = $params->getCountryShipper();
-        $countryRecipient   = $params->getCountryRecipient();
-
-        if (($countryShipper == self::USA_COUNTRY_ID && $countryRecipient == self::CANADA_COUNTRY_ID
-            || $countryShipper == self::CANADA_COUNTRY_ID && $countryRecipient == self::USA_COUNTRY_ID)
-            && $method == 'FEDEX_GROUND'
-        ) {
-            return array('YOUR_PACKAGING' => Mage::helper('usa')->__('Your Packaging'));
-        } else if ($method == 'INTERNATIONAL_ECONOMY' || $method == 'INTERNATIONAL_FIRST') {
-            $allTypes = $this->getContainerTypesAll();
-            $exclude = array('FEDEX_10KG_BOX' => '', 'FEDEX_25KG_BOX' => '');
-            return array_diff_key($allTypes, $exclude);
-        } else if ($method == 'EUROPE_FIRST_INTERNATIONAL_PRIORITY') {
-            $allTypes = $this->getContainerTypesAll();
-            $exclude = array('FEDEX_BOX' => '', 'FEDEX_TUBE' => '');
-            return array_diff_key($allTypes, $exclude);
-        } else if ($countryShipper == self::CANADA_COUNTRY_ID && $countryRecipient == self::CANADA_COUNTRY_ID) {
-            // hack for Canada domestic. Apply the same filter rules as for US domestic
-            $params->setCountryShipper(self::USA_COUNTRY_ID);
-            $params->setCountryRecipient(self::USA_COUNTRY_ID);
-        }
-
-        return $this->_getAllowedContainers($params);
-    }
-
-    /**
-     * Return all container types of carrier
-     *
-     * @return array|bool
-     */
-    public function getContainerTypesAll()
-    {
-        return $this->getCode('packaging');
-    }
-
-    /**
-     * Return structured data of containers witch related with shipping methods
-     *
-     * @return array|bool
-     */
-    public function getContainerTypesFilter()
-    {
-        return $this->getCode('containers_filter');
     }
 
 }

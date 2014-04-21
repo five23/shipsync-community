@@ -79,7 +79,7 @@
 					<shipping_carrier_fedex_source_label_stock>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Stock</shipping_carrier_fedex_source_label_stock>
 					<shipping_carrier_fedex_source_label_orientation>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Orientation</shipping_carrier_fedex_source_label_orientation>
 					<shipping_carrier_fedex_source_smartpost_endorsement>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Endorsement</shipping_carrier_fedex_source_smartpost_endorsement>
-					<shipping_carrier_fedex_source_smartpost_indicia>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Indicia</shipping_carrier_fedex_source_smartpost_indicia>					
+					<shipping_carrier_fedex_source_smartpost_indicia>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Indicia</shipping_carrier_fedex_source_smartpost_indicia>					\
 				</rewrite>
 			</usa>
 			<shipping>
