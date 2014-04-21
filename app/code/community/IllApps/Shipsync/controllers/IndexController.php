@@ -393,12 +393,6 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
         } else {
             $insureAmount = 0.0;
         }
-        
-        if (isset($post['require_signature']) && ($post['require_signature'] == 'on')) {
-            $requireSignature = true;
-        } else {
-            $requireSignature = false;
-        }
 
         $request = new Varien_Object();
         
@@ -408,7 +402,6 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
 			->setPackages($packages)
 			->setInsureShipment($insureShipment)
 			->setInsureAmount($insureAmount)
-			->setRequireSignature($requireSignature)
 			->setSaturdayDelivery($package['saturday'])
 			->setCod($package['cod'])
 			->setResidenceDelivery($post['residence_delivery'])
@@ -419,7 +412,8 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
 			->setLabelPrintingOrientation($post['label_printing_orientation'])
 			->setEnableJavaPrinting($post['enable_java_printing'])
 			->setPrinterName($post['printer_name'])
-			->setPackingList($post['packing_list']);
+			->setPackingList($post['packing_list'])
+			->setSignature($post['signature']);
         
         try {
             $results = $carrier->createShipment($request);

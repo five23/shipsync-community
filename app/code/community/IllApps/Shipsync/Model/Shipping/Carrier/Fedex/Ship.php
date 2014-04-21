@@ -125,7 +125,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         }
 				
         // Set delivery signature type
-		$shipRequest->setSignature(Mage::getStoreConfig('carriers/fedex/signature'));
+		$shipRequest->setSignature($request->getSignature());
 
 		// Saturday delivery
 		$shipRequest->setSaturdayDelivery($request->getSaturdayDelivery());

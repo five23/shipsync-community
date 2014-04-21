@@ -120,12 +120,6 @@
 						<td><input type="checkbox" id="insure_shipment" name="insure_shipment" /></td>
 					</tr>
 
-					<!-- Require signature -->
-					<tr>
-						<td class="label"><label>Require Signature</label></td>
-						<td><input type="checkbox" id="require_signature" name="require_signature" /></td>
-					</tr>
-
 				</table>
 			</div>
 		</div>
@@ -377,6 +371,21 @@
 							</td>
 						</tr>
 
+						<!-- Require signature -->
+						<tr>
+							<td class="label">
+								<label>Delivery Signature</label>
+							</td>
+							<td>
+								<select id="signature" name="signature" class=" select">
+									<option value="NO_SIGNATURE_REQUIRED" <?php if ($this->getSignature() == 'NO_SIGNATURE_REQUIRED') echo 'SELECTED' ?>>No Signature Required</option>
+									<option value="ADULT" <?php if ($this->getSignature() == 'ADULT') echo 'SELECTED' ?>>Adult</option>
+									<option value="DIRECT" <?php if ($this->getSignature() == 'DIRECT') echo 'SELECTED' ?>>Direct</option>
+									<option value="INDIRECT" <?php if ($this->getSignature() == 'INDIRECT') echo 'SELECTED' ?>>Indirect</option>
+									<option value="SERVICE_DEFAULT" <?php if ($this->getSignature() == 'SERVICE_DEFAULT') echo 'SELECTED' ?>>Service Default</option>
+								</select>
+							</td>
+						</tr>
 					</table>
 				</div>
 			</div>

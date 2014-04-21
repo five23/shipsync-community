@@ -64,6 +64,7 @@ class IllApps_Shipsync_Block_Adminhtml_Shipsync extends Mage_Adminhtml_Block_Wid
 		$this->setEnableJavaPrinting(Mage::getStoreConfig('carriers/fedex/enable_java_printing'));
         $this->setPrinterName(Mage::getStoreConfig('carriers/fedex/printer_name'));
 		$this->setPackingList(Mage::getStoreConfig('carriers/fedex/packing_list'));
+		$this->setSignature(Mage::getStoreConfig('carriers/fedex/signature'));
     }
     
 }
