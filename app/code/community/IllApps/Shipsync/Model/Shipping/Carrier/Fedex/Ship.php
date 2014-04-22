@@ -65,8 +65,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 		$shipRequest->setMethodCode($request->getMethodCode());
 		$shipRequest->setServiceType($this->getUnderscoreCodeFromCode($shipRequest->getMethodCode()));
 		$shipRequest->setDropoffType($this->getUnderscoreCodeFromCode(Mage::getStoreConfig('carriers/fedex/dropoff')));
-		$shipRequest->setCustomerReference($shipRequest->getOrderId() . '_pkg2' . $request->getPackageId());
-		$shipRequest->setInvoiceNumber('INV' . $shipRequest->getOrderId());
 					
 		// Shipper region id
 		$shipperRegionId = Mage::getStoreConfig('shipping/origin/region_id');				
@@ -157,6 +155,9 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 		$shipRequest->setPackingList($request->getPackingList());
 		$shipRequest->setShipperCompany($request->getShipperCompany());
 		$shipRequest->setReturnLabel($request->getReturnLabel());
+        $shipRequest->setCustomerReference($request->getCustomerReference());
+		$shipRequest->setInvoiceNumber($request->getInvoiceNumber());
+        $shipRequest->setPurchaseOrderNumber($request->getPurchaseOrderNumber());
 
         $this->_shipRequest = $shipRequest;
         
@@ -232,7 +233,11 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 						'1' => array(
 							'CustomerReferenceType' => 'INVOICE_NUMBER',
 							'Value' => $shipRequest->getInvoiceNumber()
-						)
+						),
+                        '2' => array(
+                            'CustomerReferenceType' => 'P_O_NUMBER',
+                            'Value' => $shipRequest->getPurchaseOrderNumber()
+                        )
 					),
 					'ContentRecords' => $packageToShip->getContents()
 				)
