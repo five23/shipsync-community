@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <!--
 
 /**
@@ -12,1573 +12,1515 @@
 
  -->
 <config>
-	<sections>
-		<shipping translate="label" module="shipping">
-			<label>Shipping Settings</label>
-			<tab>sales</tab>
-			<frontend_type>text</frontend_type>
-			<sort_order>310</sort_order>
-			<show_in_default>1</show_in_default>
-			<show_in_website>1</show_in_website>
-			<show_in_store>0</show_in_store>
-			<groups>
-				<option translate="label">
-					<label>Options</label>
-					<frontend_type>text</frontend_type>
-					<sort_order>2</sort_order>
-					<show_in_default>1</show_in_default>
-					<show_in_website>1</show_in_website>
-					<show_in_store>0</show_in_store>
-					<fields>
-						<checkout_multiple translate="label">
-							<label>Allow Shipping to Multiple Addresses</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>1</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>0</show_in_store>
-						</checkout_multiple>
-						<checkout_multiple_maximum_qty translate="label">
-							<label>Maximum Qty Allowed for Shipping to Multiple Addresses</label>
-							<frontend_type>text</frontend_type>
-							<validate>validate-number</validate>
-							<sort_order>2</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>0</show_in_store>
-						</checkout_multiple_maximum_qty>
-					</fields>
-				</option>
-				<origin translate="label">
-					<label>Origin</label>
-					<frontend_type>text</frontend_type>
-					<sort_order>1</sort_order>
-					<show_in_default>1</show_in_default>
-					<show_in_website>1</show_in_website>
-					<show_in_store>0</show_in_store>
-					<fields>
-						<country_id translate="label">
-							<label>Country</label>
-							<frontend_type>select</frontend_type>
-							<frontend_class>countries</frontend_class>
-							<source_model>adminhtml/system_config_source_country</source_model>
-							<sort_order>10</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>0</show_in_store>
-						</country_id>
-						<region_id translate="label">
-							<label>Region/State</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>20</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>0</show_in_store>
-						</region_id>
-						<postcode translate="label">
-							<label>ZIP/Postal Code</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>30</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>0</show_in_store>
-						</postcode>
-						<city translate="label">
-							<label>City</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>40</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>0</show_in_store>
-						</city>
-						<street_line1 translate="label">
-							<label>Street Address</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>50</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>0</show_in_store>
-						</street_line1>
-						<street_line2 translate="label">
-							<label>Street Address Line 2</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>60</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>0</show_in_store>
-						</street_line2>
-						<street_line3 translate="label">
-							<label>Street Address Line 3</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>61</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>0</show_in_store>
-						</street_line3>
-						<phone translate="label">
-							<label>Phone</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>80</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>0</show_in_store>
-						</phone>
-					</fields>
-				</origin>
-				<packages translate="label" module="shipsync">
-					<label>ShipSync Packages</label>
-					<sort_order>500</sort_order>
-					<show_in_default>1</show_in_default>
-					<show_in_website>1</show_in_website>
-					<show_in_store>1</show_in_store>
-					<fields>
-						<pkg1title translate="label">
-							<label>Package 1: Label</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>10</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg1title>
-						<pkg1enabled translate="label">
-							<label>Package 1: Enabled</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>11</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg1enabled>
-						<pkg1weight translate="label">
-							<label>Package 1: Max. Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>12</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg1weight>
-						<pkg1length translate="label">
-							<label>Package 1: Max. Length</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>13</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg1length>
-						<pkg1width translate="label">
-							<label>Package 1: Max. Width</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>14</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg1width>
-						<pkg1height translate="label">
-							<label>Package 1: Max. Height</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>15</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg1height>
-						<pkg1base translate="label">
-							<label>Package 1: Baseline Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>16</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg1base>
-						<pkg2title translate="label">
-							<label>Package 2: Label</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>20</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg2title>
-						<pkg2enabled translate="label">
-							<label>Package 2: Enabled</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>21</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg2enabled>
-						<pkg2weight translate="label">
-							<label>Package 2: Max. Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>22</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg2weight>
-						<pkg2length translate="label">
-							<label>Package 2: Max. Length</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>23</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg2length>
-						<pkg2width translate="label">
-							<label>Package 2: Max. Width</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>24</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg2width>
-						<pkg2height translate="label">
-							<label>Package 2: Max. Height</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>25</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg2height>
-						<pkg2base translate="label">
-							<label>Package 2: Baseline Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>26</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg2base>
-						<pkg3title translate="label">
-							<label>Package 3: Label</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>30</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg3title>
-						<pkg3enabled translate="label">
-							<label>Package 3: Enabled</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>31</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg3enabled>
-						<pkg3weight translate="label">
-							<label>Package 3: Max. Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>32</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg3weight>
-						<pkg3length translate="label">
-							<label>Package 3: Max. Length</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>33</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg3length>
-						<pkg3width translate="label">
-							<label>Package 3: Max. Width</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>34</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg3width>
-						<pkg3height translate="label">
-							<label>Package 3: Max. Height</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>35</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg3height>
-						<pkg3base translate="label">
-							<label>Package 3: Baseline Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>36</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg3base>
-						<pkg4title translate="label">
-							<label>Package 4: Label</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>40</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg4title>
-						<pkg4enabled translate="label">
-							<label>Package 4: Enabled</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>41</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg4enabled>
-						<pkg4weight translate="label">
-							<label>Package 4: Max. Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>42</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg4weight>
-						<pkg4length translate="label">
-							<label>Package 4: Max. Length</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>43</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg4length>
-						<pkg4width translate="label">
-							<label>Package 4: Max. Width</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>44</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg4width>
-						<pkg4height translate="label">
-							<label>Package 4: Max. Height</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>45</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg4height>
-						<pkg4base translate="label">
-							<label>Package 4: Baseline Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>46</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg4base>
-						<pkg5title translate="label">
-							<label>Package 5: Label</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>50</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg5title>
-						<pkg5enabled translate="label">
-							<label>Package 5: Enabled</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>51</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg5enabled>
-						<pkg5weight translate="label">
-							<label>Package 5: Max. Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>52</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg5weight>
-						<pkg5length translate="label">
-							<label>Package 5: Max. Length</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>53</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg5length>
-						<pkg5width translate="label">
-							<label>Package 5: Max. Width</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>54</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg5width>
-						<pkg5height translate="label">
-							<label>Package 5: Max. Height</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>55</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg5height>
-						<pkg5base translate="label">
-							<label>Package 5: Baseline Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>56</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg5base>
-						<pkg6title translate="label">
-							<label>Package 6: Label</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>60</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg6title>
-						<pkg6enabled translate="label">
-							<label>Package 6: Enabled</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>61</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg6enabled>
-						<pkg6weight translate="label">
-							<label>Package 6: Max. Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>62</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg6weight>
-						<pkg6length translate="label">
-							<label>Package 6: Max. Length</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>63</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg6length>
-						<pkg6width translate="label">
-							<label>Package 6: Max. Width</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>64</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg6width>
-						<pkg6height translate="label">
-							<label>Package 6: Max. Height</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>65</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg6height>
-						<pkg6base translate="label">
-							<label>Package 6: Baseline Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>66</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg6base>
-						<pkg7title translate="label">
-							<label>Package 7: Title</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>70</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg7title>
-						<pkg7enabled translate="label">
-							<label>Package 7: Enabled</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>71</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg7enabled>
-						<pkg7weight translate="label">
-							<label>Package 7: Max. Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>72</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg7weight>
-						<pkg7length translate="label">
-							<label>Package 7: Max. Length</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>73</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg7length>
-						<pkg7width translate="label">
-							<label>Package 7: Max. Width</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>74</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg7width>
-						<pkg7height translate="label">
-							<label>Package 7: Max. Height</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>75</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg7height>
-						<pkg7base translate="label">
-							<label>Package 7: Baseline Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>76</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg7base>
-						<pkg8title translate="label">
-							<label>Package 8: Title</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>80</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg8title>
-						<pkg8enabled translate="label">
-							<label>Package 8: Enabled</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>81</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg8enabled>
-						<pkg8weight translate="label">
-							<label>Package 8: Max. Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>82</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg8weight>
-						<pkg8length translate="label">
-							<label>Package 8: Max. Length</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>83</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg8length>
-						<pkg8width translate="label">
-							<label>Package 8: Max. Width</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>84</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg8width>
-						<pkg8height translate="label">
-							<label>Package 8: Max. Height</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>85</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg8height>
-						<pkg8base translate="label">
-							<label>Package 8: Baseline Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>86</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg8base>
-						<pkg9title translate="label">
-							<label>Package 9: Title</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>90</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg9title>
-						<pkg9enabled translate="label">
-							<label>Package 9: Enabled</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>91</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg9enabled>
-						<pkg9weight translate="label">
-							<label>Package 9: Max. Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>92</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg9weight>
-						<pkg9length translate="label">
-							<label>Package 9: Max. Length</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>93</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg9length>
-						<pkg9width translate="label">
-							<label>Package 9: Max. Width</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>94</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg9width>
-						<pkg9height translate="label">
-							<label>Package 9: Max. Height</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>95</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg9height>
-						<pkg9base translate="label">
-							<label>Package 9: Baseline Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>96</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg9base>
-						<pkg10title translate="label">
-							<label>Package 10: Title</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>100</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg10title>
-						<pkg10enabled translate="label">
-							<label>Package 10: Enabled</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>101</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg10enabled>
-						<pkg10weight translate="label">
-							<label>Package 10: Max. Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>102</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg10weight>
-						<pkg10length translate="label">
-							<label>Package 10: Max. Length</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>103</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg10length>
-						<pkg10width translate="label">
-							<label>Package 10: Max. Width</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>104</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg10width>
-						<pkg10height translate="label">
-							<label>Package 10: Max. Height</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>105</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg10height>
-						<pkg10base translate="label">
-							<label>Package 10: Baseline Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>106</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg10base>
-						<pkg11title translate="label">
-							<label>Package 11: Title</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>110</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg11title>
-						<pkg11enabled translate="label">
-							<label>Package 11: Enabled</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>111</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg11enabled>
-						<pkg11weight translate="label">
-							<label>Package 11: Max. Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>112</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg11weight>
-						<pkg11length translate="label">
-							<label>Package 11: Max. Length</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>113</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg11length>
-						<pkg11width translate="label">
-							<label>Package 11: Max. Width</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>114</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg11width>
-						<pkg11height translate="label">
-							<label>Package 11: Max. Height</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>115</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg11height>
-						<pkg11base translate="label">
-							<label>Package 11: Baseline Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>116</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg11base>
-						<pkg12title translate="label">
-							<label>Package 12: Title</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>120</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg12title>
-						<pkg12enabled translate="label">
-							<label>Package 12: Enabled</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>121</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg12enabled>
-						<pkg12weight translate="label">
-							<label>Package 12: Max. Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>122</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg12weight>
-						<pkg12length translate="label">
-							<label>Package 12: Max. Length</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>123</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg12length>
-						<pkg12width translate="label">
-							<label>Package 12: Max. Width</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>124</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg12width>
-						<pkg12height translate="label">
-							<label>Package 12: Max. Height</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>125</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg12height>
-						<pkg12base translate="label">
-							<label>Package 12: Baseline Weight</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>126</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</pkg12base>
-					</fields>
-				</packages>
-			</groups>
-		</shipping>
-		<carriers>
-			<groups>
-				<fedex>
-					<fields>
-						<active translate="label">
-							<label>Enabled</label>
-							<sort_order>0</sort_order>
-						</active>
-						<title translate="label">
-							<label>Title</label>
-							<sort_order>1</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</title>
-						<gateway_url translate="label">
-							<label>Gateway URL</label>
-							<sort_order>2</sort_order>
-							<show_in_default>0</show_in_default>
-							<show_in_website>0</show_in_website>
-							<show_in_store>0</show_in_store>
-						</gateway_url>
-						<test_mode translate="label">
-							<label>
-								<![CDATA[<strong>Test Mode</strong>]]> Enable</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>10</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Select 'No' to enable
-								<![CDATA[<strong>Production Mode</strong>]]>
-							</comment>
-						</test_mode>
-						<test_account translate="label">
-							<label>
-								<![CDATA[<strong>Test Mode</strong>]]> Account Number</label>
-							<frontend_type>text</frontend_type>
-							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-							<sort_order>11</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</test_account>
-						<test_password translate="label">
-							<label>
-								<![CDATA[<strong>Test Mode</strong>]]> Password</label>
-							<frontend_type>text</frontend_type>
-							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-							<sort_order>12</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</test_password>
-						<test_key translate="label">
-							<label>
-								<![CDATA[<strong>Test Mode</strong>]]> Key</label>
-							<frontend_type>text</frontend_type>
-							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-							<sort_order>13</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</test_key>
-						<test_meter translate="label">
-							<label>
-								<![CDATA[<strong>Test Mode</strong>]]> Meter Number</label>
-							<frontend_type>text</frontend_type>
-							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-							<sort_order>14</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</test_meter>
-						<account translate="label">
-							<label>
-								<![CDATA[<strong>Production</strong>]]> Account Number</label>
-							<frontend_type>obscure</frontend_type>
-							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-							<sort_order>15</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</account>
-						<password translate="label">
-							<label>
-								<![CDATA[<strong>Production</strong>]]> Password</label>
-							<frontend_type>text</frontend_type>
-							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-							<sort_order>16</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</password>
-						<key translate="label">
-							<label>
-								<![CDATA[<strong>Production</strong>]]> Key</label>
-							<frontend_type>text</frontend_type>
-							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-							<sort_order>17</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</key>
-						<meter_number translate="label">
-							<label>
-								<![CDATA[<strong>Production</strong>]]> Meter Number</label>
-							<frontend_type>text</frontend_type>
-							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-							<sort_order>18</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</meter_number>
-						<disable_rating translate="label">
-							<label>
-								<![CDATA[<strong>Rating</strong>]]> Disable Rating</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>44</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Set 'Yes' to disable rate responses to the frontend</comment>
-						</disable_rating>
-						<rate_type translate="label">
-							<label>
-								<![CDATA[<strong>Rating</strong>]]> Request Type</label>
-							<frontend_type>select</frontend_type>
-							<source_model>usa/shipping_carrier_fedex_source_rate</source_model>
-							<sort_order>45</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Selecting 'Account Rates' will return rates, plus surcharges, minus discounts. 'List Rates' do not include discounts</comment>
-						</rate_type>
-						<show_timestamp translate="label">
-							<label>
-								<![CDATA[<strong>Rating</strong>]]> Show Delivery Date</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>52</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</show_timestamp>
-						<subtract_vat translate="label">
-							<label>
-								<![CDATA[<strong>Rating</strong>]]> Subtract VAT Percentage</label>
-							<sort_order>53</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Leave blank to disable</comment>
-						</subtract_vat>
-						<handling_fee translate="label">
-							<label>
-								<![CDATA[<strong>Rating</strong>]]> Handling Fee/Percent</label>
-							<sort_order>55</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Leave blank to disable</comment>
-						</handling_fee>
-						<handling_type translate="label">
-							<label>
-								<![CDATA[<strong>Rating</strong>]]> Calculate Handling</label>
-							<sort_order>56</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</handling_type>
-						<handling_shelf translate="label">
-							<label>
-								<![CDATA[<strong>Rating</strong>]]> Logarithmic Handling</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>57</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Scales down handling percentage logarithmically (Handling Percent = Handling Percent / log(Price))</comment>
-						</handling_shelf>
-						<handling_action translate="label">
-							<label>
-								<![CDATA[<strong>Rating</strong>]]> Handling Applied</label>
-							<sort_order>58</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</handling_action>
-						<saturday_delivery translate="label">
-							<label>
-								<![CDATA[<strong>Rating</strong>]]> Saturday Delivery</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>61</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Warning: When enabled, rate requests will only return methods that are capable of Saturday delivery</comment>
-						</saturday_delivery>
-						<rating_insured_value>
-							<label>
-								<![CDATA[<strong>Rating</strong>]]> Send Insured Value</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>62</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</rating_insured_value>
-						<rating_preferred_currency>
-							<label>
-								<![CDATA[<strong>Rating</strong>]]> Preferred Currency</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_currency</source_model>
-							<sort_order>63</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</rating_preferred_currency>
-						<rate_discount>
-							<label>
-								<![CDATA[<strong>Rating</strong>]]> Rate Discount</label>
-							<frontend_type>select</frontend_type>
-							<source_model>usa/shipping_carrier_fedex_source_ratediscount</source_model>
-							<sort_order>64</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</rate_discount>
-						<residence_delivery>
-							<label>
-								<![CDATA[<strong>Rating</strong>]]> Residential Delivery</label>
-							<frontend_type>select</frontend_type>
-							<source_model>usa/shipping_carrier_fedex_source_residencedelivery</source_model>
-							<sort_order>70</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</residence_delivery>
-						<rate_address_validation>
-							<label>
-								<![CDATA[<strong>Rating</strong>]]> Address Validation</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>80</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</rate_address_validation>
-						<enable_dimensions translate="label">
-							<label>
-								<![CDATA[<strong>Packages</strong>]]> Enable Dimensions</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>150</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</enable_dimensions>
-						<unit_of_measure translate="label comment">
-							<label>
-								<![CDATA[<strong>Packages</strong>]]> Weight Unit</label>
-							<frontend_type>select</frontend_type>
-							<source_model>usa/shipping_carrier_fedex_source_unitofmeasure</source_model>
-							<sort_order>151</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</unit_of_measure>
-						<shipment_requesttype translate="label">
-							<label>
-								<![CDATA[<strong>Packages</strong>]]> Request Type</label>
-							<frontend_type>select</frontend_type>
-							<source_model>usa/shipping_carrier_abstract_source_requesttype</source_model>
-							<sort_order>152</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</shipment_requesttype>
-						<packaging translate="label">
-							<label>
-								<![CDATA[<strong>Packages</strong>]]> FedEx Packages</label>
-							<frontend_type>multiselect</frontend_type>
-							<source_model>usa/shipping_carrier_fedex_source_packaging</source_model>
-							<sort_order>80</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</packaging>
-						<max_package_weight translate="label">
-							<label>
-								<![CDATA[<strong>Packages</strong>]]> Max Weight</label>
-							<sort_order>158</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>
-								<![CDATA[<p style='font-size:.8em;' align='right'>Ground&reg; Package Max Weight : <strong>0150</strong> lb / <strong>0068</strong> kg<br />Express&reg; Package Max Weight : <strong>0150</strong> lb / <strong>0068</strong> kg<br />FedEx Freight&reg; Pallet Max Weight : <strong>2200</strong> lb / <strong>0997</strong> kg</p>]]>
-							</comment>
-						</max_package_weight>
-						<account_country translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Account Country</label>
-							<frontend_type>select</frontend_type>
-							<frontend_class>countries3</frontend_class>
-							<source_model>adminhtml/system_config_source_country</source_model>
-							<sort_order>180</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</account_country>
-						<dropoff translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> FedEx Dropoff</label>
-							<sort_order>200</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</dropoff>
-						<signature translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Delivery Signature</label>
-							<frontend_type>select</frontend_type>
-							<source_model>usa/shipping_carrier_fedex_source_signature</source_model>
-							<sort_order>205</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</signature>
-						<allowed_methods translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Allowed Methods</label>
-							<sort_order>210</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</allowed_methods>
-						<alternate_rating_methods translate="label">
-							<label>
-								<![CDATA[<strong>Rating</strong>]]> Alternate Rating Methods Enable</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>211</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Enable to limit rates available to customers to the methods selected in the multi-select interface below</comment>
-						</alternate_rating_methods>
-						<allowed_rating_methods translate="label">
-							<label>
-								<![CDATA[<strong>Rating</strong>]]> Allowed Methods</label>
-							<frontend_type>multiselect</frontend_type>
-							<source_model>usa/shipping_carrier_fedex_source_method</source_model>
-							<sort_order>212</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</allowed_rating_methods>
-						<sallowspecific translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Ship to Applicable Countries</label>
-							<sort_order>220</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</sallowspecific>
-						<specificcountry translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Ship to Specific Countries</label>
-							<sort_order>230</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</specificcountry>
-						<mps_shipments translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Multiple Package Shipments</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>231</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</mps_shipments>
-						<shipping_dimensions_disable translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Disable Dimensions</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>240</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Select "Yes" to disable shipment package dimensions in shipment creation</comment>
-						</shipping_dimensions_disable>
-						<tax_id_number translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Tax ID Number (TIN)</label>
-							<frontend_type>text</frontend_type>
-							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-							<sort_order>250</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</tax_id_number>
-						<default_commodity translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Default Commodity</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>250</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</default_commodity>
-						<third_party translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Ship with Third Party Account</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>240</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</third_party>
-						<third_party_fedex_account translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Third Party Account Number</label>
-							<frontend_type>text</frontend_type>
-							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-							<sort_order>250</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</third_party_fedex_account>
-						<third_party_fedex_account_country translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Third Party Account Country</label>
-							<frontend_type>select</frontend_type>
-							<frontend_class>countries2</frontend_class>
-							<source_model>adminhtml/system_config_source_country</source_model>
-							<sort_order>260</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</third_party_fedex_account_country>
-						<free_shipping_enable translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Free Shipping with Minimum Order Amount</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_enabledisable</source_model>
-							<sort_order>270</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>0</show_in_store>
-						</free_shipping_enable>
-						<free_shipping_subtotal translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Minimum Order Amount for Free Shipping</label>
-							<frontend_type>text</frontend_type>
-							<validate>validate-number validate-zero-or-greater</validate>
-							<sort_order>280</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>0</show_in_store>
-						</free_shipping_subtotal>
-						<free_method translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Free Shipping Method</label>
-							<frontend_type>multiselect</frontend_type>
-							<source_model>usa/shipping_carrier_fedex_source_method</source_model>
-							<sort_order>330</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<can_be_empty>1</can_be_empty>
-							<comment>Ground and Home Delivery must be selected independently</comment>
-						</free_method>
-						<free_shipping_enable_all>
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Enable Free Shipping for All Items</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>332</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Enable to apply Free Shipping to all items regardless if they are set for Free Shipping at product level</comment>
-						</free_shipping_enable_all>
-						<free_shipping_subtotal translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Minimum order amount for Free Shipping</label>
-							<sort_order>340</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</free_shipping_subtotal>
-						<free_shipping_discounts translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Calculate Free Shipping before discounts</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>350</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</free_shipping_discounts>
-						<filter_po_boxes translate="label">
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Filter PO Boxes</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>400</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Select "Yes" to prevent shipments to PO Boxes</comment>
-						</filter_po_boxes>
-						<b13a_filing_option>
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> B13A Filing Option</label>
-							<frontend_type>select</frontend_type>
-							<source_model>usa/shipping_carrier_fedex_source_b13afilingoption</source_model>
-							<sort_order>401</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</b13a_filing_option>
-						<shipping_address_validation>
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Address Validation</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>402</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</shipping_address_validation>
-						<shipping_residence_delivery>
-							<label>
-								<![CDATA[<strong>Shipping</strong>]]> Residential Delivery</label>
-							<frontend_type>select</frontend_type>
-							<source_model>usa/shipping_carrier_fedex_source_residencedelivery</source_model>
-							<sort_order>404</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</shipping_residence_delivery>
-						<enable_smartpost>
-							<label>
-								<![CDATA[<strong>SmartPost</strong>]]> Enable</label>
-							<frontend_type>select</frontend_type>
-							<sort_order>405</sort_order>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>'SmartPost' must also be enabled in Allowed Methods</comment>
-						</enable_smartpost>
-						<smartpost_endorsement>
-							<label>
-								<![CDATA[<strong>SmartPost</strong>]]> Ancillary Endorsement</label>
-							<frontend_type>select</frontend_type>
-							<source_model>usa/shipping_carrier_fedex_source_smartpost_endorsement</source_model>
-							<sort_order>406</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</smartpost_endorsement>
-						<smartpost_indicia>
-							<label>
-								<![CDATA[<strong>SmartPost</strong>]]> Indicia</label>
-							<frontend_type>select</frontend_type>
-							<source_model>usa/shipping_carrier_fedex_source_smartpost_indicia</source_model>
-							<sort_order>407</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</smartpost_indicia>
-						<smartpost_hubid>
-							<label>
-								<![CDATA[<strong>SmartPost</strong>]]> Hub ID</label>
-							<frontend_type>text</frontend_type>
-							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-							<sort_order>408</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</smartpost_hubid>
-						<smartpost_customer_manifest_id>
-							<label>
-								<![CDATA[<strong>SmartPost</strong>]]> Manifest ID</label>
-							<frontend_type>text</frontend_type>
-							<backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-							<sort_order>409</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>In most cases this field should be left blank</comment>
-						</smartpost_customer_manifest_id>
-						<shipper_company translate="label">
-							<label>
-								<![CDATA[<strong>Printing</strong>]]> Use Store Name for Shipper Company</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>410</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>If 'Yes' the Store Name will be used as the shipper's company name. If 'No', the Website Name will be used</comment>
-						</shipper_company>
-						<label_image translate="label">
-							<label>
-								<![CDATA[<strong>Printing</strong>]]> Label Image Format</label>
-							<frontend_type>select</frontend_type>
-							<source_model>usa/shipping_carrier_fedex_source_label_image</source_model>
-							<sort_order>420</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</label_image>
-						<label_stock translate="label">
-							<label>
-								<![CDATA[<strong>Printing</strong>]]> Label Stock</label>
-							<frontend_type>select</frontend_type>
-							<source_model>usa/shipping_carrier_fedex_source_label_stock</source_model>
-							<sort_order>430</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>For thermal printers a STOCK method must be selected. International shippers should select a LABEL or DOC_TAB method. Changes to this setting will only apply to new shipments.</comment>
-						</label_stock>
-						<label_orientation translate="label">
-							<label>
-								<![CDATA[<strong>Printing</strong>]]> Label Orientation</label>
-							<frontend_type>select</frontend_type>
-							<source_model>usa/shipping_carrier_fedex_source_label_orientation</source_model>
-							<sort_order>440</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</label_orientation>
-						<enable_java_printing translate="label">
-							<label>
-								<![CDATA[<strong>Printing</strong>]]> Enable jZebra</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>450</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Enables jZebra support for RAW printing to thermal printers</comment>
-						</enable_java_printing>
-						<printer_name>
-							<label>
-								<![CDATA[<strong>Printing</strong>]]> Thermal Printer Name</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>460</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Enter the Windows (or CUPS) printer name. Printer name may not contain spaces</comment>
-						</printer_name>
-						<packing_list>
-							<label><![CDATA[<strong>Printing</strong>]]> Append Packing List</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>470</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</packing_list>
-						<return_label>
-							<label><![CDATA[<strong>Printing</strong>]]> Create Return Label</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>480</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</return_label>
+    <sections>
+        <shipping translate="label" module="shipping">
+            <label>Shipping Settings</label>
+            <tab>sales</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>310</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>0</show_in_store>
+            <groups>
+                <option translate="label">
+                    <label>Options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <checkout_multiple translate="label">
+                            <label>Allow Shipping to Multiple Addresses</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </checkout_multiple>
+                        <checkout_multiple_maximum_qty translate="label">
+                            <label>Maximum Qty Allowed for Shipping to Multiple Addresses</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </checkout_multiple_maximum_qty>
+                    </fields>
+                </option>
+                <origin translate="label">
+                    <label>Origin</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <country_id translate="label">
+                            <label>Country</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_class>countries</frontend_class>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </country_id>
+                        <region_id translate="label">
+                            <label>Region/State</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </region_id>
+                        <postcode translate="label">
+                            <label>ZIP/Postal Code</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </postcode>
+                        <city translate="label">
+                            <label>City</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </city>
+                        <street_line1 translate="label">
+                            <label>Street Address</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </street_line1>
+                        <street_line2 translate="label">
+                            <label>Street Address Line 2</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </street_line2>
+                        <street_line3 translate="label">
+                            <label>Street Address Line 3</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>61</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </street_line3>
+                        <phone translate="label">
+                            <label>Phone</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </phone>
+                    </fields>
+                </origin>
+                <packages translate="label" module="shipsync">
+                    <label>ShipSync Packages</label>
+                    <sort_order>500</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <pkg1title translate="label">
+                            <label>Package 1: Label</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg1title>
+                        <pkg1enabled translate="label">
+                            <label>Package 1: Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg1enabled>
+                        <pkg1weight translate="label">
+                            <label>Package 1: Max. Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg1weight>
+                        <pkg1length translate="label">
+                            <label>Package 1: Max. Length</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg1length>
+                        <pkg1width translate="label">
+                            <label>Package 1: Max. Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg1width>
+                        <pkg1height translate="label">
+                            <label>Package 1: Max. Height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg1height>
+                        <pkg1base translate="label">
+                            <label>Package 1: Baseline Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg1base>
+                        <pkg2title translate="label">
+                            <label>Package 2: Label</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg2title>
+                        <pkg2enabled translate="label">
+                            <label>Package 2: Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg2enabled>
+                        <pkg2weight translate="label">
+                            <label>Package 2: Max. Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>22</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg2weight>
+                        <pkg2length translate="label">
+                            <label>Package 2: Max. Length</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>23</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg2length>
+                        <pkg2width translate="label">
+                            <label>Package 2: Max. Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>24</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg2width>
+                        <pkg2height translate="label">
+                            <label>Package 2: Max. Height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg2height>
+                        <pkg2base translate="label">
+                            <label>Package 2: Baseline Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>26</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg2base>
+                        <pkg3title translate="label">
+                            <label>Package 3: Label</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg3title>
+                        <pkg3enabled translate="label">
+                            <label>Package 3: Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg3enabled>
+                        <pkg3weight translate="label">
+                            <label>Package 3: Max. Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>32</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg3weight>
+                        <pkg3length translate="label">
+                            <label>Package 3: Max. Length</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>33</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg3length>
+                        <pkg3width translate="label">
+                            <label>Package 3: Max. Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>34</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg3width>
+                        <pkg3height translate="label">
+                            <label>Package 3: Max. Height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg3height>
+                        <pkg3base translate="label">
+                            <label>Package 3: Baseline Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>36</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg3base>
+                        <pkg4title translate="label">
+                            <label>Package 4: Label</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg4title>
+                        <pkg4enabled translate="label">
+                            <label>Package 4: Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>41</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg4enabled>
+                        <pkg4weight translate="label">
+                            <label>Package 4: Max. Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>42</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg4weight>
+                        <pkg4length translate="label">
+                            <label>Package 4: Max. Length</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>43</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg4length>
+                        <pkg4width translate="label">
+                            <label>Package 4: Max. Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>44</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg4width>
+                        <pkg4height translate="label">
+                            <label>Package 4: Max. Height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg4height>
+                        <pkg4base translate="label">
+                            <label>Package 4: Baseline Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>46</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg4base>
+                        <pkg5title translate="label">
+                            <label>Package 5: Label</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg5title>
+                        <pkg5enabled translate="label">
+                            <label>Package 5: Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>51</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg5enabled>
+                        <pkg5weight translate="label">
+                            <label>Package 5: Max. Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>52</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg5weight>
+                        <pkg5length translate="label">
+                            <label>Package 5: Max. Length</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>53</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg5length>
+                        <pkg5width translate="label">
+                            <label>Package 5: Max. Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>54</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg5width>
+                        <pkg5height translate="label">
+                            <label>Package 5: Max. Height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>55</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg5height>
+                        <pkg5base translate="label">
+                            <label>Package 5: Baseline Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>56</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg5base>
+                        <pkg6title translate="label">
+                            <label>Package 6: Label</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg6title>
+                        <pkg6enabled translate="label">
+                            <label>Package 6: Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>61</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg6enabled>
+                        <pkg6weight translate="label">
+                            <label>Package 6: Max. Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>62</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg6weight>
+                        <pkg6length translate="label">
+                            <label>Package 6: Max. Length</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>63</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg6length>
+                        <pkg6width translate="label">
+                            <label>Package 6: Max. Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>64</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg6width>
+                        <pkg6height translate="label">
+                            <label>Package 6: Max. Height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>65</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg6height>
+                        <pkg6base translate="label">
+                            <label>Package 6: Baseline Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>66</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg6base>
+                        <pkg7title translate="label">
+                            <label>Package 7: Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg7title>
+                        <pkg7enabled translate="label">
+                            <label>Package 7: Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>71</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg7enabled>
+                        <pkg7weight translate="label">
+                            <label>Package 7: Max. Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>72</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg7weight>
+                        <pkg7length translate="label">
+                            <label>Package 7: Max. Length</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>73</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg7length>
+                        <pkg7width translate="label">
+                            <label>Package 7: Max. Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>74</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg7width>
+                        <pkg7height translate="label">
+                            <label>Package 7: Max. Height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>75</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg7height>
+                        <pkg7base translate="label">
+                            <label>Package 7: Baseline Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>76</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg7base>
+                        <pkg8title translate="label">
+                            <label>Package 8: Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg8title>
+                        <pkg8enabled translate="label">
+                            <label>Package 8: Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>81</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg8enabled>
+                        <pkg8weight translate="label">
+                            <label>Package 8: Max. Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>82</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg8weight>
+                        <pkg8length translate="label">
+                            <label>Package 8: Max. Length</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>83</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg8length>
+                        <pkg8width translate="label">
+                            <label>Package 8: Max. Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>84</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg8width>
+                        <pkg8height translate="label">
+                            <label>Package 8: Max. Height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>85</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg8height>
+                        <pkg8base translate="label">
+                            <label>Package 8: Baseline Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>86</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg8base>
+                        <pkg9title translate="label">
+                            <label>Package 9: Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg9title>
+                        <pkg9enabled translate="label">
+                            <label>Package 9: Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>91</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg9enabled>
+                        <pkg9weight translate="label">
+                            <label>Package 9: Max. Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>92</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg9weight>
+                        <pkg9length translate="label">
+                            <label>Package 9: Max. Length</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>93</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg9length>
+                        <pkg9width translate="label">
+                            <label>Package 9: Max. Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>94</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg9width>
+                        <pkg9height translate="label">
+                            <label>Package 9: Max. Height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>95</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg9height>
+                        <pkg9base translate="label">
+                            <label>Package 9: Baseline Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>96</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg9base>
+                        <pkg10title translate="label">
+                            <label>Package 10: Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg10title>
+                        <pkg10enabled translate="label">
+                            <label>Package 10: Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>101</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg10enabled>
+                        <pkg10weight translate="label">
+                            <label>Package 10: Max. Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>102</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg10weight>
+                        <pkg10length translate="label">
+                            <label>Package 10: Max. Length</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>103</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg10length>
+                        <pkg10width translate="label">
+                            <label>Package 10: Max. Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>104</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg10width>
+                        <pkg10height translate="label">
+                            <label>Package 10: Max. Height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg10height>
+                        <pkg10base translate="label">
+                            <label>Package 10: Baseline Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>106</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg10base>
+                        <pkg11title translate="label">
+                            <label>Package 11: Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg11title>
+                        <pkg11enabled translate="label">
+                            <label>Package 11: Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>111</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg11enabled>
+                        <pkg11weight translate="label">
+                            <label>Package 11: Max. Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>112</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg11weight>
+                        <pkg11length translate="label">
+                            <label>Package 11: Max. Length</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>113</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg11length>
+                        <pkg11width translate="label">
+                            <label>Package 11: Max. Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>114</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg11width>
+                        <pkg11height translate="label">
+                            <label>Package 11: Max. Height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>115</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg11height>
+                        <pkg11base translate="label">
+                            <label>Package 11: Baseline Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>116</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg11base>
+                        <pkg12title translate="label">
+                            <label>Package 12: Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg12title>
+                        <pkg12enabled translate="label">
+                            <label>Package 12: Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>121</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg12enabled>
+                        <pkg12weight translate="label">
+                            <label>Package 12: Max. Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>122</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg12weight>
+                        <pkg12length translate="label">
+                            <label>Package 12: Max. Length</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>123</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg12length>
+                        <pkg12width translate="label">
+                            <label>Package 12: Max. Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>124</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg12width>
+                        <pkg12height translate="label">
+                            <label>Package 12: Max. Height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>125</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg12height>
+                        <pkg12base translate="label">
+                            <label>Package 12: Baseline Weight</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>126</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pkg12base>
+                    </fields>
+                </packages>
+            </groups>
+        </shipping>
+        <carriers>
+            <groups>
+                <fedex>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <sort_order>0</sort_order>
+                        </active>
+                        <title translate="label">
+                            <label>Title</label>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                        <gateway_url translate="label">
+                            <label>Gateway URL</label>
+                            <sort_order>2</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </gateway_url>
+                        <test_mode translate="label">
+                            <label><![CDATA[<strong>Test Mode</strong>]]> Enable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Select 'No' to enable
+								<![CDATA[<strong>Production Mode</strong>]]></comment>
+                        </test_mode>
+                        <test_account translate="label">
+                            <label><![CDATA[<strong>Test Mode</strong>]]> Account Number</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </test_account>
+                        <test_password translate="label">
+                            <label><![CDATA[<strong>Test Mode</strong>]]> Password</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </test_password>
+                        <test_key translate="label">
+                            <label><![CDATA[<strong>Test Mode</strong>]]> Key</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </test_key>
+                        <test_meter translate="label">
+                            <label><![CDATA[<strong>Test Mode</strong>]]> Meter Number</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </test_meter>
+                        <account translate="label">
+                            <label><![CDATA[<strong>Production</strong>]]> Account Number</label>
+                            <frontend_type>obscure</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </account>
+                        <password translate="label">
+                            <label><![CDATA[<strong>Production</strong>]]> Password</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </password>
+                        <key translate="label">
+                            <label><![CDATA[<strong>Production</strong>]]> Key</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>17</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </key>
+                        <meter_number translate="label">
+                            <label><![CDATA[<strong>Production</strong>]]> Meter Number</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>18</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </meter_number>
+                        <disable_rating translate="label">
+                            <label><![CDATA[<strong>Rating</strong>]]> Disable Rating</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>44</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Set 'Yes' to disable rate responses to the frontend</comment>
+                        </disable_rating>
+                        <rate_type translate="label">
+                            <label><![CDATA[<strong>Rating</strong>]]> Request Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>usa/shipping_carrier_fedex_source_rate</source_model>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Selecting 'Account Rates' will return rates, plus surcharges, minus discounts. 'List Rates' do not include discounts</comment>
+                        </rate_type>
+                        <show_timestamp translate="label">
+                            <label><![CDATA[<strong>Rating</strong>]]> Show Delivery Date</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>52</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_timestamp>
+                        <subtract_vat translate="label">
+                            <label><![CDATA[<strong>Rating</strong>]]> Subtract VAT Percentage</label>
+                            <sort_order>53</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave blank to disable</comment>
+                        </subtract_vat>
+                        <handling_fee translate="label">
+                            <label><![CDATA[<strong>Rating</strong>]]> Handling Fee/Percent</label>
+                            <sort_order>55</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave blank to disable</comment>
+                        </handling_fee>
+                        <handling_type translate="label">
+                            <label><![CDATA[<strong>Rating</strong>]]> Calculate Handling</label>
+                            <sort_order>56</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </handling_type>
+                        <handling_shelf translate="label">
+                            <label><![CDATA[<strong>Rating</strong>]]> Logarithmic Handling</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>57</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Scales down handling percentage logarithmically (Handling Percent = Handling Percent / log(Price))</comment>
+                        </handling_shelf>
+                        <handling_action translate="label">
+                            <label><![CDATA[<strong>Rating</strong>]]> Handling Applied</label>
+                            <sort_order>58</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </handling_action>
+                        <saturday_delivery translate="label">
+                            <label><![CDATA[<strong>Rating</strong>]]> Saturday Delivery</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>61</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Warning: When enabled, rate requests will only return methods that are capable of Saturday delivery</comment>
+                        </saturday_delivery>
+                        <rating_insured_value>
+                            <label><![CDATA[<strong>Rating</strong>]]> Send Insured Value</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>62</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rating_insured_value>
+                        <rating_preferred_currency>
+                            <label><![CDATA[<strong>Rating</strong>]]> Preferred Currency</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_currency</source_model>
+                            <sort_order>63</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rating_preferred_currency>
+                        <rate_discount>
+                            <label><![CDATA[<strong>Rating</strong>]]> Rate Discount</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>usa/shipping_carrier_fedex_source_ratediscount</source_model>
+                            <sort_order>64</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rate_discount>
+                        <residence_delivery>
+                            <label><![CDATA[<strong>Rating</strong>]]> Residential Delivery</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>usa/shipping_carrier_fedex_source_residencedelivery</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </residence_delivery>
+                        <rate_address_validation>
+                            <label><![CDATA[<strong>Rating</strong>]]> Address Validation</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rate_address_validation>
+                        <enable_dimensions translate="label">
+                            <label><![CDATA[<strong>Packages</strong>]]> Enable Dimensions</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable_dimensions>
+                        <unit_of_measure translate="label comment">
+                            <label><![CDATA[<strong>Packages</strong>]]> Weight Unit</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>usa/shipping_carrier_fedex_source_unitofmeasure</source_model>
+                            <sort_order>151</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </unit_of_measure>
+                        <shipment_requesttype translate="label">
+                            <label><![CDATA[<strong>Packages</strong>]]> Request Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>usa/shipping_carrier_abstract_source_requesttype</source_model>
+                            <sort_order>152</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shipment_requesttype>
+                        <packaging translate="label">
+                            <label><![CDATA[<strong>Packages</strong>]]> FedEx Packages</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>usa/shipping_carrier_fedex_source_packaging</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </packaging>
+                        <max_package_weight translate="label">
+                            <label><![CDATA[<strong>Packages</strong>]]> Max Weight</label>
+                            <sort_order>158</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[<p style='font-size:.8em;' align='right'>Ground&reg; Package Max Weight : <strong>0150</strong> lb / <strong>0068</strong> kg<br />Express&reg; Package Max Weight : <strong>0150</strong> lb / <strong>0068</strong> kg<br />FedEx Freight&reg; Pallet Max Weight : <strong>2200</strong> lb / <strong>0997</strong> kg</p>]]></comment>
+                        </max_package_weight>
+                        <account_country translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Account Country</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_class>countries3</frontend_class>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </account_country>
+                        <dropoff translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> FedEx Dropoff</label>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </dropoff>
+                        <signature translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Delivery Signature</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>usa/shipping_carrier_fedex_source_signature</source_model>
+                            <sort_order>205</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </signature>
+                        <allowed_methods translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Allowed Methods</label>
+                            <sort_order>210</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allowed_methods>
+                        <alternate_rating_methods translate="label">
+                            <label><![CDATA[<strong>Rating</strong>]]> Alternate Rating Methods Enable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>211</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Enable to limit rates available to customers to the methods selected in the multi-select interface below</comment>
+                        </alternate_rating_methods>
+                        <allowed_rating_methods translate="label">
+                            <label><![CDATA[<strong>Rating</strong>]]> Allowed Methods</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>usa/shipping_carrier_fedex_source_method</source_model>
+                            <sort_order>212</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allowed_rating_methods>
+                        <sallowspecific translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Ship to Applicable Countries</label>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sallowspecific>
+                        <specificcountry translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Ship to Specific Countries</label>
+                            <sort_order>230</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </specificcountry>
+                        <mps_shipments translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Multiple Package Shipments</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>231</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </mps_shipments>
+                        <shipping_dimensions_disable translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Disable Dimensions</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>240</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Select "Yes" to disable shipment package dimensions in shipment creation</comment>
+                        </shipping_dimensions_disable>
+                        <tax_id_number translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Tax ID Number (TIN)</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>250</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </tax_id_number>
+                        <default_commodity translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Default Commodity</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>250</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </default_commodity>
+                        <third_party translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Ship with Third Party Account</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>240</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </third_party>
+                        <third_party_fedex_account translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Third Party Account Number</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>250</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </third_party_fedex_account>
+                        <third_party_fedex_account_country translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Third Party Account Country</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_class>countries2</frontend_class>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <sort_order>260</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </third_party_fedex_account_country>
+                        <free_shipping_enable translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Free Shipping with Minimum Order Amount</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_enabledisable</source_model>
+                            <sort_order>270</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </free_shipping_enable>
+                        <free_shipping_subtotal translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Minimum Order Amount for Free Shipping</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>280</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </free_shipping_subtotal>
+                        <free_method translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Free Shipping Method</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>usa/shipping_carrier_fedex_source_method</source_model>
+                            <sort_order>330</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                            <comment>Ground and Home Delivery must be selected independently</comment>
+                        </free_method>
+                        <free_shipping_enable_all>
+                            <label><![CDATA[<strong>Shipping</strong>]]> Enable Free Shipping for All Items</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>332</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Enable to apply Free Shipping to all items regardless if they are set for Free Shipping at product level</comment>
+                        </free_shipping_enable_all>
+                        <free_shipping_subtotal translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Minimum order amount for Free Shipping</label>
+                            <sort_order>340</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </free_shipping_subtotal>
+                        <free_shipping_discounts translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Calculate Free Shipping before discounts</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>350</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </free_shipping_discounts>
+                        <free_shipping_exclusion translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Free Shipping Exclude Alaska and Hawaii</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>351</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </free_shipping_exclusion>
+                        <filter_po_boxes translate="label">
+                            <label><![CDATA[<strong>Shipping</strong>]]> Filter PO Boxes</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>400</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Select "Yes" to prevent shipments to PO Boxes</comment>
+                        </filter_po_boxes>
+                        <b13a_filing_option>
+                            <label><![CDATA[<strong>Shipping</strong>]]> B13A Filing Option</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>usa/shipping_carrier_fedex_source_b13afilingoption</source_model>
+                            <sort_order>401</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </b13a_filing_option>
+                        <shipping_address_validation>
+                            <label><![CDATA[<strong>Shipping</strong>]]> Address Validation</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>402</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shipping_address_validation>
+                        <shipping_residence_delivery>
+                            <label><![CDATA[<strong>Shipping</strong>]]> Residential Delivery</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>usa/shipping_carrier_fedex_source_residencedelivery</source_model>
+                            <sort_order>404</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shipping_residence_delivery>
+                        <enable_smartpost>
+                            <label><![CDATA[<strong>SmartPost</strong>]]> Enable</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>405</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>'SmartPost' must also be enabled in Allowed Methods</comment>
+                        </enable_smartpost>
+                        <smartpost_endorsement>
+                            <label><![CDATA[<strong>SmartPost</strong>]]> Ancillary Endorsement</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>usa/shipping_carrier_fedex_source_smartpost_endorsement</source_model>
+                            <sort_order>406</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </smartpost_endorsement>
+                        <smartpost_indicia>
+                            <label><![CDATA[<strong>SmartPost</strong>]]> Indicia</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>usa/shipping_carrier_fedex_source_smartpost_indicia</source_model>
+                            <sort_order>407</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </smartpost_indicia>
+                        <smartpost_hubid>
+                            <label><![CDATA[<strong>SmartPost</strong>]]> Hub ID</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>408</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </smartpost_hubid>
+                        <smartpost_customer_manifest_id>
+                            <label><![CDATA[<strong>SmartPost</strong>]]> Manifest ID</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>409</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>In most cases this field should be left blank</comment>
+                        </smartpost_customer_manifest_id>
+                        <shipper_company translate="label">
+                            <label><![CDATA[<strong>Printing</strong>]]> Use Store Name for Shipper Company</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>410</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>If 'Yes' the Store Name will be used as the shipper's company name. If 'No', the Website Name will be used</comment>
+                        </shipper_company>
+                        <label_image translate="label">
+                            <label><![CDATA[<strong>Printing</strong>]]> Label Image Format</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>usa/shipping_carrier_fedex_source_label_image</source_model>
+                            <sort_order>420</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </label_image>
+                        <label_stock translate="label">
+                            <label><![CDATA[<strong>Printing</strong>]]> Label Stock</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>usa/shipping_carrier_fedex_source_label_stock</source_model>
+                            <sort_order>430</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>For thermal printers a STOCK method must be selected. International shippers should select a LABEL or DOC_TAB method. Changes to this setting will only apply to new shipments.</comment>
+                        </label_stock>
+                        <label_orientation translate="label">
+                            <label><![CDATA[<strong>Printing</strong>]]> Label Orientation</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>usa/shipping_carrier_fedex_source_label_orientation</source_model>
+                            <sort_order>440</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </label_orientation>
+                        <enable_java_printing translate="label">
+                            <label><![CDATA[<strong>Printing</strong>]]> Enable jZebra</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>450</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Enables jZebra support for RAW printing to thermal printers</comment>
+                        </enable_java_printing>
+                        <printer_name>
+                            <label><![CDATA[<strong>Printing</strong>]]> Thermal Printer Name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>460</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Enter the Windows (or CUPS) printer name. Printer name may not contain spaces</comment>
+                        </printer_name>
+                        <packing_list>
+                            <label><![CDATA[<strong>Printing</strong>]]> Append Packing List</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>470</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </packing_list>
+                        <return_label>
+                            <label><![CDATA[<strong>Printing</strong>]]> Create Return Label</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>480</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </return_label>
                         <customer_reference>
                             <label><![CDATA[<strong>Printing</strong>]]> Customer Reference</label>
-							<frontend_type>text</frontend_type>
-							<sort_order>490</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>490</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </customer_reference>
-						<specificerrmsg translate="label">
-							<label>Displayed Error Message</label>
-							<sort_order>520</sort_order>
-							<show_in_default>0</show_in_default>
-							<show_in_website>0</show_in_website>
-							<show_in_store>0</show_in_store>
-						</specificerrmsg>
-						<enable_soap_cache translate="label">
-							<label>Enable API Cache</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>530</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Improves speed by caching API requests. Temporarily disable if you experience trouble updating credentials or switching modes.</comment>
-						</enable_soap_cache>
-						<mage_log translate="label">
-							<label>Enable System Logging</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>541</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Outputs API request and response to {{base_dir}}/var/log. Magento log must be enabled. WARNING: For debugging purposes only, not intended to be left on.</comment>
-						</mage_log>
-						<showmethod translate="label">
-							<label>Show Method if Not Applicable</label>
-							<frontend_type>select</frontend_type>
-							<sort_order>550</sort_order>
-							<frontend_class>shipping-skip-hide</frontend_class>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-							<comment>Disable to hide shipping method when no rates are available</comment>
-						</showmethod>
-						<sort_order translate="label">
-							<label>Sort Order</label>
-							<sort_order>560</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</sort_order>
-						<debug translate="label">
-							<label>Debug</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>600</sort_order>
-							<show_in_default>0</show_in_default>
-							<show_in_website>0</show_in_website>
-							<show_in_store>0</show_in_store>
-						</debug>
-						<sandbox_mode translate="label">
-							<label>Sandbox Mode</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>555</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-							<show_in_store>1</show_in_store>
-						</sandbox_mode>
-					</fields>
-				</fedex>
-			</groups>
-		</carriers>
-	</sections>
+                        <specificerrmsg translate="label">
+                            <label>Displayed Error Message</label>
+                            <sort_order>520</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </specificerrmsg>
+                        <enable_soap_cache translate="label">
+                            <label>Enable API Cache</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>530</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Improves speed by caching API requests. Temporarily disable if you experience trouble updating credentials or switching modes.</comment>
+                        </enable_soap_cache>
+                        <mage_log translate="label">
+                            <label>Enable System Logging</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>541</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Outputs API request and response to {{base_dir}}/var/log. Magento log must be enabled. WARNING: For debugging purposes only, not intended to be left on.</comment>
+                        </mage_log>
+                        <showmethod translate="label">
+                            <label>Show Method if Not Applicable</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>550</sort_order>
+                            <frontend_class>shipping-skip-hide</frontend_class>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Disable to hide shipping method when no rates are available</comment>
+                        </showmethod>
+                        <sort_order translate="label">
+                            <label>Sort Order</label>
+                            <sort_order>560</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sort_order>
+                        <debug translate="label">
+                            <label>Debug</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>600</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </debug>
+                        <sandbox_mode translate="label">
+                            <label>Sandbox Mode</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>555</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sandbox_mode>
+                    </fields>
+                </fedex>
+            </groups>
+        </carriers>
+    </sections>
 </config>
