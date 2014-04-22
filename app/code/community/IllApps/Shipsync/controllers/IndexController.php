@@ -153,8 +153,8 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
             $rateRequest->setInsureShipment(false);
         }
         
-		$rateRequest->setResidenceDelivery($post['residence_delivery']);
-		$rateRequest->setAddressValidation($post['address_validation']);
+        $rateRequest->setResidenceDelivery($post['residence_delivery']);
+        $rateRequest->setAddressValidation($post['address_validation']);
 
         // Get all items to ship
         $items = Mage::getModel('shipsync/shipping_package')->getParsedItems($rateRequest->getAllItems(), true);
@@ -184,7 +184,7 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
                 'weight' => $package['weight'],
                 'length' => $package['length'],
                 'width' => $package['width'],
-                'height' => $package['height']                
+                'height' => $package['height']
             );
         }
         
@@ -278,11 +278,11 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
         foreach ($post['packages'] as $package) {
             unset($_items);
             
-            $itemsToPack = explode(',', $package['items']);            
+            $itemsToPack = explode(',', $package['items']);
             
             foreach ($itemsToPack as $key => $itemToPack) {
                 $_items[] = $_itemsById[$post['items'][$itemToPack - 1]['item_id']];
-            }            
+            }
             
             $package['dangerous']    = false;
             $package['cod']          = false;
@@ -413,7 +413,8 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
 			->setEnableJavaPrinting($post['enable_java_printing'])
 			->setPrinterName($post['printer_name'])
 			->setPackingList($post['packing_list'])
-			->setSignature($post['signature']);
+			->setSignature($post['signature'])
+			->setReturnLabel($post['return_label']);
         
         try {
             $results = $carrier->createShipment($request);
@@ -453,7 +454,7 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
             $tracks[$i]['url'] = '<a target="shipping_label" href="' . Mage::getSingleton('adminhtml/url')->getUrl('shipsync/index/label/', array(
                 'id' => $res->getPackageId()
             )) . '">Print Shipping Label</a>';
-            
+
             /** Set package id */
             $tracks[$i]['id'] = $res->getPackageId();
             
@@ -467,6 +468,13 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
         foreach ($tracks as $track) {
             /** Set tracking message */
             $message .= "<p>Package ID: " . $track['id'] . "<br /> Tracking Number: " . $track['number'] . "<br />" . $track['url'] . "</p>";
+
+			if ($post['return_label'])
+			{
+				$message .= '<p><a target="_blank" href="' . Mage::getSingleton('adminhtml/url')->getUrl('shipsync/index/returnlabel/', array(
+					'id' => $res->getPackageId()
+				)) . '">Print Return Label</a></p>';
+			}
         }
         
         /** Add success message */
@@ -520,6 +528,22 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
     }
     
     
+    /**
+     * Show Return Label if present
+     */
+    public function returnLabelAction()
+    {
+        if ($packageId = $this->getRequest()->getParam('id')) {
+            $package = Mage::getModel('shipping/shipment_package')->load($packageId);
+            $carrier = strtoupper($package->getCarrier());
+
+            $labelFormat = strtolower($package->getLabelFormat());
+            $labelImage  = $package->getReturnLabelImage();
+
+            $this->labelPrint($labelImage, $labelFormat, $carrier . '_RETURN_', $package);
+        }
+    }
+
     
     public function labelPrint($labelImage, $labelFormat, $carrier, $package)
     {
@@ -551,7 +575,7 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
     
     public function thermalPrint($labelImage, $labelFormat)
     {
-		$jsUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'js/illapps/shipsync/jzebra.js';
+        $jsUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'js/illapps/shipsync/jzebra.js';
 
         $javaUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'java/jZebra/';
         
@@ -561,7 +585,7 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
             <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
             <head>
 				<script type="text/javascript">
-					var label = "' . $labelImage .'";
+					var label = "' . $labelImage . '";
 				</script>
 			 	<script type="text/javascript" src="' . $jsUrl . '"></script>
             </head>
@@ -587,36 +611,35 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
     
     public function deleteAction()
     {
-		$console = Mage::helper('shipsync');
+        $console = Mage::helper('shipsync');
 
-		$orderId = $this->getRequest()->getParam('order_id');
+        $orderId = $this->getRequest()->getParam('order_id');
 
-		$order = Mage::getModel('sales/order');
+        $order = Mage::getModel('sales/order');
 
-		$order->loadByIncrementId($orderId);
+        $order->loadByIncrementId($orderId);
 
-		$items = Mage::getResourceModel('sales/order_item_collection')
-                ->setOrderFilter($orderId)
-                ->load();
+        $items = Mage::getResourceModel('sales/order_item_collection')->setOrderFilter($orderId)->load();
 
-		foreach ($items as $item)
-		{
-			if ($item->getQtyShipped() > 0) { $item->setQtyShipped(0)->save(); }
-		}
+        foreach ($items as $item) {
+            if ($item->getQtyShipped() > 0) {
+                $item->setQtyShipped(0)->save();
+            }
+        }
 
-		$shipments = Mage::getResourceModel('sales/order_shipment_collection')
-                ->setOrderFilter($orderId)
-                ->load();
+        $shipments = Mage::getResourceModel('sales/order_shipment_collection')->setOrderFilter($orderId)->load();
 
-		foreach ($shipments as $shipment) {
+        foreach ($shipments as $shipment) {
 
-			$shipment->delete();
-		}
+            $shipment->delete();
+        }
 
-		$shipments->save();
+        $shipments->save();
 
-		$this->_getSession()->addSuccess($this->__('Shipment successfully deleted.'));
+        $this->_getSession()->addSuccess($this->__('Shipment successfully deleted.'));
 
-        $this->_redirect('adminhtml/sales_order/view', array('order_id' => $orderId));
+        $this->_redirect('adminhtml/sales_order/view', array(
+            'order_id' => $orderId
+        ));
     }
 }

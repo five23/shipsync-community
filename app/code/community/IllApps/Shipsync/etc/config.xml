@@ -14,7 +14,7 @@
 <config>
 	<modules>
 		<IllApps_Shipsync>
-			<version>0.5.0.4</version>
+			<version>0.5.1</version>
 			<depends>
 				<Mage_Usa/>
 				<Mage_Sales/>

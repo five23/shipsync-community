@@ -156,6 +156,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 		$shipRequest->setPrinterName($request->getPrinterName());
 		$shipRequest->setPackingList($request->getPackingList());
 		$shipRequest->setShipperCompany($request->getShipperCompany());
+		$shipRequest->setReturnLabel($request->getReturnLabel());
 
         $this->_shipRequest = $shipRequest;
         
@@ -173,13 +174,259 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 		
         /** Iterate through each package to ship */
         foreach ($shipRequest->getPackages() as $packageToShip) {
-			            
-			/** Send shipment request */
-			$shipResponse = $this->_sendShipmentRequest($packageToShip);
-			
-			/** Parse response */
-            $shipResult   = $this->_parseShipmentResponse($shipResponse);            			
-            
+
+			$request = $this->_prepareShipmentHeader();
+
+			// Shipment request
+			$request['RequestedShipment'] = array(
+				'ShipTimestamp' => $shipRequest->getShipTimestamp(),
+				'DropoffType' => $shipRequest->getDropoffType(),
+				'ServiceType' => $shipRequest->getServiceType(),
+				'PackagingType' => $packageToShip->getContainerCode(),
+				'TotalWeight' => array(
+					'Value' => $packageToShip->getWeight(),
+					'Units' => $shipRequest->getWeightUnits()
+				),
+				'Shipper' => $shipRequest->getShipperDetails(),
+				'Recipient' => $shipRequest->getRecipientDetails(),
+				'LabelSpecification' => array(
+					'LabelFormatType' => 'COMMON2D',
+					'ImageType' => $shipRequest->getLabelImageType(),
+					'LabelStockType' => $shipRequest->getLabelStockType(),
+					'LabelPrintingOrientation' => $shipRequest->getLabelPrintingOrientation(),
+					'CustomerSpecifiedDetail' => array(
+						'DocTabContent' => array(
+							'DocTabContentType' => 'STANDARD'
+						)
+					)
+				),
+				'RateRequestTypes' => $shipRequest->getRateType(),
+				'PreferredCurrency' => $this->getCurrencyCode(),
+				'PackageDetail' => 'INDIVIDUAL_PACKAGES',
+				'SignatureOptionDetail' => array(
+					'OptionType' => $shipRequest->getSignature()
+				),
+				'ShippingChargesPayment' => array(
+					'PaymentType' => $shipRequest->getPayorType(),
+					'Payor' => array(
+						'ResponsibleParty' => array(
+							'AccountNumber' => $shipRequest->getPayorAccount(),
+							'Contact' => null,
+							'Address' => array(
+								'CountryCode' => $shipRequest->getPayorAccountCountry()
+							)
+						)
+					)
+				),
+				'RequestedPackageLineItems' => array(
+					'SequenceNumber' => $packageToShip->getSequenceNumber(),
+					'Weight' => array(
+						'Value' => $packageToShip->getWeight(),
+						'Units' => $shipRequest->getWeightUnits()
+					),
+					'CustomerReferences' => array(
+						'0' => array(
+							'CustomerReferenceType' => 'CUSTOMER_REFERENCE',
+							'Value' => $shipRequest->getCustomerReference()
+						),
+						'1' => array(
+							'CustomerReferenceType' => 'INVOICE_NUMBER',
+							'Value' => $shipRequest->getInvoiceNumber()
+						)
+					),
+					'ContentRecords' => $packageToShip->getContents()
+				)
+			);
+
+			$request['RequestedShipment'] = array_merge($request['RequestedShipment'], $shipRequest->getMPSData());
+
+			// Saturday delivery
+			if ($shipRequest->getSaturdayDelivery()) {
+				$specialServiceTypes[] = 'SATURDAY_DELIVERY';
+			}
+
+			// Dangerous goods
+			if ($packageToShip['dangerous']) {
+				$request['RequestedShipment']['RequestedPackageLineItems']['SpecialServicesRequested'] = array(
+					'DangerousGoodsDetail' => array(
+						'Accessibility' => 'ACCESSIBLE',
+						'Options' => 'ORM_D'
+					)
+				);
+				$specialServiceTypes[] = 'DANGEROUS_GOODS';
+			}
+
+			// COD
+			if ($shipRequest->getCod()) {
+				$request['RequestedShipment']['SpecialServicesRequested'] = array(
+					'CodDetail' => array(
+						'CodCollectionAmount' => array(
+							'Amount' => $packageToShip['cod_amount'],
+							'Currency' => $this->getCurrencyCode()
+						),
+						'CollectionType' => 'ANY'
+					)
+				);
+				$specialServiceTypes[] = 'COD';
+			}
+
+			if (isset($specialServiceTypes)) {
+				$request['RequestedShipment']['RequestedPackageLineItems']['SpecialServicesRequested']['SpecialServiceTypes'] = $specialServiceTypes;
+			}
+
+			 // If Dimensions enabled for Shipment
+			if (($packageToShip->getContainerCode() == "YOUR_PACKAGING") && (!$packageToShip->getEnableDimensions())
+				&& ($packageToShip->getRoundedLength() && $packageToShip->getRoundedWidth() && $packageToShip->getRoundedHeight()))
+			{
+				 $request['RequestedShipment']['RequestedPackageLineItems']['Dimensions'] = array(
+					'Length' => $packageToShip->getRoundedLength(),
+					'Width' => $packageToShip->getRoundedWidth(),
+					'Height' => $packageToShip->getRoundedHeight(),
+					'Units' => $shipRequest->getDimensionUnits());
+			}
+
+			// Check if shipment needs to be insured and if insurance amount is available
+			if ($shipRequest->getInsureShipment()) {
+				$request['RequestedShipment']['RequestedPackageLineItems']['InsuredValue'] = array(
+					'Currency' => $this->getCurrencyCode(),
+					'Amount' => $shipRequest->getInsureAmount()
+				);
+			}
+
+			// If SmartPost is enabled
+			if (Mage::getStoreConfig('carriers/fedex/enable_smartpost')) {
+				$request['RequestedShipment']['SmartPostDetail'] = $shipRequest->getSmartPostDetails();
+			}
+
+			// International shipments
+			if ($shipRequest->getTransactionType() == 'International') {
+
+				// If tax ID number is present
+				if ($this->getConfig('tax_id_number') != '') {
+					$request['TIN'] = $this->getConfig('tax_id_number');
+				}
+
+				$itemDetails = array();
+
+				// Iterate through package items
+				foreach ($packageToShip->getItems() as $_item) {
+
+					/** Load item by order item id */
+					$item = Mage::getModel('sales/order_item')->load($_item['id']);
+
+					$itemDetails[] = array(
+						'NumberOfPieces' => 1,
+						'Description' => $item->getName(),
+						'CountryOfManufacture' => $shipRequest->getShipperCountryCode(),
+						'Weight' => array(
+							'Value' => $item->getWeight() * $shipRequest->getWeightCoefficient(),
+							'Units' => $shipRequest->getWeightUnits()
+						),
+						'Quantity' => $item->getQtyOrdered(),
+						'QuantityUnits' => 'EA',
+						'UnitPrice' => array(
+							'Amount' => sprintf('%01.2f', $item->getPrice()),
+							'Currency' => $this->getCurrencyCode()
+						),
+						'CustomsValue' => array(
+							'Amount' => sprintf('%01.2f', ($item->getPrice())),
+							'Currency' => $this->getCurrencyCode()
+						)
+					);
+				}
+
+				$request['RequestedShipment']['CustomsClearanceDetail'] = array(
+					'DutiesPayment' => array(
+						'PaymentType' => 'SENDER',
+						'Payor' => array(
+							'ResponsibleParty' => array(
+								'AccountNumber' => $this->getFedexAccount(),
+								'Contact' => null,
+								'Address' => array(
+									'CountryCode' => $shipRequest->getShipperCountryCode()
+								)
+							)
+						)
+					),
+					'DocumentContent' => 'NON_DOCUMENTS',
+					'CustomsValue' => array(
+						'Amount' => sprintf('%01.2f', $shipRequest->getCustomsValue()),
+						'Currency' => $this->getCurrencyCode()
+					),
+					'Commodities' => $itemDetails,
+					'ExportDetail' => array(
+						'B13AFilingOption' => 'NOT_REQUIRED'
+					)
+				);
+			}
+
+			$returnLabelImage = '';
+
+			if ($shipRequest->getReturnLabel()) {
+
+				$returnRequest = $request;
+
+				$returnRequest['RequestedShipment']['Recipient'] = $shipRequest->getShipperDetails();
+				$returnRequest['RequestedShipment']['Shipper']   = $shipRequest->getRecipientDetails();
+
+				try {
+
+					Mage::Helper('shipsync')->mageLog($returnRequest, 'ship');
+
+					$returnResponse = $this->_shipServiceClient->processShipment($returnRequest);
+
+					Mage::Helper('shipsync')->mageLog($returnResponse, 'ship');
+				}
+				catch (SoapFault $ex) {
+					throw Mage::exception('Mage_Shipping', $ex->getMessage());
+				}
+
+				$returnLabelImage = base64_encode($returnResponse->CompletedShipmentDetail->CompletedPackageDetails->Label->Parts->Image);
+			}
+
+			try {
+
+				Mage::Helper('shipsync')->mageLog($request, 'ship');
+
+				$shipResponse = $this->_shipServiceClient->processShipment($request);
+
+				Mage::Helper('shipsync')->mageLog($shipResponse, 'ship');
+			}
+			catch (SoapFault $ex) {
+				throw Mage::exception('Mage_Shipping', $ex->getMessage());
+			}
+
+			$response = Mage::getModel('shipsync/shipment_response')->setResponse($shipResponse);
+
+			$shipResult = Mage::getModel('shipsync/shipment_result');
+
+			if ($response->setNotificationsErrors()) {
+				throw Mage::exception('Mage_Shipping', $response->getErrors());
+			} elseif ($response->isWarning()) {
+				throw Mage::exception('Mage_Shipping', $response->incompleteApi());
+			} else {
+
+				if (!Mage::getStoreConfig('carriers/fedex/third_party')) {
+					$shipResult->setBillingWeightUnits($response->findStructure('Units'));
+					$shipResult->setBillingWeight($response->findStructure('Value'));
+				}
+
+				$_packages = array();
+
+				$_packages[] = array(
+					'package_number' => $response->getSequenceNumber(),
+					'tracking_number' => $response->getTrackingNumber(),
+					'masterTrackingId' => $response->getMasterTrackingId(),
+					'label_image_format' => $shipRequest->getLabelImageType(),
+					'label_image' => base64_encode($shipResponse->CompletedShipmentDetail->CompletedPackageDetails->Label->Parts->Image),
+					'return_label_image' => $returnLabelImage,
+					'cod_label_image' => $response->getCodLabelImage()
+				);
+
+				$shipResult->setPackages($_packages);
+			}
+
+
             /** Iterate through shipped packages */
             foreach ($shipResult->getPackages() as $packageShipped) {
                 $convertor = Mage::getModel('sales/convert_order');
@@ -294,6 +541,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 					->setNegotiatedTotal($shipResult->getNegotiatedTotalShippingCharges())
 					->setLabelFormat($packageShipped['label_image_format'])
 					->setLabelImage($labelImage)
+					->setReturnLabelImage($packageShipped['return_label_image'])
 					->setCodLabelImage($packageShipped['cod_label_image'])
 					->setDateShipped(date('Y-m-d H:i:s'))
 					->save();
@@ -345,217 +593,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         
         return $itemsById;
     }
-    
-    /**
-     * Send shipment request
-     *
-     * @param object $package
-     * @return object
-     */
-    protected function _sendShipmentRequest($package)
-    {
-        $shipRequest = $this->_shipRequest;
-		
-        $request = $this->_prepareShipmentHeader();
-		
-		// Shipment request
-        $request['RequestedShipment'] = array(
-            'ShipTimestamp' => $shipRequest->getShipTimestamp(),
-            'DropoffType' => $shipRequest->getDropoffType(),
-            'ServiceType' => $shipRequest->getServiceType(),
-            'PackagingType' => $package->getContainerCode(),
-            'TotalWeight' => array(
-                'Value' => $package->getWeight(),
-                'Units' => $shipRequest->getWeightUnits()
-            ),
-            'Shipper' => $shipRequest->getShipperDetails(),
-            'Recipient' => $shipRequest->getRecipientDetails(),
-            'LabelSpecification' => array(
-				'LabelFormatType' => 'COMMON2D',
-				'ImageType' => $shipRequest->getLabelImageType(),
-				'LabelStockType' => $shipRequest->getLabelStockType(),
-				'LabelPrintingOrientation' => $shipRequest->getLabelPrintingOrientation(),
-				'CustomerSpecifiedDetail' => array(
-					'DocTabContent' => array(
-						'DocTabContentType' => 'STANDARD'
-					)
-				)
-			),
-            'RateRequestTypes' => $shipRequest->getRateType(),
-			'PreferredCurrency' => $this->getCurrencyCode(),        
-            'PackageDetail' => 'INDIVIDUAL_PACKAGES',
-            'SignatureOptionDetail' => array(
-                'OptionType' => $shipRequest->getSignature()
-            ),
-            'ShippingChargesPayment' => array(
-                'PaymentType' => $shipRequest->getPayorType(),
-                'Payor' => array(
-					'ResponsibleParty' => array(
-                    	'AccountNumber' => $shipRequest->getPayorAccount(),
-						'Contact' => null,
-						'Address' => array(
-                    		'CountryCode' => $shipRequest->getPayorAccountCountry()
-						)
-					)
-                )
-            ),			
-            'RequestedPackageLineItems' => array(
-                'SequenceNumber' => $package->getSequenceNumber(),
-                'Weight' => array(
-                    'Value' => $package->getWeight(),
-                    'Units' => $shipRequest->getWeightUnits()
-                ),
-                'CustomerReferences' => array(
-                    '0' => array(
-                        'CustomerReferenceType' => 'CUSTOMER_REFERENCE',
-                        'Value' => $shipRequest->getCustomerReference()
-                    ),
-                    '1' => array(
-                        'CustomerReferenceType' => 'INVOICE_NUMBER',
-                        'Value' => $shipRequest->getInvoiceNumber()
-                    )
-                ),
-                'ContentRecords' => $package->getContents()
-            )
-        );
-        
-        $request['RequestedShipment'] = array_merge($request['RequestedShipment'], $shipRequest->getMPSData());
-                
-		// Saturday delivery
-        if ($shipRequest->getSaturdayDelivery()) {
-            $specialServiceTypes[] = 'SATURDAY_DELIVERY';
-        }
-        
-		// Dangerous goods
-        if ($package['dangerous']) {
-            $request['RequestedShipment']['RequestedPackageLineItems']['SpecialServicesRequested'] = array(
-                'DangerousGoodsDetail' => array(
-                    'Accessibility' => 'ACCESSIBLE',
-                    'Options' => 'ORM_D'
-                )
-            );
-            $specialServiceTypes[] = 'DANGEROUS_GOODS';
-        }
-		
-		// COD
-		if ($shipRequest->getCod()) {
-            $request['RequestedShipment']['SpecialServicesRequested'] = array(
-                'CodDetail' => array(
-                    'CodCollectionAmount' => array(
-                        'Amount' => $package['cod_amount'],
-                        'Currency' => $this->getCurrencyCode()
-                    ),
-                    'CollectionType' => 'ANY'
-                )
-            );
-            $specialServiceTypes[] = 'COD';
-        }
-        
-        if (isset($specialServiceTypes)) {
-            $request['RequestedShipment']['RequestedPackageLineItems']['SpecialServicesRequested']['SpecialServiceTypes'] = $specialServiceTypes;
-        }        
-        
-		 // If Dimensions enabled for Shipment
-		if (($package->getContainerCode() == "YOUR_PACKAGING") && (!$shipRequest->getEnableDimensions()) 
-			&& ($package->getRoundedLength() && $package->getRoundedWidth() && $package->getRoundedHeight()))
-		{
-			 $request['RequestedShipment']['RequestedPackageLineItems']['Dimensions'] = array(
-				'Length' => $package->getRoundedLength(),
-				'Width' => $package->getRoundedWidth(),
-				'Height' => $package->getRoundedHeight(),
-				'Units' => $shipRequest->getDimensionUnits());		
-		}
-		
-        // Check if shipment needs to be insured and if insurance amount is available
-        if ($shipRequest->getInsureShipment()) {
-            $request['RequestedShipment']['RequestedPackageLineItems']['InsuredValue'] = array(
-                'Currency' => $this->getCurrencyCode(),
-                'Amount' => $shipRequest->getInsureAmount()
-            );
-        }
-        
-        // If SmartPost is enabled
-        if (Mage::getStoreConfig('carriers/fedex/enable_smartpost')) {
-            $request['RequestedShipment']['SmartPostDetail'] = $shipRequest->getSmartPostDetails();
-        }
-        
-        // International shipments
-        if ($shipRequest->getTransactionType() == 'International') {
-			
-            // If tax ID number is present
-            if ($this->getConfig('tax_id_number') != '') {
-                $request['TIN'] = $this->getConfig('tax_id_number');
-            }
-            
-            $itemDetails = array();            
-				
-            // Iterate through package items
-            foreach ($package->getItems() as $_item) {
-				
-                /** Load item by order item id */
-                $item = Mage::getModel('sales/order_item')->load($_item['id']);                
-				
-                $itemDetails[] = array(
-                    'NumberOfPieces' => 1,
-                    'Description' => $item->getName(),
-                    'CountryOfManufacture' => $shipRequest->getShipperCountryCode(),
-                    'Weight' => array(
-                        'Value' => $item->getWeight() * $shipRequest->getWeightCoefficient(),
-                        'Units' => $shipRequest->getWeightUnits()
-                    ),
-                    'Quantity' => $item->getQtyOrdered(),
-                    'QuantityUnits' => 'EA',
-                    'UnitPrice' => array(
-                        'Amount' => sprintf('%01.2f', $item->getPrice()),
-                        'Currency' => $this->getCurrencyCode()
-                    ),
-                    'CustomsValue' => array(
-                        'Amount' => sprintf('%01.2f', ($item->getPrice())),
-                        'Currency' => $this->getCurrencyCode()
-                    )
-                );
-            }
-			
-            $request['RequestedShipment']['CustomsClearanceDetail'] = array(
-                'DutiesPayment' => array(
-                    'PaymentType' => 'SENDER',
-                    'Payor' => array(
-						'ResponsibleParty' => array(
-                        	'AccountNumber' => $this->getFedexAccount(),
-							'Contact' => null,
-							'Address' => array(
-                        		'CountryCode' => $shipRequest->getShipperCountryCode()
-							)
-						)
-                    )
-                ),
-                'DocumentContent' => 'NON_DOCUMENTS',
-                'CustomsValue' => array(
-                    'Amount' => sprintf('%01.2f', $shipRequest->getCustomsValue()),
-                    'Currency' => $this->getCurrencyCode()
-                ),
-                'Commodities' => $itemDetails,
-                'ExportDetail' => array(
-                    'B13AFilingOption' => 'NOT_REQUIRED'
-                )
-            );
-        }
-		
-        try {
-            
-			Mage::Helper('shipsync')->mageLog($request, 'ship');
-            
-			$response = $this->_shipServiceClient->processShipment($request);
-            
-			Mage::Helper('shipsync')->mageLog($response, 'ship');
-        }
-		catch (SoapFault $ex) {
-            throw Mage::exception('Mage_Shipping', $ex->getMessage());
-        }
-        
-        return $response;
-    }
-    
+
     /*
      * Prepare shipment header
      *
@@ -601,48 +639,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
      */
     protected function _setSpecialServices($request, $package)
     {
-    }
-    
-    /**
-     * Parse shipment response
-     *
-     * @param stdclass Object $response
-     * @return IllApps_Shipsync_Model_Shipping_Result
-     */
-    protected function _parseShipmentResponse($r)
-    {
-        $shipRequest = $this->_shipRequest;
-        
-        $response = Mage::getModel('shipsync/shipment_response')->setResponse($r);
-        
-        $result = Mage::getModel('shipsync/shipment_result');
-        
-        if ($response->setNotificationsErrors()) {
-            throw Mage::exception('Mage_Shipping', $response->getErrors());
-        } elseif ($response->isWarning()) {
-            throw Mage::exception('Mage_Shipping', $response->incompleteApi());
-        } else {
-            
-			if (!Mage::getStoreConfig('carriers/fedex/third_party')) {
-                $result->setBillingWeightUnits($response->findStructure('Units'));
-                $result->setBillingWeight($response->findStructure('Value'));
-            }
-            
-            $packages = array();
-            
-			$packages[] = array(
-                'package_number' => $response->getSequenceNumber(),
-                'tracking_number' => $response->getTrackingNumber(),
-                'masterTrackingId' => $response->getMasterTrackingId(),
-                'label_image_format' => $shipRequest->getLabelImageType(),
-                'label_image' => base64_encode($r->CompletedShipmentDetail->CompletedPackageDetails->Label->Parts->Image),
-                'cod_label_image' => $response->getCodLabelImage()
-            );
-            
-            $result->setPackages($packages);
-            
-            return $result;
-        }
     }
 
 }

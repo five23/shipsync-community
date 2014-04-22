@@ -61,6 +61,18 @@ class IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_View extends Mage_Ad
                     ));
                 }
                 
+                if ($package['return_label_image'] != "") {
+                    $returnurl = $this->getUrl('shipsync/index/returnlabel/', array(
+                        'id' => $package['package_id']
+                    ));
+
+                    // Add button for COD label
+                    $this->_addButton('reprint_return_label', array(
+                        'label' => Mage::helper('sales')->__('Print Return Label'),
+                        'onclick' => 'setLocation(\'' . $returnurl . '\')'
+                    ));
+                }
+
                 // Add print label button
                 $this->_addButton('reprint_label', array(
                     'label' => Mage::helper('sales')->__('Print Label'),

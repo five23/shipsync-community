@@ -88,6 +88,16 @@ class IllApps_Shipsync_Block_Adminhtml_Sales_Order_Shipment_Abstract extends Mag
     }
 
 	/**
+	 * Get Return Label Url
+	 *
+	 * @param integer @package_id
+	 */
+    public function getReturnLabelUrl($package_id)
+    {
+        return $this->getUrl('shipsync/index/returnlabel/', array('id' => $package_id));
+    }
+
+	/**
 	 * Get Model
 	 *
 	 * @return IllApps_Shipsync_Model_Sales_Order_Shipment_Package

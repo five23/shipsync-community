@@ -386,6 +386,19 @@
 								</select>
 							</td>
 						</tr>
+
+						<!-- Address Validation -->
+						<tr>
+							<td class="label">
+								<label>Create Return Label</label>
+							</td>
+							<td>
+								<select id="return_label" name="return_label">
+									<option value="1" <?php if ($this->getReturnLabel()) echo 'SELECTED'; ?>>Yes</option>
+									<option value="0" <?php if (!$this->getReturnLabel()) echo 'SELECTED'; ?>>No</option>
+								</select>
+							</td>
+						</tr>
 					</table>
 				</div>
 			</div>
