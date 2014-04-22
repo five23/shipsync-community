@@ -3,9 +3,8 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="generator" content="ApiGen 2.8.0" />
-	<meta name="robots" content="noindex" />
 
-	<title>File app/code/community/IllApps/Shipsync/Model/Shipping/Carrier/Fedex/Source/B13afilingoption.php | shipsync-community</title>
+	<title>Class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Residencedelivery | shipsync-community</title>
 
 	<script type="text/javascript" src="resources/combined.js?188829943"></script>
 	<script type="text/javascript" src="elementlist.js?1542218069"></script>
@@ -66,7 +65,7 @@
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Package</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship</a></li>
-				<li class="active"><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_B13afilingoption.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_B13afilingoption</a></li>
+				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_B13afilingoption.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_B13afilingoption</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Freemethod.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Freemethod</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Image.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Image</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Orientation.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Label_Orientation</a></li>
@@ -75,7 +74,7 @@
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Packaging.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Packaging</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Rate.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Rate</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Ratediscount.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Ratediscount</a></li>
-				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Residencedelivery.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Residencedelivery</a></li>
+				<li class="active"><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Residencedelivery.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Residencedelivery</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Signature.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Signature</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Endorsement.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Endorsement</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Indicia.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Indicia</a></li>
@@ -114,9 +113,8 @@
 			<li>
 				<a href="package-IllApps.Shipsync.html" title="Summary of IllApps\Shipsync"><span>Package</span></a>
 			</li>
-			<li>
-				<a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_B13afilingoption.html" title="Summary of IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_B13afilingoption"><span>Class</span></a>
-			</li>
+			<li class="active">
+<span>Class</span>			</li>
 		</ul>
 		<ul>
 			<li>
@@ -127,33 +125,99 @@
 		</ul>
 	</div>
 
-<pre><code><span id="1" class="l"><a class="l" href="#1"> 1: </a><span class="xlang">&lt;?php</span>
-</span><span id="2" class="l"><a class="l" href="#2"> 2: </a>
-</span><span id="3" class="l"><a class="l" href="#3"> 3: </a><span class="php-comment">/**
-</span></span><span id="4" class="l"><a class="l" href="#4"> 4: </a><span class="php-comment"> * ShipSync
-</span></span><span id="5" class="l"><a class="l" href="#5"> 5: </a><span class="php-comment"> *
-</span></span><span id="6" class="l"><a class="l" href="#6"> 6: </a><span class="php-comment"> * @category   IllApps
-</span></span><span id="7" class="l"><a class="l" href="#7"> 7: </a><span class="php-comment"> * @package    IllApps_Shipsync
-</span></span><span id="8" class="l"><a class="l" href="#8"> 8: </a><span class="php-comment"> * @copyright  Copyright (c) 2014 EcoMATICS, Inc. DBA IllApps (http://www.illapps.com)
-</span></span><span id="9" class="l"><a class="l" href="#9"> 9: </a><span class="php-comment"> * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-</span></span><span id="10" class="l"><a class="l" href="#10">10: </a><span class="php-comment"> */</span>
-</span><span id="11" class="l"><a class="l" href="#11">11: </a>
-</span><span id="12" class="l"><a class="l" href="#12">12: </a><span class="php-comment">/**
-</span></span><span id="13" class="l"><a class="l" href="#13">13: </a><span class="php-comment"> * IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_B13afilingoption
-</span></span><span id="14" class="l"><a class="l" href="#14">14: </a><span class="php-comment"> */</span>
-</span><span id="15" class="l"><a class="l" href="#15">15: </a><span class="php-keyword1">class</span> <a id="IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_B13afilingoption" href="#IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_B13afilingoption">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_B13afilingoption</a>
-</span><span id="16" class="l"><a class="l" href="#16">16: </a>{
-</span><span id="17" class="l"><a class="l" href="#17">17: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_toOptionArray" href="#_toOptionArray">toOptionArray</a>()
-</span><span id="18" class="l"><a class="l" href="#18">18: </a>    {
-</span><span id="19" class="l"><a class="l" href="#19">19: </a>        <span class="php-var">$fedex</span> = Mage::getSingleton(<span class="php-quote">'usa/shipping_carrier_fedex'</span>);
-</span><span id="20" class="l"><a class="l" href="#20">20: </a>        <span class="php-var">$arr</span> = <span class="php-keyword1">array</span>();
-</span><span id="21" class="l"><a class="l" href="#21">21: </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$fedex</span>-&gt;getCode(<span class="php-quote">'b13a_filing_option'</span>) <span class="php-keyword1">as</span> <span class="php-var">$k</span> =&gt; <span class="php-var">$v</span>) {
-</span><span id="22" class="l"><a class="l" href="#22">22: </a>            <span class="php-var">$arr</span>[] = <span class="php-keyword1">array</span>(<span class="php-quote">'value'</span> =&gt; <span class="php-var">$k</span>, <span class="php-quote">'label'</span> =&gt; <span class="php-var">$v</span>);
-</span><span id="23" class="l"><a class="l" href="#23">23: </a>        }
-</span><span id="24" class="l"><a class="l" href="#24">24: </a>        <span class="php-keyword1">return</span> <span class="php-var">$arr</span>;
-</span><span id="25" class="l"><a class="l" href="#25">25: </a>    }
-</span><span id="26" class="l"><a class="l" href="#26">26: </a>}
-</span><span id="27" class="l"><a class="l" href="#27">27: </a></span></code></pre>
+<div id="content" class="class">
+	<h1>Class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Residencedelivery</h1>
+
+
+	<div class="description">
+	
+<p>IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Residential</p>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-IllApps.html">IllApps</a>\<a href="package-IllApps.Shipsync.html">Shipsync</a><br />
+
+				<b>Copyright:</b>
+				Copyright (c) 2014 EcoMATICS, Inc. DBA IllApps (<a
+href="http://www.illapps.com">http://www.illapps.com</a>)<br />
+				<b>License:</b>
+				<a href="http://opensource.org/licenses/osl-3.0.php">Open Software License (OSL 3.0)</a><br />
+		<b>Located at</b> <a href="source-class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Residencedelivery.html#12-35" title="Go to source code">app/code/community/IllApps/Shipsync/Model/Shipping/Carrier/Fedex/Source/Residencedelivery.php</a><br />
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="toOptionArray" id="_toOptionArray">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_toOptionArray">#</a>
+		<code><a href="source-class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Residencedelivery.html#18-34" title="Go to source code">toOptionArray</a>( )</code>
+
+		<div class="description short">
+			
+<p>toOptionArray</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>toOptionArray</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
 
 	<div id="footer">
 		shipsync-community API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>

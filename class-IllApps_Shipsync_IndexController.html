@@ -7,7 +7,7 @@
 	<title>Class IllApps_Shipsync_IndexController | shipsync-community</title>
 
 	<script type="text/javascript" src="resources/combined.js?188829943"></script>
-	<script type="text/javascript" src="elementlist.js?717667755"></script>
+	<script type="text/javascript" src="elementlist.js?1542218069"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -74,6 +74,7 @@
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Packaging.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Packaging</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Rate.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Rate</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Ratediscount.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Ratediscount</a></li>
+				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Residencedelivery.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Residencedelivery</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Signature.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Signature</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Endorsement.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Endorsement</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Indicia.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Indicia</a></li>
@@ -166,7 +167,7 @@ Mage_Adminhtml_Controller_Action
 href="http://www.illapps.com">http://www.illapps.com</a>)<br />
 				<b>License:</b>
 				<a href="http://opensource.org/licenses/osl-3.0.php">Open Software License (OSL 3.0)</a><br />
-		<b>Located at</b> <a href="source-class-IllApps_Shipsync_IndexController.html#12-589" title="Go to source code">app/code/community/IllApps/Shipsync/controllers/IndexController.php</a><br />
+		<b>Located at</b> <a href="source-class-IllApps_Shipsync_IndexController.html#12-645" title="Go to source code">app/code/community/IllApps/Shipsync/controllers/IndexController.php</a><br />
 	</div>
 
 
@@ -323,7 +324,7 @@ Request. Returns json object containing the relevant information.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_rateAction">#</a>
-		<code><a href="source-class-IllApps_Shipsync_IndexController.html#105-218" title="Go to source code">rateAction</a>( )</code>
+		<code><a href="source-class-IllApps_Shipsync_IndexController.html#105-221" title="Go to source code">rateAction</a>( )</code>
 
 		<div class="description short">
 			
@@ -363,7 +364,7 @@ creation.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_postAction">#</a>
-		<code><a href="source-class-IllApps_Shipsync_IndexController.html#221-451" title="Go to source code">postAction</a>( )</code>
+		<code><a href="source-class-IllApps_Shipsync_IndexController.html#224-492" title="Go to source code">postAction</a>( )</code>
 
 		<div class="description short">
 			
@@ -400,7 +401,7 @@ creation.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_labelAction">#</a>
-		<code><a href="source-class-IllApps_Shipsync_IndexController.html#455-470" title="Go to source code">labelAction</a>( )</code>
+		<code><a href="source-class-IllApps_Shipsync_IndexController.html#496-511" title="Go to source code">labelAction</a>( )</code>
 
 		<div class="description short">
 			
@@ -433,7 +434,7 @@ creation.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_codlabelAction">#</a>
-		<code><a href="source-class-IllApps_Shipsync_IndexController.html#473-487" title="Go to source code">codlabelAction</a>( )</code>
+		<code><a href="source-class-IllApps_Shipsync_IndexController.html#514-528" title="Go to source code">codlabelAction</a>( )</code>
 
 		<div class="description short">
 			
@@ -444,6 +445,39 @@ creation.</p>
 		<div class="description detailed hidden">
 			
 <p>Show COD Label if present</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="returnLabelAction" id="_returnLabelAction">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_returnLabelAction">#</a>
+		<code><a href="source-class-IllApps_Shipsync_IndexController.html#531-545" title="Go to source code">returnLabelAction</a>( )</code>
+
+		<div class="description short">
+			
+<p>Show Return Label if present</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Show Return Label if present</p>
 
 
 
@@ -466,7 +500,7 @@ creation.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_labelPrint">#</a>
-		<code><a href="source-class-IllApps_Shipsync_IndexController.html#491-516" title="Go to source code">labelPrint</a>( <span>mixed <var>$labelImage</var></span>, <span>mixed <var>$labelFormat</var></span>, <span>mixed <var>$carrier</var></span>, <span>mixed <var>$package</var></span> )</code>
+		<code><a href="source-class-IllApps_Shipsync_IndexController.html#548-573" title="Go to source code">labelPrint</a>( <span>mixed <var>$labelImage</var></span>, <span>mixed <var>$labelFormat</var></span>, <span>mixed <var>$carrier</var></span>, <span>mixed <var>$package</var></span> )</code>
 
 		<div class="description short">
 			
@@ -495,7 +529,7 @@ creation.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_thermalPrint">#</a>
-		<code><a href="source-class-IllApps_Shipsync_IndexController.html#519-551" title="Go to source code">thermalPrint</a>( <span>mixed <var>$labelImage</var></span>, <span>mixed <var>$labelFormat</var></span> )</code>
+		<code><a href="source-class-IllApps_Shipsync_IndexController.html#576-608" title="Go to source code">thermalPrint</a>( <span>mixed <var>$labelImage</var></span>, <span>mixed <var>$labelFormat</var></span> )</code>
 
 		<div class="description short">
 			
@@ -524,7 +558,7 @@ creation.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_deleteAction">#</a>
-		<code><a href="source-class-IllApps_Shipsync_IndexController.html#555-588" title="Go to source code">deleteAction</a>( )</code>
+		<code><a href="source-class-IllApps_Shipsync_IndexController.html#612-644" title="Go to source code">deleteAction</a>( )</code>
 
 		<div class="description short">
 			

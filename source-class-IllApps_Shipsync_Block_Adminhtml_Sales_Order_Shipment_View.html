@@ -8,7 +8,7 @@
 	<title>File app/code/community/IllApps/Shipsync/Block/Adminhtml/Sales/Order/Shipment/View.php | shipsync-community</title>
 
 	<script type="text/javascript" src="resources/combined.js?188829943"></script>
-	<script type="text/javascript" src="elementlist.js?717667755"></script>
+	<script type="text/javascript" src="elementlist.js?1542218069"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -75,6 +75,7 @@
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Packaging.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Packaging</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Rate.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Rate</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Ratediscount.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Ratediscount</a></li>
+				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Residencedelivery.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Residencedelivery</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Signature.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Signature</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Endorsement.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Endorsement</a></li>
 				<li><a href="class-IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Indicia.html">IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Source_Smartpost_Indicia</a></li>
@@ -165,39 +166,52 @@
 </span><span id="37" class="l"><a class="l" href="#37">37: </a>            ));
 </span><span id="38" class="l"><a class="l" href="#38">38: </a>        }
 </span><span id="39" class="l"><a class="l" href="#39">39: </a>        
-</span><span id="40" class="l"><a class="l" href="#40">40: </a>        <span class="php-comment">// Loop through available packages</span>
-</span><span id="41" class="l"><a class="l" href="#41">41: </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$packages</span>-&gt;getData() <span class="php-keyword1">as</span> <span class="php-var">$package</span>) {
-</span><span id="42" class="l"><a class="l" href="#42">42: </a>            <span class="php-comment">// If package matches order</span>
-</span><span id="43" class="l"><a class="l" href="#43">43: </a>            <span class="php-keyword1">if</span> (<span class="php-var">$shipmentPackage</span>-&gt;load(<span class="php-var">$package</span>[<span class="php-quote">'package_id'</span>])-&gt;getOrderShipmentId() == <span class="php-var">$this</span>-&gt;getShipment()-&gt;getId()) {
-</span><span id="44" class="l"><a class="l" href="#44">44: </a>                <span class="php-comment">// Get label URL</span>
-</span><span id="45" class="l"><a class="l" href="#45">45: </a>                <span class="php-var">$url</span> = <span class="php-var">$this</span>-&gt;getUrl(<span class="php-quote">'shipsync/index/label/'</span>, <span class="php-keyword1">array</span>(
-</span><span id="46" class="l"><a class="l" href="#46">46: </a>                    <span class="php-quote">'id'</span> =&gt; <span class="php-var">$package</span>[<span class="php-quote">'package_id'</span>]
-</span><span id="47" class="l"><a class="l" href="#47">47: </a>                ));
-</span><span id="48" class="l"><a class="l" href="#48">48: </a>                
-</span><span id="49" class="l"><a class="l" href="#49">49: </a>                <span class="php-comment">// If package has COD label</span>
-</span><span id="50" class="l"><a class="l" href="#50">50: </a>                <span class="php-keyword1">if</span> (<span class="php-var">$package</span>[<span class="php-quote">'cod_label_image'</span>] != <span class="php-quote">&quot;&quot;</span>) {
-</span><span id="51" class="l"><a class="l" href="#51">51: </a>                    <span class="php-comment">// Set COD label URL</span>
-</span><span id="52" class="l"><a class="l" href="#52">52: </a>                    <span class="php-var">$codurl</span> = <span class="php-var">$this</span>-&gt;getUrl(<span class="php-quote">'shipsync/index/codlabel/'</span>, <span class="php-keyword1">array</span>(
-</span><span id="53" class="l"><a class="l" href="#53">53: </a>                        <span class="php-quote">'id'</span> =&gt; <span class="php-var">$package</span>[<span class="php-quote">'package_id'</span>]
-</span><span id="54" class="l"><a class="l" href="#54">54: </a>                    ));
-</span><span id="55" class="l"><a class="l" href="#55">55: </a>                    
-</span><span id="56" class="l"><a class="l" href="#56">56: </a>                    <span class="php-comment">// Add button for COD label</span>
-</span><span id="57" class="l"><a class="l" href="#57">57: </a>                    <span class="php-var">$this</span>-&gt;_addButton(<span class="php-quote">'reprint_cod_label'</span>, <span class="php-keyword1">array</span>(
-</span><span id="58" class="l"><a class="l" href="#58">58: </a>                        <span class="php-quote">'label'</span> =&gt; Mage::helper(<span class="php-quote">'sales'</span>)-&gt;__(<span class="php-quote">'Print COD Label'</span>),
-</span><span id="59" class="l"><a class="l" href="#59">59: </a>                        <span class="php-quote">'onclick'</span> =&gt; <span class="php-quote">'setLocation(\''</span> . <span class="php-var">$codurl</span> . <span class="php-quote">'\')'</span>
-</span><span id="60" class="l"><a class="l" href="#60">60: </a>                    ));
-</span><span id="61" class="l"><a class="l" href="#61">61: </a>                }
-</span><span id="62" class="l"><a class="l" href="#62">62: </a>                
-</span><span id="63" class="l"><a class="l" href="#63">63: </a>                <span class="php-comment">// Add print label button</span>
-</span><span id="64" class="l"><a class="l" href="#64">64: </a>                <span class="php-var">$this</span>-&gt;_addButton(<span class="php-quote">'reprint_label'</span>, <span class="php-keyword1">array</span>(
-</span><span id="65" class="l"><a class="l" href="#65">65: </a>                    <span class="php-quote">'label'</span> =&gt; Mage::helper(<span class="php-quote">'sales'</span>)-&gt;__(<span class="php-quote">'Print Label'</span>),
-</span><span id="66" class="l"><a class="l" href="#66">66: </a>                    <span class="php-quote">'onclick'</span> =&gt; <span class="php-quote">'setLocation(\''</span> . <span class="php-var">$url</span> . <span class="php-quote">'\')'</span>
-</span><span id="67" class="l"><a class="l" href="#67">67: </a>                ));
-</span><span id="68" class="l"><a class="l" href="#68">68: </a>            }
-</span><span id="69" class="l"><a class="l" href="#69">69: </a>        }
-</span><span id="70" class="l"><a class="l" href="#70">70: </a>    }
-</span><span id="71" class="l"><a class="l" href="#71">71: </a>}
-</span><span id="72" class="l"><a class="l" href="#72">72: </a></span></code></pre>
+</span><span id="40" class="l"><a class="l" href="#40">40: </a>
+</span><span id="41" class="l"><a class="l" href="#41">41: </a>        <span class="php-comment">// Loop through available packages</span>
+</span><span id="42" class="l"><a class="l" href="#42">42: </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$packages</span>-&gt;getData() <span class="php-keyword1">as</span> <span class="php-var">$package</span>) {
+</span><span id="43" class="l"><a class="l" href="#43">43: </a>            <span class="php-comment">// If package matches order</span>
+</span><span id="44" class="l"><a class="l" href="#44">44: </a>            <span class="php-keyword1">if</span> (<span class="php-var">$shipmentPackage</span>-&gt;load(<span class="php-var">$package</span>[<span class="php-quote">'package_id'</span>])-&gt;getOrderShipmentId() == <span class="php-var">$this</span>-&gt;getShipment()-&gt;getId()) {
+</span><span id="45" class="l"><a class="l" href="#45">45: </a>                <span class="php-comment">// Get label URL</span>
+</span><span id="46" class="l"><a class="l" href="#46">46: </a>                <span class="php-var">$url</span> = <span class="php-var">$this</span>-&gt;getUrl(<span class="php-quote">'shipsync/index/label/'</span>, <span class="php-keyword1">array</span>(
+</span><span id="47" class="l"><a class="l" href="#47">47: </a>                    <span class="php-quote">'id'</span> =&gt; <span class="php-var">$package</span>[<span class="php-quote">'package_id'</span>]
+</span><span id="48" class="l"><a class="l" href="#48">48: </a>                ));
+</span><span id="49" class="l"><a class="l" href="#49">49: </a>                
+</span><span id="50" class="l"><a class="l" href="#50">50: </a>                <span class="php-comment">// If package has COD label</span>
+</span><span id="51" class="l"><a class="l" href="#51">51: </a>                <span class="php-keyword1">if</span> (<span class="php-var">$package</span>[<span class="php-quote">'cod_label_image'</span>] != <span class="php-quote">&quot;&quot;</span>) {
+</span><span id="52" class="l"><a class="l" href="#52">52: </a>                    <span class="php-comment">// Set COD label URL</span>
+</span><span id="53" class="l"><a class="l" href="#53">53: </a>                    <span class="php-var">$codurl</span> = <span class="php-var">$this</span>-&gt;getUrl(<span class="php-quote">'shipsync/index/codlabel/'</span>, <span class="php-keyword1">array</span>(
+</span><span id="54" class="l"><a class="l" href="#54">54: </a>                        <span class="php-quote">'id'</span> =&gt; <span class="php-var">$package</span>[<span class="php-quote">'package_id'</span>]
+</span><span id="55" class="l"><a class="l" href="#55">55: </a>                    ));
+</span><span id="56" class="l"><a class="l" href="#56">56: </a>                    
+</span><span id="57" class="l"><a class="l" href="#57">57: </a>                    <span class="php-comment">// Add button for COD label</span>
+</span><span id="58" class="l"><a class="l" href="#58">58: </a>                    <span class="php-var">$this</span>-&gt;_addButton(<span class="php-quote">'reprint_cod_label'</span>, <span class="php-keyword1">array</span>(
+</span><span id="59" class="l"><a class="l" href="#59">59: </a>                        <span class="php-quote">'label'</span> =&gt; Mage::helper(<span class="php-quote">'sales'</span>)-&gt;__(<span class="php-quote">'Print COD Label'</span>),
+</span><span id="60" class="l"><a class="l" href="#60">60: </a>                        <span class="php-quote">'onclick'</span> =&gt; <span class="php-quote">'setLocation(\''</span> . <span class="php-var">$codurl</span> . <span class="php-quote">'\')'</span>
+</span><span id="61" class="l"><a class="l" href="#61">61: </a>                    ));
+</span><span id="62" class="l"><a class="l" href="#62">62: </a>                }
+</span><span id="63" class="l"><a class="l" href="#63">63: </a>                
+</span><span id="64" class="l"><a class="l" href="#64">64: </a>                <span class="php-keyword1">if</span> (<span class="php-var">$package</span>[<span class="php-quote">'return_label_image'</span>] != <span class="php-quote">&quot;&quot;</span>) {
+</span><span id="65" class="l"><a class="l" href="#65">65: </a>                    <span class="php-var">$returnurl</span> = <span class="php-var">$this</span>-&gt;getUrl(<span class="php-quote">'shipsync/index/returnlabel/'</span>, <span class="php-keyword1">array</span>(
+</span><span id="66" class="l"><a class="l" href="#66">66: </a>                        <span class="php-quote">'id'</span> =&gt; <span class="php-var">$package</span>[<span class="php-quote">'package_id'</span>]
+</span><span id="67" class="l"><a class="l" href="#67">67: </a>                    ));
+</span><span id="68" class="l"><a class="l" href="#68">68: </a>
+</span><span id="69" class="l"><a class="l" href="#69">69: </a>                    <span class="php-comment">// Add button for COD label</span>
+</span><span id="70" class="l"><a class="l" href="#70">70: </a>                    <span class="php-var">$this</span>-&gt;_addButton(<span class="php-quote">'reprint_return_label'</span>, <span class="php-keyword1">array</span>(
+</span><span id="71" class="l"><a class="l" href="#71">71: </a>                        <span class="php-quote">'label'</span> =&gt; Mage::helper(<span class="php-quote">'sales'</span>)-&gt;__(<span class="php-quote">'Print Return Label'</span>),
+</span><span id="72" class="l"><a class="l" href="#72">72: </a>                        <span class="php-quote">'onclick'</span> =&gt; <span class="php-quote">'setLocation(\''</span> . <span class="php-var">$returnurl</span> . <span class="php-quote">'\')'</span>
+</span><span id="73" class="l"><a class="l" href="#73">73: </a>                    ));
+</span><span id="74" class="l"><a class="l" href="#74">74: </a>                }
+</span><span id="75" class="l"><a class="l" href="#75">75: </a>
+</span><span id="76" class="l"><a class="l" href="#76">76: </a>                <span class="php-comment">// Add print label button</span>
+</span><span id="77" class="l"><a class="l" href="#77">77: </a>                <span class="php-var">$this</span>-&gt;_addButton(<span class="php-quote">'reprint_label'</span>, <span class="php-keyword1">array</span>(
+</span><span id="78" class="l"><a class="l" href="#78">78: </a>                    <span class="php-quote">'label'</span> =&gt; Mage::helper(<span class="php-quote">'sales'</span>)-&gt;__(<span class="php-quote">'Print Label'</span>),
+</span><span id="79" class="l"><a class="l" href="#79">79: </a>                    <span class="php-quote">'onclick'</span> =&gt; <span class="php-quote">'setLocation(\''</span> . <span class="php-var">$url</span> . <span class="php-quote">'\')'</span>
+</span><span id="80" class="l"><a class="l" href="#80">80: </a>                ));
+</span><span id="81" class="l"><a class="l" href="#81">81: </a>            }
+</span><span id="82" class="l"><a class="l" href="#82">82: </a>        }
+</span><span id="83" class="l"><a class="l" href="#83">83: </a>    }
+</span><span id="84" class="l"><a class="l" href="#84">84: </a>}
+</span><span id="85" class="l"><a class="l" href="#85">85: </a></span></code></pre>
 
 	<div id="footer">
 		shipsync-community API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
