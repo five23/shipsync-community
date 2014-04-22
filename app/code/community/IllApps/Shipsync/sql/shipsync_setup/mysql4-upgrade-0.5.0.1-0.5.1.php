@@ -14,7 +14,7 @@ $installer = $this;
 
 $installer->startSetup();
 
-/** TODO: add a check to make sure these columns don't exist */
-$installer->run("ALTER TABLE `{$this->getTable('shipping_shipment_package')}` ADD `return_label_image` MEDIUMBLOB NOT NULL AFTER cod_label_image;");
+$connection = $this->getConnection();
+$connection->addColumn($this->getTable('shipping_shipment_package'), 'return_label_image', 'MEDIUMBLOB NOT NULL AFTER cod_label_image');
 
 $installer->endSetup();
