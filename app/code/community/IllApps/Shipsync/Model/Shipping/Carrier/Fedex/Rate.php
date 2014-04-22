@@ -680,9 +680,14 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                 
                 //Test for Continental US destination
                 $freeMethodLimit = Mage::getStoreConfig('carriers/fedex/free_shipping_subtotal');
-                $destCode        = $this->_rateRequest->getDestRegionCode();
-                $destContinental = ($destCode == 'AK' || $destCode == 'HI') ? false : true;
-                $continentalTest = (($freeMethodLimit && $destContinental) || !$freeMethodLimit) ? true : false;
+
+                $continentalTest = true;
+
+                if (Mage::getStoreConfig('carriers/fedex/free_shipping_exclude')) {
+                    $destCode        = $this->_rateRequest->getDestRegionCode();
+                    $destContinental = ($destCode == 'AK' || $destCode == 'HI') ? false : true;
+                    $continentalTest = (($freeMethodLimit && $destContinental) || !$freeMethodLimit) ? true : false;
+                }
                 
                 if (Mage::getStoreConfig('carriers/fedex/free_shipping_enable') && $continentalTest) {
                     if (Mage::getStoreConfig('carriers/fedex/free_shipping_discounts')) {

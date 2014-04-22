@@ -1279,6 +1279,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </free_shipping_discounts>
+                        <free_shipping_exclude>
+                            <label><![CDATA[<strong>Shipping</strong>]]> Free Shipping Exclude</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>355</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </free_shipping_exclude>
                         <filter_po_boxes translate="label">
                             <label><![CDATA[<strong>Shipping</strong>]]> Filter PO Boxes</label>
                             <frontend_type>select</frontend_type>
@@ -1390,7 +1399,6 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>For thermal printers a STOCK method must be selected. International shippers should select a LABEL or DOC_TAB method. Changes to this setting will only apply to new shipments.</comment>
                         </label_stock>
                         <label_orientation translate="label">
                             <label><![CDATA[<strong>Printing</strong>]]> Label Orientation</label>
