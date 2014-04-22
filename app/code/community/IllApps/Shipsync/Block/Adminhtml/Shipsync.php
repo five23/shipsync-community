@@ -66,9 +66,6 @@ class IllApps_Shipsync_Block_Adminhtml_Shipsync extends Mage_Adminhtml_Block_Wid
 		$this->setPackingList(Mage::getStoreConfig('carriers/fedex/packing_list'));
 		$this->setSignature(Mage::getStoreConfig('carriers/fedex/signature'));
 		$this->setReturnLabel(Mage::getStoreConfig('carriers/fedex/return_label'));
-        $this->setCustomerReference(Mage::getStoreConfig('carriers/fedex/customer_reference'));
-        $this->setInvoiceNumber($this->getOrder()->getIncrementId());
-        $this->setPurchaseOrderNumber('');
     }
     
 }

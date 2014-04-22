@@ -414,11 +414,7 @@ class IllApps_Shipsync_IndexController extends Mage_Adminhtml_Controller_Action
 			->setPrinterName($post['printer_name'])
 			->setPackingList($post['packing_list'])
 			->setSignature($post['signature'])
-			->setReturnLabel($post['return_label'])
-            ->setCustomerReference($post['customer_reference'])
-            ->setInvoiceNumber($post['invoice_number'])
-            ->setPurchaseOrderNumber($post['purchase_order_number']);
-
+			->setReturnLabel($post['return_label']);
         
         try {
             $results = $carrier->createShipment($request);
