@@ -157,6 +157,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 		$shipRequest->setPackingList($request->getPackingList());
 		$shipRequest->setShipperCompany($request->getShipperCompany());
 		$shipRequest->setReturnLabel($request->getReturnLabel());
+        $shipRequest->setB13AFilingOption(Mage::getStoreConfig('carriers/fedex/b13a_filing_option'));
 
         $this->_shipRequest = $shipRequest;
         
@@ -355,7 +356,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 					),
 					'Commodities' => $itemDetails,
 					'ExportDetail' => array(
-						'B13AFilingOption' => 'NOT_REQUIRED'
+						'B13AFilingOption' => $shipRequest->getB13AFilingOption()
 					)
 				);
 			}
@@ -402,8 +403,6 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
 
 			if ($response->setNotificationsErrors()) {
 				throw Mage::exception('Mage_Shipping', $response->getErrors());
-			} elseif ($response->isWarning()) {
-				throw Mage::exception('Mage_Shipping', $response->incompleteApi());
 			} else {
 
 				if (!Mage::getStoreConfig('carriers/fedex/third_party')) {
