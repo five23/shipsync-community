@@ -280,11 +280,11 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
         
         $request['ReturnTransitAndCommit'] = true;
         
+        $request['RequestedShipment']['ShipTimestamp']    = date('c');
         $request['RequestedShipment']['DropoffType']      = $rateRequest->getDropoff();
-        $request['RequestedShipment']['ShipTimestamp']    = $rateRequest->getShipTimestamp();
         $request['RequestedShipment']['RateRequestTypes'] = $rateRequest->getRateType();
         $request['RequestedShipment']['PreferredCurrency'] = 'USD';
-        
+
         if ($rateRequest->getSaturdayDelivery()) {
             $request['RequestedShipment']['SpecialServicesRequested']['SpecialServiceTypes'] = array(
                 'SATURDAY_DELIVERY'
@@ -596,15 +596,24 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Rate extends IllApps_Shipsyn
                 }
                 
                 if (Mage::getStoreConfig('carriers/fedex/show_timestamp')) {
+
                     if (isset($rateReply->DeliveryTimestamp)) {
-                        $rateResultMethod->setMethodTitle($rateResultMethod->getMethodTitle() . ' (' . date("m/d g:ia", strtotime($rateReply->DeliveryTimestamp)) . ')');
-                    } elseif (isset($rateReply->CommitDetails->TransitTime)) {
+
+                        $deliveryTimestamp = "&nbsp;(" . date("m/d g:ia", strtotime($rateReply->DeliveryTimestamp)) . ")";
+
+                        $rateResultMethod->setMethodTitle($rateResultMethod->getMethodTitle() . $deliveryTimestamp);
+
+                    } elseif (isset($rateReply->CommitDetails->CommitTimestamp)) {
+
                         if ($rateReply->ServiceType == 'SMART_POST') {
+
                             $transitTimeInt = (isset($transitTimeInt)) ? $transitTimeInt + 1 : 2;
                             $transitTime    = $transitTimeInt . '-8 Days';
                             $rateResultMethod->setMethodTitle($rateResultMethod->getMethodTitle() . ' (' . $transitTime . ')');
                             $rateResultMethod->setTransitTime($transitTimeInt);
+
                         } else {
+
                             $transitTime    = strtolower($rateReply->CommitDetails->TransitTime);
                             $tmp            = explode('_', $transitTime);
                             $transitTimeInt = Mage::helper('shipsync')->getNumberAsInt($tmp[0]);
