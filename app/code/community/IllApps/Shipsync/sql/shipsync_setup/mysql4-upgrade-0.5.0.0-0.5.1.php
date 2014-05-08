@@ -13,8 +13,5 @@ $installer = $this;
 /* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 
 $installer->startSetup();
-
-$connection = $this->getConnection();
-$connection->addColumn($this->getTable('shipping_shipment_package'), 'return_label_image', 'MEDIUMBLOB NOT NULL AFTER cod_label_image');
-
+$installer->run("ALTER TABLE `{$this->getTable('shipping_shipment_package')}` ADD `return_label_image` MEDIUMBLOB NOT NULL AFTER cod_label_image;");
 $installer->endSetup();
