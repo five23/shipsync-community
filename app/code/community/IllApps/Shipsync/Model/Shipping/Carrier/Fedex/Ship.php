@@ -458,7 +458,8 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
                     
                     $transactionSave = Mage::getModel('core/resource_transaction')->addObject($shipment)->addObject($shipment->getOrder())->save();
                     
-                    $this->sendEmail($shipment, $packageToShip, $packageShipped);
+                    $shipment->sendEmail();
+
                 } else {
                     $shipment->addTrack($track);
                 }
@@ -556,14 +557,7 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex_Ship extends IllApps_Shipsyn
         }
         return $retval;
     }
-    
-    public function sendEmail($shipment, $packageToShip, $packageShipped)
-    {
-        if ($packageToShip->getData('confirmation')) {
-            $shipment->sendEmail();
-        }
-        return $shipment;
-    }
+
     
     public function jsonPackageItems($packageToShip)
     {
