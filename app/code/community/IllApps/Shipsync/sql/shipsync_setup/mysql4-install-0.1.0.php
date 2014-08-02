@@ -16,7 +16,7 @@ $installer->run("
     DROP TABLE IF EXISTS {$this->getTable('shipping_shipment_package')};
     CREATE TABLE {$this->getTable('shipping_shipment_package')} (
         `package_id` INT( 15 ) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-        `order_increment_id` INT( 15 ) NOT NULL ,
+        `order_increment_id` VARCHAR( 50 ) NOT NULL ,
         `order_shipment_id` INT (15) NOT NULL,
         `carrier` ENUM( 'dhl', 'fedex', 'ups', 'usps' ) NOT NULL ,
         `carrier_shipment_id` VARCHAR( 50 ) NOT NULL ,
