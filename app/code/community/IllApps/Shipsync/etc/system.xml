@@ -1251,7 +1251,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <can_be_empty>1</can_be_empty>
-                            <comment>Ground and Home Delivery must be selected independently</comment>
                         </free_method>
                         <free_shipping_enable_all>
                             <label><![CDATA[<strong>Shipping</strong>]]> Enable Free Shipping for All Items</label>
