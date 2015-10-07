@@ -112,13 +112,13 @@ class IllApps_Shipsync_Model_Shipping_Carrier_Fedex extends Mage_Usa_Model_Shipp
             $this->setFedexPassword(Mage::getStoreConfig('carriers/fedex/test_password'));
             $this->setFedexAccount(Mage::getStoreConfig('carriers/fedex/test_account'));
             $this->setFedexMeter(Mage::getStoreConfig('carriers/fedex/test_meter'));
-            $this->setWsdlPath(dirname(__FILE__) . '/Fedex/wsdl/test/' . $wsdlPath);
+            $this->setWsdlPath(Mage::getModuleDir('', 'IllApps_Shipsync') . '/Model/Shipping/Carrier/Fedex/wsdl/test/' . $wsdlPath);
         } else {
             $this->setFedexKey(Mage::getStoreConfig('carriers/fedex/key'));
             $this->setFedexPassword(Mage::getStoreConfig('carriers/fedex/password'));
             $this->setFedexAccount(Mage::getStoreConfig('carriers/fedex/account'));
             $this->setFedexMeter(Mage::getStoreConfig('carriers/fedex/meter_number'));
-            $this->setWsdlPath(dirname(__FILE__) . '/Fedex/wsdl/' . $wsdlPath);
+            $this->setWsdlPath(Mage::getModuleDir('', 'IllApps_Shipsync') . '/Model/Shipping/Carrier/Fedex/wsdl/' . $wsdlPath);
         }
         
         try {
